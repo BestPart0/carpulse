@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101820">
+<title>CarPulse — Understand your car</title>
+<style>
+:root{--bg:#0b1117;--panel:#121c25;--panel2:#17242f;--line:#283744;--text:#f3f7fa;--muted:#9eb0bd;--accent:#b8f36b;--accent2:#d8ff9f;--danger:#ff7777;--amber:#ffc66d}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% -10%,#203342 0,transparent 38%),var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}button,input,select{font:inherit}button{cursor:pointer}a{color:var(--accent)}.wrap{max-width:1050px;margin:auto;padding:22px 18px 60px}.nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:44px}.brand{display:flex;gap:10px;align-items:center;font-weight:800;font-size:21px;letter-spacing:-.5px}.logo{display:grid;place-items:center;width:38px;height:38px;background:var(--accent);color:#111b11;border-radius:12px;font-size:21px}.navright{display:flex;gap:10px;align-items:center}.pill{border:1px solid var(--line);border-radius:999px;padding:8px 12px;color:var(--muted);font-size:13px;background:#101922}.hero{max-width:750px;margin:0 auto 30px;text-align:center}.eyebrow{color:var(--accent);font-weight:750;text-transform:uppercase;letter-spacing:2px;font-size:11px}.hero h1{font-size:clamp(36px,7vw,62px);line-height:1.04;letter-spacing:-2.8px;margin:14px 0}.hero h1 span{color:var(--accent)}.hero p{color:var(--muted);max-width:590px;margin:0 auto;font-size:17px}.layout{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:start}.card{background:linear-gradient(150deg,#14212b,#101820);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 18px 50px #0002}.card h2{font-size:19px;margin:0 0 5px;letter-spacing:-.4px}.sub{color:var(--muted);font-size:13px;margin:0 0 20px}.step{display:flex;gap:12px;align-items:flex-start}.num{flex:0 0 28px;height:28px;border-radius:9px;background:#273b2b;color:var(--accent);display:grid;place-items:center;font-weight:800;font-size:13px}.field{margin-bottom:16px}.field label{display:block;font-size:13px;color:#c9d5dd;margin-bottom:7px;font-weight:650}.field input,.field select{width:100%;background:#0b131a;border:1px solid #30414d;border-radius:11px;padding:12px;color:var(--text);outline:none}.field input:focus,.field select:focus{border-color:var(--accent)}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.recordbox{border:1px dashed #435866;background:#0b141b;border-radius:15px;padding:18px;text-align:center;margin:6px 0 15px}.mic{width:58px;height:58px;margin:0 auto 10px;border-radius:18px;background:#233a2a;color:var(--accent);display:grid;place-items:center;font-size:25px}.recordbox strong{display:block}.recordbox small{display:block;color:var(--muted);margin:4px 0 14px}.btn{border:0;border-radius:11px;padding:12px 16px;font-weight:800;transition:.15s}.primary{background:var(--accent);color:#10170d}.primary:hover{background:var(--accent2);transform:translateY(-1px)}.secondary{background:#1d2b36;color:var(--text);border:1px solid #344754}.btnrow{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}.btn:disabled{opacity:.45;cursor:not-allowed}.status{font-size:12px;color:var(--muted);margin-top:10px;min-height:18px}.audio{width:100%;margin-top:10px}.checkrow{display:flex;align-items:flex-start;gap:10px;background:#0c151c;border:1px solid #283a46;border-radius:12px;padding:12px;margin-bottom:9px;font-size:14px}.checkrow input{margin-top:5px;accent-color:var(--accent)}.analyze{width:100%;margin-top:10px;font-size:15px}.sidecard{position:sticky;top:18px}.sidehero{background:linear-gradient(135deg,#1c3026,#14211c);border:1px solid #35513a;border-radius:15px;padding:18px;margin:16px 0}.sidehero .big{font-size:30px}.sidehero p{color:#b5c9b8;font-size:13px;margin:4px 0 0}.feature{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid #263641}.feature:last-child{border:0}.featureicon{font-size:19px}.feature strong{display:block;font-size:14px}.feature span{display:block;color:var(--muted);font-size:12px}.result{display:none;margin-top:18px}.result.show{display:block}.resulthead{display:flex;gap:10px;align-items:center}.resulthead h2{margin:0}.resultbadge{font-size:11px;border-radius:999px;padding:5px 9px;background:#47341d;color:var(--amber);font-weight:800}.cause{border:1px solid var(--line);background:#0d161e;border-radius:13px;padding:14px;margin-top:10px}.cause h3{font-size:15px;margin:0 0 5px}.cause p{font-size:13px;color:var(--muted);margin:0}.cause .rank{color:var(--accent);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px}.resultactions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.disclaimer{font-size:12px;color:var(--muted);border-top:1px solid var(--line);margin-top:17px;padding-top:14px}.foot{text-align:center;color:#718391;font-size:12px;margin-top:25px}.arabic{direction:rtl}.hidden{display:none!important}@media(max-width:760px){.layout{grid-template-columns:1fr}.sidecard{position:static}.hero h1{letter-spacing:-1.7px}.nav{margin-bottom:32px}.card{padding:18px}.two{gap:9px}}@media(max-width:390px){.two{grid-template-columns:1fr}.hero p{font-size:15px}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <nav class="nav">
+    <div class="brand"><div class="logo">⌁</div>CarPulse</div>
+    <div class="navright"><span class="pill">EARLY ACCESS · EGYPT</span><button class="btn secondary" id="langBtn" type="button">العربية</button></div>
+  </nav>
+  <header class="hero">
+    <div class="eyebrow" data-en="LESS GUESSING. BETTER REPAIRS." data-ar="تخمين أقل. تصليح أذكى.">LESS GUESSING. BETTER REPAIRS.</div>
+    <h1 data-en="Your car is talking.<br><span>Let's listen.</span>" data-ar="عربيتك بتتكلم.<br><span>خلينا نسمعها.</span>">Your car is talking.<br><span>Let's listen.</span></h1>
+    <p data-en="Record a strange noise, tell us what your car is doing, and get possible causes plus the next steps to take." data-ar="سجّل الصوت الغريب، واحكيلنا العربية بتعمل إيه، واعرف الأسباب المحتملة والخطوة الجاية.">Record a strange noise, tell us what your car is doing, and get possible causes plus the next steps to take.</p>
+  </header>
+  <main class="layout">
+    <section class="card">
+      <div class="step"><div class="num">01</div><div><h2 data-en="Tell us about your car" data-ar="قولنا معلومات عن عربيتك">Tell us about your car</h2><p class="sub" data-en="A few details help narrow down the possibilities." data-ar="شوية تفاصيل بتساعدنا نضيّق الاحتمالات.">A few details help narrow down the possibilities.</p></div></div>
+      <div class="two">
+        <div class="field"><label data-en="Make" data-ar="الماركة">Make</label><input id="make" placeholder="e.g. Kia" value=""></div>
+        <div class="field"><label data-en="Model" data-ar="الموديل">Model</label><input id="model" placeholder="e.g. Picanto"></div>
+      </div>
+      <div class="two">
+        <div class="field"><label data-en="Year" data-ar="سنة الصنع">Year</label><input id="year" type="number" min="1950" max="2035" placeholder="e.g. 2009"></div>
+        <div class="field"><label data-en="Engine / fuel (optional)" data-ar="الموتور / نوع الوقود (اختياري)">Engine / fuel (optional)</label><input id="engine" placeholder="e.g. 1.1 petrol"></div>
+      </div>
+      <div class="field"><label data-en="When do you hear the noise?" data-ar="الصوت بيظهر إمتى؟">When do you hear the noise?</label>
+        <select id="when">
+          <option value="idle" data-en="While idling / stopped" data-ar="والعربية واقفة / على السلانسيه">While idling / stopped</option>
+          <option value="start" data-en="When starting the engine" data-ar="وقت تدوير الموتور">When starting the engine</option>
+          <option value="accel" data-en="When accelerating / driving" data-ar="مع التسارع / أثناء السواقة">When accelerating / driving</option>
+          <option value="brake" data-en="When braking" data-ar="وقت الفرامل">When braking</option>
+          <option value="turn" data-en="When turning the steering wheel" data-ar="وقت لف الدركسيون">When turning the steering wheel</option>
+          <option value="bumps" data-en="Over bumps / rough roads" data-ar="على المطبات / الطرق المكسّرة">Over bumps / rough roads</option>
+        </select>
+      </div>
+      <div class="step" style="margin-top:20px"><div class="num">02</div><div><h2 data-en="Record the sound" data-ar="سجّل الصوت">Record the sound</h2><p class="sub" data-en="Aim your phone safely toward the sound. Never put your hands near moving parts." data-ar="وجّه الموبايل ناحية الصوت بأمان. متقربش إيدك من أي أجزاء متحركة.">Aim your phone safely toward the sound. Never put your hands near moving parts.</p></div></div>
+      <div class="recordbox">
+        <div class="mic">🎙</div>
+        <strong id="recordTitle" data-en="Capture up to 20 seconds" data-ar="سجّل لحد ٢٠ ثانية">Capture up to 20 seconds</strong>
+        <small id="recordHelp" data-en="Allow microphone access when your browser asks." data-ar="اسمح باستخدام الميكروفون لما المتصفح يطلب.">Allow microphone access when your browser asks.</small>
+        <div class="btnrow"><button class="btn primary" id="recordBtn" type="button">● <span data-en="Start recording" data-ar="ابدأ التسجيل">Start recording</span></button><button class="btn secondary hidden" id="stopBtn" type="button" data-en="Stop" data-ar="إيقاف">Stop</button></div>
+        <audio id="player" class="audio hidden" controls></audio>
+        <div class="status" id="recordStatus" aria-live="polite"></div>
+      </div>
+      <div class="step" style="margin-top:20px"><div class="num">03</div><div><h2 data-en="What else do you notice?" data-ar="إيه كمان اللي لاحظته؟">What else do you notice?</h2><p class="sub" data-en="Select anything that applies." data-ar="اختار كل اللي بينطبق على عربيتك.">Select anything that applies.</p></div></div>
+      <label class="checkrow"><input type="checkbox" value="shake"> <span data-en="Engine or car shakes / vibrates" data-ar="الموتور أو العربية بيتهزوا">Engine or car shakes / vibrates</span></label>
+      <label class="checkrow"><input type="checkbox" value="warning"> <span data-en="Warning light is on" data-ar="في لمبة تحذير منوّرة">Warning light is on</span></label>
+      <label class="checkrow"><input type="checkbox" value="power"> <span data-en="Loss of power / struggling to accelerate" data-ar="سحب ضعيف / صعوبة في التسارع">Loss of power / struggling to accelerate</span></label>
+      <label class="checkrow"><input type="checkbox" value="smell"> <span data-en="Burning smell, fuel smell, or smoke" data-ar="ريحة حريق أو بنزين أو في دخان">Burning smell, fuel smell, or smoke</span></label>
+      <label class="checkrow"><input type="checkbox" value="metal"> <span data-en="Metallic knocking / grinding" data-ar="خبط معدن أو صوت طحن">Metallic knocking / grinding</span></label>
+      <label class="checkrow"><input type="checkbox" value="none"> <span data-en="None of these" data-ar="ولا حاجة من دول">None of these</span></label>
+      <button class="btn primary analyze" id="analyzeBtn" type="button" data-en="Check possible causes →" data-ar="اعرف الأسباب المحتملة ←">Check possible causes →</button>
+      <div class="result" id="result" aria-live="polite"></div>
+    </section>
+    <aside class="card sidecard">
+      <h2 data-en="How CarPulse works" data-ar="CarPulse بيشتغل إزاي">How CarPulse works</h2>
+      <p class="sub" data-en="Built to help you make a more informed next move." data-ar="مصمم يساعدك تاخد قرار أذكى.">Built to help you make a more informed next move.</p>
+      <div class="sidehero"><div class="big">🚘 + 🎙️</div><strong data-en="Sound + symptoms" data-ar="الصوت + الأعراض">Sound + symptoms</strong><p data-en="The recording is saved only in this browser prototype. This version uses your answers—not AI audio recognition—to suggest causes." data-ar="التسجيل موجود في المتصفح بس في النسخة التجريبية دي. الاقتراحات مبنية على إجاباتك، مش تحليل ذكي للصوت لسه.">The recording is saved only in this browser prototype. This version uses your answers—not AI audio recognition—to suggest causes.</p></div>
+      <div class="feature"><div class="featureicon">🔎</div><div><strong data-en="Possible causes" data-ar="الأسباب المحتملة">Possible causes</strong><span data-en="A shortlist, not a pretend certainty." data-ar="احتمالات مش تشخيص مؤكد.">A shortlist, not a pretend certainty.</span></div></div>
+      <div class="feature"><div class="featureicon">🧰</div><div><strong data-en="Practical next steps" data-ar="خطوات عملية">Practical next steps</strong><span data-en="Know what you can check—and when to stop." data-ar="اعرف إيه اللي تقدر تراجعه وإمتى توقف.">Know what you can check—and when to stop.</span></div></div>
+      <div class="feature"><div class="featureicon">📍</div><div><strong data-en="Nearby repair shops" data-ar="ورش قريبة منك">Nearby repair shops</strong><span data-en="Opens a map search using the location you choose." data-ar="بيفتح بحث خرائط حسب المكان اللي تختاره.">Opens a map search using the location you choose.</span></div></div>
+      <div class="disclaimer" data-en="Safety first: if you see smoke, smell strong fuel, hear severe knocking, or have brake/steering problems, stop in a safe place and seek professional help. This prototype cannot confirm a diagnosis." data-ar="الأمان أولاً: لو في دخان، ريحة بنزين قوية، خبط شديد، أو مشكلة فرامل/دركسيون، اركن في مكان آمن واطلب مساعدة متخصص. النسخة دي مش بتأكد التشخيص.">Safety first: if you see smoke, smell strong fuel, hear severe knocking, or have brake/steering problems, stop in a safe place and seek professional help. This prototype cannot confirm a diagnosis.</div>
+    </aside>
+  </main>
+  <footer class="foot">CarPulse prototype · Built for Egypt, with care. No account required.</footer>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+let recorder, chunks=[], stream, timer, seconds=0, audioBlob=null, lang='en';
+function text(en,ar){return lang==='ar'?ar:en}
+function setLanguage(next){
+ lang=next;document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+ document.querySelectorAll('[data-en][data-ar]').forEach(el=>{
+   if(el.tagName==='OPTION') el.textContent=el.dataset[lang];
+   else el.innerHTML=el.dataset[lang];
+ });
+ $('langBtn').textContent=lang==='en'?'العربية':'English';
+ $('make').placeholder=lang==='ar'?'مثال: كيا':'e.g. Kia';
+ $('model').placeholder=lang==='ar'?'مثال: بيكانتو':'e.g. Picanto';
+ $('year').placeholder=lang==='ar'?'مثال: 2009':'e.g. 2009';
+ $('engine').placeholder=lang==='ar'?'مثال: 1.1 بنزين':'e.g. 1.1 petrol';
+ if(!$('result').classList.contains('show')) $('recordHelp').textContent=text('Allow microphone access when your browser asks.','اسمح باستخدام الميكروفون لما المتصفح يطلب.');
+}
+$('langBtn').addEventListener('click',()=>setLanguage(lang==='en'?'ar':'en'));
+$('recordBtn').addEventListener('click',async()=>{
+ if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!window.MediaRecorder){
+  $('recordStatus').textContent=text('Recording needs a modern browser and a secure (HTTPS) website. Publish this page first, then try again.','التسجيل محتاج متصفح حديث وموقع آمن (HTTPS). انشر الموقع الأول وجرب تاني.');return;
+ }
+ try{
+  stream=await navigator.mediaDevices.getUserMedia({audio:true});chunks=[];
+  let options={};if(MediaRecorder.isTypeSupported('audio/webm;codecs=opus'))options.mimeType='audio/webm;codecs=opus';
+  recorder=new MediaRecorder(stream,options);
+  recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
+  recorder.onstop=()=>{
+   audioBlob=new Blob(chunks,{type:recorder.mimeType||'audio/webm'});
+   $('player').src=URL.createObjectURL(audioBlob);$('player').classList.remove('hidden');
+   $('recordStatus').textContent=text('Recording ready. Playback stays in this browser; it is not uploaded.','التسجيل جاهز. تقدر تسمعه هنا؛ مش بيترفع على أي سيرفر.');
+   stream.getTracks().forEach(t=>t.stop());$('recordBtn').disabled=false;$('stopBtn').classList.add('hidden');
+  };
+  recorder.start();seconds=0;$('recordBtn').disabled=true;$('stopBtn').classList.remove('hidden');
+  $('recordTitle').textContent=text('Recording… 0 / 20 seconds','بيسجّل… ٠ / ٢٠ ثانية');
+  $('recordStatus').textContent=text('Keep the phone safely away from moving parts.','خلي الموبايل بعيد بأمان عن الأجزاء المتحركة.');
+  timer=setInterval(()=>{seconds++;$('recordTitle').textContent=text(`Recording… ${seconds} / 20 seconds`,`بيسجّل… ${seconds} / ٢٠ ثانية`);if(seconds>=20)stopRecording()},1000);
+ }catch(e){$('recordStatus').textContent=text('Microphone permission was denied or unavailable. You can still use the symptom checker.','إذن الميكروفون مرفوض أو مش متاح. تقدر تستخدم فحص الأعراض عادي.');}
+});
+function stopRecording(){clearInterval(timer);if(recorder&&recorder.state!=='inactive')recorder.stop();$('recordTitle').textContent=text('Capture up to 20 seconds','سجّل لحد ٢٠ ثانية');$('recordBtn').disabled=false}
+$('stopBtn').addEventListener('click',stopRecording);
+function getCauses(when,symptoms){
+ let out=[];
+ const add=(rank,titleAr,titleEn,whyAr,whyEn,fixAr,fixEn)=>out.push({rank,titleAr,titleEn,whyAr,whyEn,fixAr,fixEn});
+ if(symptoms.includes('smell')) add('urgent','تسريب وقود أو مشكلة كهرباء/سخونة','Fuel leak or electrical/overheating issue','وجود ريحة قوية أو دخان ممكن يشير لخطر. أوقف العربية في مكان آمن وما تدورش الموتور لو في ريحة بنزين قوية أو دخان.','A strong smell or smoke can indicate a safety risk. Stop safely; do not restart if there is a strong fuel smell or smoke.','اطلب مساعدة متخصصة أو ونش.','Seek professional assistance or a tow.');
+ if(symptoms.includes('metal')) add('high','تآكل أو مشكلة ميكانيكية داخلية/جزء بيلمس جزء','Mechanical wear or metal-to-metal contact','صوت خبط أو طحن معدني محتاج فحص مباشر؛ الصوت وحده مش كفاية لتحديد القطعة.','Metallic knocking or grinding needs direct inspection; audio alone cannot identify the part.','لو الصوت شديد أو جديد، بلاش تكمل سواقة قبل الفحص.','If severe or new, avoid driving until inspected.');
+ if(when==='brake') add('high','تيل/طنابير الفرامل أو جزء مرتخي','Brake pads/rotors or a loose component','الصوت المرتبط بالفرامل ممكن يكون من التيل أو الطنابير أو جزء مرتخي.','Brake-related noise may come from pads, rotors, or a loose component.','لو الفرامل ضعفت أو الصوت طحن مستمر، ما تسوقش العربية؛ اطلب فحصًا.','If braking performance is reduced or grinding persists, do not drive; get it inspected.');
+ if(when==='turn') add('medium','مكونات الدركسيون أو العفشة أو الكاوتش','Steering, suspension, or tire components','الصوت وقت لف الدركسيون ممكن يكون من العفشة أو مكونات التوجيه أو الكاوتش.','Noise while steering can involve suspension, steering components, or tires.','افحص وجود تلف واضح في الكاوتش، واطلب فحص عفشة/دركسيون.','Look for visible tire damage and arrange a steering/suspension inspection.');
+ if(when==='bumps') add('medium','جزء في العفشة أو حاجة مرتخية','Suspension component or loose part','الخبط على المطبات ممكن يرتبط بجلب أو وصلات أو جزء مرتخي، لكنه محتاج فحص.','Clunks over bumps can involve bushings, links, or a loose part; inspection is needed.','خلي فني يفحص العفشة؛ ما تدخلش تحت عربية مرفوعة من غير تجهيز آمن.','Have a mechanic inspect the suspension; never get under an improperly supported car.');
+ if(when==='start') add('medium','البطارية/المارش أو سير أو ملحقات الموتور','Battery/starter or engine belt/accessories','صوت التدوير بيعتمد على نوعه: تكتكة، طحن، أو صرير ليهم أسباب مختلفة.','Starting noises vary: clicking, grinding, and squealing can have different causes.','لاحظ هل الموتور بيلف ببطء أو الصوت بيختفي بعد التشغيل، واطلب فحصًا.','Note whether cranking is slow or the noise stops after startup, then get it checked.');
+ if(when==='accel') add('medium','سير أو ملحقات الموتور أو مشكلة احتراق/عادم','Belt/accessory, combustion, or exhaust issue','الصوت مع التسارع ممكن يتأثر بالحمل أو دوران الموتور أو العادم.','Noise during acceleration can vary with engine load, RPM, or exhaust flow.','ما تضغطش على الموتور لتكرار الصوت؛ سجّل الظروف واطلب فحصًا.','Do not repeatedly rev the engine to reproduce it; note conditions and get it checked.');
+ if(when==='idle'&&symptoms.includes('shake')) add('medium','تقطيع احتراق (misfire)، قاعدة موتور، أو مشكلة سلانسيه','Engine misfire, engine mount, or idle-control issue','اهتزاز الموتور وهو واقف ممكن يكون من احتراق غير منتظم أو قاعدة موتور أو تحكم السلانسيه.','Engine vibration at idle may come from a misfire, engine mount, or idle-control issue.','ابدأ بفحص كمبيوتر OBD-II والبوجيهات/الكويلات حسب الأكواد؛ ما تغيّرش قطع بالتخمين.','Start with an OBD-II scan and inspect plugs/coils based on codes; avoid replacing parts by guesswork.');
+ if(symptoms.includes('warning')) add('medium','كود عطل مخزّن في كمبيوتر العربية','Stored engine or vehicle fault code','لمبة التحذير بتساعد في تحديد اتجاه الفحص، لكنها مش تشخيص لوحدها.','A warning light helps narrow the investigation but is not a diagnosis by itself.','اقرأ كود العطل بجهاز OBD-II. لو لمبة الزيت أو الحرارة أو لمبة موتور بتومض، اركن بأمان وراجع دليل العربية.','Read the code with an OBD-II scanner. If oil/temperature warning appears or the check-engine light flashes, stop safely and consult the manual.');
+ if(symptoms.includes('power')) add('medium','مشكلة احتراق أو هواء/وقود أو عادم','Combustion, air/fuel, or exhaust issue','ضعف السحب مع صوت غريب ممكن يكون له أسباب متعددة ولازم يتربط بالأكواد والفحص.','Power loss with unusual noise has several possible causes and needs codes and inspection.','تجنب الضغط العالي على الموتور لحد ما يتفحص.','Avoid heavy acceleration until it is inspected.');
+ if(out.length<3&&when==='idle') add('low','سير أو ملحقات أو جزء مرتخي','Belt/accessory or loose component','صوت السلانسيه ممكن يطلع من أكتر من مصدر، والتحديد محتاج سماع وفحص مباشر.','Idle noises can come from multiple sources and need listening and inspection.','سجّل هل الصوت بيتغير مع التكييف أو مع زيادة RPM بشكل بسيط وآمن.','Note whether the sound changes with A/C or a small, safe RPM change.');
+ if(out.length<3) add('low','مصدر صوت خارجي أو جزء مرتخي','External noise or loose component','ممكن الصوت يكون من غطاء أو جزء خارجي أو ملحق، وليس من داخل الموتور.','The noise may come from a cover, loose part, or accessory rather than inside the engine.','افحص بصريًا والعربية مطفية وباردة فقط، واترك الفحص الميكانيكي للفني.','Only visually inspect with the engine off and cool; leave mechanical checks to a professional.');
+ return out.slice(0,3);
+}
+$('analyzeBtn').addEventListener('click',()=>{
+ const when=$('when').value;
+ let symptoms=[...document.querySelectorAll('.checkrow input:checked')].map(x=>x.value).filter(x=>x!=='none');
+ const causes=getCauses(when,symptoms);
+ const urgent=causes.some(c=>c.rank==='urgent')||(symptoms.includes('metal')&&when==='brake');
+ const loc=encodeURIComponent([$('make').value,$('model').value,'car mechanic'].filter(Boolean).join(' ')+' repair shop');
+ const mapQuery=encodeURIComponent('car repair mechanic near me');
+ const result=$('result');result.classList.add('show');
+ result.innerHTML=`<div class="resulthead"><div><h2>${text('Your first diagnostic shortlist','أول قائمة بالأسباب المحتملة')}</h2><div class="sub" style="margin:4px 0 0">${text('Based on your answers—not audio AI yet.','بناءً على إجاباتك، مش تحليل ذكي للصوت لسه.')}</div></div><span class="resultbadge">${urgent?text('SAFETY FIRST','الأمان أولاً'):text('POSSIBILITIES','احتمالات')}</span></div>`+
+ causes.map((c,i)=>`<div class="cause"><div class="rank">${text('POSSIBILITY','احتمال')} ${i+1}${c.rank==='urgent'?' · '+text('URGENT','عاجل'):''}</div><h3>${lang==='ar'?c.titleAr:c.titleEn}</h3><p>${lang==='ar'?c.whyAr:c.whyEn}</p><p style="margin-top:8px;color:#dce6eb"><b>${text('Next step: ','الخطوة الجاية: ')}</b>${lang==='ar'?c.fixAr:c.fixEn}</p></div>`).join('')+
+ `<div class="resultactions"><button class="btn primary" id="mapsBtn">${text('Find nearby garages ↗','دور على ورش قريبة ↗')}</button><button class="btn secondary" id="copyBtn">${text('Copy symptom summary','انسخ ملخص الأعراض')}</button></div><div class="field" style="margin-top:13px"><label>${text('City or area (optional)','المدينة أو المنطقة (اختياري)')}</label><input id="area" placeholder="${text('e.g. Nasr City, Cairo','مثال: مدينة نصر، القاهرة')}"></div><div class="disclaimer">${text('This is an early rule-based prototype, not a confirmed diagnosis. Do not use it to decide a vehicle is safe to drive.','دي نسخة تجريبية بقواعد بسيطة، مش تشخيص مؤكد. متعتمدش عليها لتحديد إن العربية آمنة للسواقة.')}</div>`;
+ $('mapsBtn').addEventListener('click',()=>{let area=$('area').value.trim();let q=encodeURIComponent('car repair mechanic '+(area||'near me'));window.open('https://www.google.com/maps/search/?api=1&query='+q,'_blank','noopener')});
+ $('copyBtn').addEventListener('click',async()=>{let summary=`CarPulse symptom summary\nCar: ${$('make').value} ${$('model').value} ${$('year').value}\nEngine: ${$('engine').value}\nWhen: ${when}\nSymptoms: ${symptoms.join(', ')||'none selected'}\nPossible causes: ${causes.map(c=>lang==='ar'?c.titleAr:c.titleEn).join('; ')}\nNote: preliminary suggestions only, not a confirmed diagnosis.`;try{await navigator.clipboard.writeText(summary);$('copyBtn').textContent=text('Copied ✓','تم النسخ ✓')}catch(e){prompt(text('Copy this summary','انسخ الملخص'),summary)}});
+ result.scrollIntoView({behavior:'smooth',block:'start'});
+});
+</script>
+</body>
+</html>
