@@ -195,7 +195,7 @@ body: JSON.stringify({
   mimeType: (audioBlob.type || 'audio/webm').split(';')[0],
   carDetails,
   symptoms: symptoms.join(', ') || 'None selected',
-  language: document.querySelector('.lang-btn.active')?.textContent.includes('ع') ? 'ar' : 'en'
+language: document.documentElement.lang === 'ar' ? 'ar' : 'en'
 })
 
       }
