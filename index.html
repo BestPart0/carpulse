@@ -690,7 +690,24 @@ function selectGarageCar(car) {
     event.preventDefault();
 
     const { data: { session } } = await db.auth.getSession();
+const planBadge = $('planBadge');
 
+if (planBadge && session) {
+  const { data: subscription, error } = await db
+    .from('subscriptions')
+    .select('plan,status')
+    .eq('user_id', session.user.id)
+    .maybeSingle();
+
+  if (!error && subscription) {
+    const isPro = subscription.plan === 'pro' &&
+                  subscription.status === 'active';
+
+    planBadge.textContent = isPro ? 'PRO PLAN' : 'FREE PLAN';
+  } else {
+    planBadge.textContent = 'FREE PLAN';
+  }
+}
     if (!session) {
       showMessage('Please log in before saving a car.', true);
       modal.classList.remove('hidden');
