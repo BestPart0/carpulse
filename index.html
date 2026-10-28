@@ -933,7 +933,7 @@ if (planBadge && session) {
       const isPro = subscription?.plan === 'pro' &&
                     subscription?.status === 'active';
 
-      if (!isPro && existingCars.length >= 1) {
+      if (!editingCarId && !isPro && existingCars.length >= 1) {
         $('garageMessage').textContent =
           'Free accounts can save one car. Upgrade to Pro for more.';
         $('upgradeBtn').style.display = 'inline-block';
