@@ -948,6 +948,7 @@ logoutButton.addEventListener('click', async () => {
     return;
   }
   modal.classList.add('hidden');
+  modal.querySelector('#accountActions')?.remove();
   form.style.display = 'block';
   switchButton.style.display = 'block';
   showMessage('You have logged out.');
