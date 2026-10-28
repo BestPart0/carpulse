@@ -729,7 +729,7 @@ garageList.innerHTML = '<p class="sub">Loading your cars...</p>';
     try {
       const { data: cars, error } = await db
         .from('cars')
-        .select('id,nickname,make,model,year,engine')
+        .select('id,nickname,make,model,year,engine,icon_type,icon_color')
         .eq('user_id', session.user.id)
         .order('created_at', { ascending: true });
 
