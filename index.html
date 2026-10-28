@@ -1199,6 +1199,28 @@ garageList.innerHTML = cars.map((car, index) => `
     </div>
   </div>
 `).join('');
+      if (cars.length > 1) {
+  const viewCarsBtn = document.createElement('button');
+  viewCarsBtn.type = 'button';
+  viewCarsBtn.className = 'btn secondary garage-view-all-btn';
+  viewCarsBtn.textContent = `View all cars (${cars.length})`;
+
+  garageList.appendChild(viewCarsBtn);
+
+  viewCarsBtn.addEventListener('click', () => {
+    const extras = garageList.querySelectorAll('.garage-car-extra');
+    const isExpanded = viewCarsBtn.dataset.expanded === 'true';
+
+    extras.forEach(car => {
+      car.classList.toggle('hidden', isExpanded);
+    });
+
+    viewCarsBtn.dataset.expanded = String(!isExpanded);
+    viewCarsBtn.textContent = isExpanded
+      ? `View all cars (${cars.length})`
+      : 'Show fewer cars';
+  });
+}
 garageList.querySelectorAll('[data-delete-car]').forEach(button => {
   button.addEventListener('click', async () => {
     const confirmed = confirm(
