@@ -78,6 +78,53 @@
         <input id="carEngine" placeholder="e.g. 1600 CC">
       </div>
 
+<div class="field" style="margin:16px 0">
+  <label>Choose your car icon</label>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px">
+    <button type="button" class="btn secondary car-icon-choice selected" data-icon-type="sedan">
+      <span style="font-size:25px">🚘</span>
+      <span>Sedan</span>
+    </button>
+
+    <button type="button" class="btn secondary car-icon-choice" data-icon-type="suv">
+      <span style="font-size:25px">🚙</span>
+      <span>SUV</span>
+    </button>
+
+    <button type="button" class="btn secondary car-icon-choice" data-icon-type="hatchback">
+      <span style="font-size:25px">🚗</span>
+      <span>Hatchback</span>
+    </button>
+
+    <button type="button" class="btn secondary car-icon-choice" data-icon-type="coupe">
+      <span style="font-size:25px">🏎️</span>
+      <span>Coupe</span>
+    </button>
+  </div>
+
+  <label style="display:block;margin-top:16px">Icon color</label>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+    <button type="button" class="car-color-choice" data-icon-color="#3267D5" aria-label="Blue" style="background:#3267D5;width:30px;height:30px;border-radius:50%;border:3px solid white"></button>
+    <button type="button" class="car-color-choice" data-icon-color="#D94343" aria-label="Red" style="background:#D94343;width:30px;height:30px;border-radius:50%;border:3px solid transparent"></button>
+    <button type="button" class="car-color-choice" data-icon-color="#242424" aria-label="Black" style="background:#242424;width:30px;height:30px;border-radius:50%;border:3px solid transparent"></button>
+    <button type="button" class="car-color-choice" data-icon-color="#9AA0A8" aria-label="Silver" style="background:#9AA0A8;width:30px;height:30px;border-radius:50%;border:3px solid transparent"></button>
+    <button type="button" class="car-color-choice" data-icon-color="#F4F4F4" aria-label="White" style="background:#F4F4F4;width:30px;height:30px;border-radius:50%;border:3px solid #D1D5DB"></button>
+    <button type="button" class="car-color-choice" data-icon-color="#289566" aria-label="Green" style="background:#289566;width:30px;height:30px;border-radius:50%;border:3px solid transparent"></button>
+    <button type="button" class="car-color-choice" data-icon-color="#D9A52E" aria-label="Gold" style="background:#D9A52E;width:30px;height:30px;border-radius:50%;border:3px solid transparent"></button>
+    <button type="button" class="car-color-choice" data-icon-color="#E87832" aria-label="Orange" style="background:#E87832;width:30px;height:30px;border-radius:50%;border:3px solid transparent"></button>
+    <button type="button" class="car-color-choice" data-icon-color="#8855BB" aria-label="Purple" style="background:#8855BB;width:30px;height:30px;border-radius:50%;border:3px solid transparent"></button>
+    <button type="button" class="car-color-choice" data-icon-color="#D66A9C" aria-label="Pink" style="background:#D66A9C;width:30px;height:30px;border-radius:50%;border:3px solid transparent"></button>
+    <button type="button" class="car-color-choice" data-icon-color="#199C9C" aria-label="Teal" style="background:#199C9C;width:30px;height:30px;border-radius:50%;border:3px solid transparent"></button>
+    <button type="button" class="car-color-choice" data-icon-color="#193A70" aria-label="Navy" style="background:#193A70;width:30px;height:30px;border-radius:50%;border:3px solid transparent"></button>
+    <button type="button" class="car-color-choice" data-icon-color="#875B43" aria-label="Brown" style="background:#875B43;width:30px;height:30px;border-radius:50%;border:3px solid transparent"></button>
+    <button type="button" class="car-color-choice" data-icon-color="#E8C63E" aria-label="Yellow" style="background:#E8C63E;width:30px;height:30px;border-radius:50%;border:3px solid transparent"></button>
+    <button type="button" class="car-color-choice" data-icon-color="#802D43" aria-label="Burgundy" style="background:#802D43;width:30px;height:30px;border-radius:50%;border:3px solid transparent"></button>
+    <button type="button" class="car-color-choice" data-icon-color="#48BDE0" aria-label="Cyan" style="background:#48BDE0;width:30px;height:30px;border-radius:50%;border:3px solid transparent"></button>
+  </div>
+</div>
+
       <button class="btn primary" id="saveCarBtn" type="submit">Save car</button>
       <button class="btn secondary" id="upgradeBtn" type="button" style="display:none">Explore Pro</button>
     </form>
