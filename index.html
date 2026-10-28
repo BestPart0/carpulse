@@ -1153,8 +1153,8 @@ garageList.innerHTML = '<p class="sub">Loading your cars...</p>';
         return;
       }
 
-garageList.innerHTML = cars.map(car => `
-  <div class="garage-car-card" style="--car-accent:${car.icon_color || '#3267D5'}">
+garageList.innerHTML = cars.map((car, index) => `
+  <div class="garage-car-card ${index > 0 ? 'garage-car-extra hidden' : ''}" style="--car-accent:${car.icon_color || '#3267D5'}">
     <div class="garage-car-header">
       <div class="garage-car-icon">
         <svg viewBox="0 0 64 40" width="44" height="30" aria-hidden="true">
