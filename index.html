@@ -21,6 +21,215 @@
 @media(max-width:390px){.two{grid-template-columns:1fr}.hero p{font-size:15px}}
 @media(max-width:600px){#accountBtn{padding:8px 10px;font-size:12px;white-space:nowrap}.navright{gap:6px}.navright .pill{font-size:10px}}
 
+/* CarPulse garage form — integrated vehicle selector */
+#carForm {
+  margin-top: 24px !important;
+  padding: 22px;
+  border: 1px solid var(--border, rgba(255,255,255,.12));
+  border-radius: 18px;
+  background: var(--surface, rgba(255,255,255,.025));
+}
+
+#carForm .garage-form-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+#carForm .garage-eyebrow {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  opacity: .65;
+}
+
+#carForm .garage-form-heading h3 {
+  margin: 0 0 6px;
+  font-size: 22px;
+  letter-spacing: -.5px;
+}
+
+#carForm .garage-form-mark {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(50,103,213,.12);
+  border: 1px solid rgba(50,103,213,.25);
+  color: #6d9aff;
+  font-size: 24px;
+}
+
+#carForm .garage-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+#carForm .garage-fields .field {
+  min-width: 0;
+  margin: 0;
+}
+
+#carForm .garage-nickname,
+#carForm .garage-engine {
+  grid-column: 1 / -1;
+}
+
+#carForm .garage-customize {
+  margin-top: 26px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+
+#carForm .garage-section-heading h4,
+#carForm .garage-color-heading h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+#carForm .garage-section-heading p {
+  margin: 5px 0 0;
+  font-size: 12px;
+}
+
+#carForm .garage-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+#carForm .car-icon-choice {
+  display: flex;
+  min-width: 0;
+  min-height: 82px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 5px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 12px;
+  background: rgba(255,255,255,.025);
+  color: inherit;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, transform .18s ease;
+}
+
+#carForm .car-icon-choice:hover {
+  border-color: rgba(109,154,255,.6);
+  transform: translateY(-1px);
+}
+
+#carForm .car-icon-choice.selected {
+  border-color: #5688f5;
+  background: rgba(50,103,213,.14);
+  box-shadow: inset 0 0 0 1px rgba(86,136,245,.18);
+}
+
+#carForm .garage-car-emoji {
+  font-size: 25px;
+  line-height: 1;
+}
+
+#carForm .garage-color-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+#carForm .garage-color-grid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 13px;
+  background: rgba(0,0,0,.08);
+}
+
+#carForm .car-color-choice {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 30px;
+  aspect-ratio: 1;
+  justify-self: center;
+  padding: 0;
+  border: 3px solid var(--surface, #181b22);
+  border-radius: 50%;
+  background: var(--swatch);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.16);
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+#carForm .car-color-choice:hover {
+  transform: scale(1.12);
+}
+
+#carForm .car-color-choice.is-picked {
+  box-shadow: 0 0 0 2px #7da4ff;
+}
+
+#carForm .garage-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+#carForm .garage-form-actions .btn {
+  min-height: 44px;
+}
+
+@media (max-width: 520px) {
+  #carForm {
+    padding: 16px;
+  }
+
+  #carForm .garage-fields {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  #carForm .garage-nickname,
+  #carForm .garage-engine {
+    grid-column: auto;
+  }
+
+  #carForm .garage-icon-grid {
+    gap: 7px;
+  }
+
+  #carForm .car-icon-choice {
+    min-height: 74px;
+    font-size: 11px;
+  }
+
+  #carForm .garage-color-grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 10px 6px;
+    padding: 12px 8px;
+  }
+
+  #carForm .garage-form-actions .btn {
+    width: 100%;
+  }
+}
+
 </style>
 </head>
 <body>
