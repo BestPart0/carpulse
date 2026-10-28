@@ -956,9 +956,9 @@ logoutButton.addEventListener('click', async () => {
 const oldActions = modal.querySelector('#accountActions');
 if (oldActions) oldActions.remove();
 
-const { data: { session } } = await db.auth.getSession();
+const { data: { session: currentSession } } = await db.auth.getSession();
 
-if (session) {
+if (currentSession) {
   accountActions.append(garageButton, logoutButton);
   form.parentElement.appendChild(accountActions);
 }
