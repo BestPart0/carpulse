@@ -498,8 +498,81 @@ language: lang
     }
   });
 
+  
   // CarPulse Garage
   const carForm = $('carForm');
+
+  async function loadGarage() {
+    const garageList = $('garageList');
+    const garageMessage = $('garageMessage');
+
+    const { data: { session } } = await db.auth.getSession();
+
+    if (!session) {
+      garageList.innerHTML = '<p class="sub">Log in to view your saved cars.</p>';
+      return;
+    }
+
+    garageList.innerHTML = '<p class="sub">Loading your cars...</p>';
+
+    try {
+      const { data: cars, error } = await db
+        .from('cars')
+        .select('id,nickname,make,model,year,engine')
+        .eq('user_id', session.user.id)
+        .order('created_at', { ascending: true });
+
+      if (error) throw error;
+
+      if (!cars || cars.length === 0) {
+        garageList.innerHTML = '<p class="sub">No cars saved yet. Add your first car below.</p>';
+        return;
+      }
+
+      garageList.innerHTML = cars.map(car => `
+        <div class="card" style="margin:12px 0;padding:14px">
+          <h3 style="margin:0 0 6px">
+            ${escapeGarageText(car.nickname || (car.make + ' ' + car.model))}
+          </h3>
+          <p class="sub" style="margin:0">
+            ${escapeGarageText(car.make)} ${escapeGarageText(car.model)} · ${car.year}
+            ${car.engine ? ' · ' + escapeGarageText(car.engine) : ''}
+          </p>
+          <button class="btn secondary" type="button"
+            data-use-car="${car.id}" style="margin-top:10px">
+            Use for diagnosis
+          </button>
+        </div>
+      `).join('');
+
+      garageList.querySelectorAll('[data-use-car]').forEach(button => {
+        button.addEventListener('click', () => {
+          const selectedCar = cars.find(car => car.id === button.dataset.useCar);
+          if (selectedCar) selectGarageCar(selectedCar);
+        });
+      });
+    } catch (error) {
+      garageList.innerHTML = '<p class="sub">Could not load cars: ' +
+        escapeGarageText(error.message) + '</p>';
+    }
+  }
+
+  function escapeGarageText(value) {
+    return String(value ?? '').replace(/[&<>"']/g, character => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    })[character]);
+  }
+
+  function selectGarageCar(car) {
+    // We'll connect this to your diagnostic form in Step 2.
+    $('garageMessage').textContent =
+      'Selected: ' + car.make + ' ' + car.model +
+      '. Next, we will connect it to the diagnostic form.';
+  }
 
   carForm.addEventListener('submit', async event => {
     event.preventDefault();
@@ -556,13 +629,18 @@ language: lang
 
       $('garageMessage').textContent = 'Car saved successfully!';
       carForm.reset();
+      await loadGarage();
     } catch (error) {
-      $('garageMessage').textContent = 'Could not save car: ' + error.message;
+      $('garageMessage').textContent =
+        'Could not save car: ' + error.message;
     } finally {
       saveButton.disabled = false;
       saveButton.textContent = 'Save car';
     }
   });
+
+  loadGarage();
+
 
   db.auth.onAuthStateChange((event, session) => {
     accountButton.textContent = session ? 'My account' : 'Log in / Sign up';
