@@ -829,14 +829,7 @@ language: lang
   const $ = id => document.getElementById(id);
 
   const modal = $('authModal');
-  const showCarFormBtn = $('showCarFormBtn');
-const carForm = $('carForm');
-
-showCarFormBtn?.addEventListener('click', () => {
-  carForm?.classList.remove('hidden');
-  $('carFormTitle').textContent = 'Add a car';
-  carForm?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-});
+ start' });
   const form = $('authForm');
   const nameInput = $('authName');
   const nameLabel = $('authNameLabel');
