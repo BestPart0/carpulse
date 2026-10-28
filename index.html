@@ -966,50 +966,56 @@ garageList.innerHTML = '<p class="sub">Loading your cars...</p>';
         return;
       }
 
-      garageList.innerHTML = cars.map(car => `
-        <div class="card" style="margin:12px 0;padding:14px">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
-  <div style="width:48px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:${car.icon_color || '#3267D5'}22;border:1px solid ${car.icon_color || '#3267D5'}55">
-    <svg viewBox="0 0 64 40" width="40" height="28" aria-hidden="true">
-      <path d="${
-        car.icon_type === 'suv'
-          ? 'M8 14 L13 6 H43 L51 14 L57 17 V29 H7 V18 Z'
-          : car.icon_type === 'hatchback'
-          ? 'M8 17 L18 7 H39 L49 17 L56 20 V29 H7 V20 Z'
-          : car.icon_type === 'coupe'
-          ? 'M7 18 L22 8 H43 L53 19 L58 21 V29 H6 V21 Z'
-          : 'M7 18 L17 10 H43 L51 18 L57 21 V29 H6 V21 Z'
-      }" fill="${car.icon_color || '#3267D5'}" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-      <circle cx="17" cy="29" r="5" fill="#333"/>
-      <circle cx="47" cy="29" r="5" fill="#333"/>
-      <circle cx="17" cy="29" r="2" fill="#ddd"/>
-      <circle cx="47" cy="29" r="2" fill="#ddd"/>
-    </svg>
+<div class="garage-car-card" style="--car-accent:${car.icon_color || '#3267D5'}">
+  <div class="garage-car-header">
+    <div class="garage-car-icon">
+      <svg viewBox="0 0 64 40" width="44" height="30" aria-hidden="true">
+        <path d="${
+          car.icon_type === 'suv'
+            ? 'M8 14 L13 6 H43 L51 14 L57 17 V29 H7 V18 Z'
+            : car.icon_type === 'hatchback'
+            ? 'M8 17 L18 7 H39 L49 17 L56 20 V29 H7 V20 Z'
+            : car.icon_type === 'coupe'
+            ? 'M7 18 L22 8 H43 L53 19 L58 21 V29 H6 V21 Z'
+            : 'M7 18 L17 10 H43 L51 18 L57 21 V29 H6 V21 Z'
+        }" fill="${car.icon_color || '#3267D5'}" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+        <circle cx="17" cy="29" r="5" fill="#333"/>
+        <circle cx="47" cy="29" r="5" fill="#333"/>
+        <circle cx="17" cy="29" r="2" fill="#ddd"/>
+        <circle cx="47" cy="29" r="2" fill="#ddd"/>
+      </svg>
+    </div>
+
+    <div class="garage-car-title">
+      <span class="garage-car-label">SAVED VEHICLE</span>
+      <h3>${escapeGarageText(car.nickname || (car.make + ' ' + car.model))}</h3>
+      <p>${escapeGarageText(car.make)} ${escapeGarageText(car.model)}</p>
+    </div>
   </div>
-  <h3 style="margin:0">
-    ${escapeGarageText(car.nickname || (car.make + ' ' + car.model))}
-  </h3>
+
+  <div class="garage-car-details">
+    <div class="garage-car-detail">
+      <span>YEAR</span>
+      <strong>${car.year}</strong>
+    </div>
+    <div class="garage-car-detail">
+      <span>ENGINE / FUEL</span>
+      <strong>${car.engine ? escapeGarageText(car.engine) : 'Not specified'}</strong>
+    </div>
+  </div>
+
+  <div class="garage-car-actions">
+    <button class="btn primary" type="button" data-use-car="${car.id}">
+      Use for diagnosis
+    </button>
+    <button class="btn secondary" type="button" data-edit-car="${car.id}">
+      Edit
+    </button>
+    <button class="btn secondary garage-delete-btn" type="button" data-delete-car="${car.id}">
+      Delete
+    </button>
+  </div>
 </div>
-          <p class="sub" style="margin:0">
-            ${escapeGarageText(car.make)} ${escapeGarageText(car.model)} · ${car.year}
-            ${car.engine ? ' · ' + escapeGarageText(car.engine) : ''}
-          </p>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-  <button class="btn secondary" type="button"
-    data-use-car="${car.id}">
-    Use for diagnosis
-  </button>
-  <button class="btn secondary" type="button"
-    data-edit-car="${car.id}">
-    Edit
-  </button>
-  <button class="btn secondary" type="button"
-    data-delete-car="${car.id}">
-    Delete
-  </button>
-</div>
-        </div>
-      `).join('');
 
      garageList.querySelectorAll('[data-use-car]').forEach(button => {
   button.addEventListener('click', () => {
