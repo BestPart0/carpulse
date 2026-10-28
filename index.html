@@ -567,12 +567,21 @@ language: lang
     })[character]);
   }
 
-  function selectGarageCar(car) {
-    // We'll connect this to your diagnostic form in Step 2.
-    $('garageMessage').textContent =
-      'Selected: ' + car.make + ' ' + car.model +
-      '. Next, we will connect it to the diagnostic form.';
-  }
+  
+function selectGarageCar(car) {
+  $('make').value = car.make || '';
+  $('model').value = car.model || '';
+  $('year').value = car.year || '';
+  $('engine').value = car.engine || '';
+
+  $('garageMessage').textContent =
+    'Selected for diagnosis: ' + car.make + ' ' + car.model + ' (' + car.year + ')';
+
+  document.getElementById('make').scrollIntoView({
+    behavior: 'smooth',
+    block: 'center'
+  });
+}
 
   carForm.addEventListener('submit', async event => {
     event.preventDefault();
