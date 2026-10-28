@@ -609,14 +609,37 @@ $('proSubscribeBtn').addEventListener('click', () => {
     const garageList = $('garageList');
     const garageMessage = $('garageMessage');
 
-    const { data: { session } } = await db.auth.getSession();
+   
+const { data: { session } } = await db.auth.getSession();
 
-    if (!session) {
-      garageList.innerHTML = '<p class="sub">Log in to view your saved cars.</p>';
-      return;
-    }
+if (!session) {
+  garageList.innerHTML = '<p class="sub">Log in to view your saved cars.</p>';
+  return;
+}
 
-    garageList.innerHTML = '<p class="sub">Loading your cars...</p>';
+const planBadge = $('planBadge');
+
+try {
+  const { data: subscription, error } = await db
+    .from('subscriptions')
+    .select('plan,status')
+    .eq('user_id', session.user.id)
+    .maybeSingle();
+
+  if (error) throw error;
+
+  const isPro = subscription?.plan === 'pro' &&
+                subscription?.status === 'active';
+
+  if (planBadge) {
+    planBadge.textContent = isPro ? 'PRO PLAN' : 'FREE PLAN';
+  }
+} catch (error) {
+  console.error('Could not load subscription:', error);
+}
+
+garageList.innerHTML = '<p class="sub">Loading your cars...</p>';
+
 
     try {
       const { data: cars, error } = await db
