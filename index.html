@@ -627,6 +627,44 @@ form.parentElement.appendChild(accountActions);
   // CarPulse Garage
   const carForm = $('carForm');
 
+  // Car icon picker
+  let selectedIconType = 'sedan';
+  let selectedIconColor = '#3267D5';
+
+  document.querySelectorAll('.car-icon-choice').forEach(button => {
+    button.addEventListener('click', () => {
+      selectedIconType = button.dataset.iconType;
+
+      document.querySelectorAll('.car-icon-choice').forEach(choice => {
+        choice.classList.remove('selected');
+      });
+
+      button.classList.add('selected');
+    });
+  });
+
+  document.querySelectorAll('.car-color-choice').forEach(button => {
+    button.addEventListener('click', () => {
+      selectedIconColor = button.dataset.iconColor;
+
+      document.querySelectorAll('.car-color-choice').forEach(choice => {
+        choice.style.outline = 'none';
+      });
+
+      button.style.outline = '3px solid #3267D5';
+      button.style.outlineOffset = '3px';
+    });
+  });
+
+  const defaultColorButton = document.querySelector(
+    '.car-color-choice[data-icon-color="#3267D5"]'
+  );
+
+  if (defaultColorButton) {
+    defaultColorButton.style.outline = '3px solid #3267D5';
+    defaultColorButton.style.outlineOffset = '3px';
+  }
+
  // CarPulse Pro upgrade page
 const upgradeBtn = $('upgradeBtn');
 
