@@ -846,19 +846,40 @@ garageList.querySelectorAll('[data-edit-car]').forEach(button => {
   }
 
   
-function selectGarageCar(car) {
-  $('make').value = car.make || '';
-  $('model').value = car.model || '';
-  $('year').value = car.year || '';
-  $('engine').value = car.engine || '';
+function startEditCar(car) {
+  editingCarId = car.id;
 
-  $('garageMessage').textContent =
-    'Selected for diagnosis: ' + car.make + ' ' + car.model + ' (' + car.year + ')';
+  $('carNickname').value = car.nickname || '';
+  $('carMake').value = car.make || '';
+  $('carModel').value = car.model || '';
+  $('carYear').value = car.year || '';
+  $('carEngine').value = car.engine || '';
 
-  document.getElementById('make').scrollIntoView({
-    behavior: 'smooth',
-    block: 'center'
+  selectedIconType = car.icon_type || 'sedan';
+  selectedIconColor = car.icon_color || '#3267D5';
+
+  document.querySelectorAll('.car-icon-choice').forEach(button => {
+    button.classList.toggle(
+      'selected',
+      button.dataset.iconType === selectedIconType
+    );
   });
+
+  document.querySelectorAll('.car-color-choice').forEach(button => {
+    button.style.outline =
+      button.dataset.iconColor === selectedIconColor
+        ? '3px solid #3267D5'
+        : 'none';
+
+    button.style.outlineOffset = '3px';
+  });
+
+  $('saveCarBtn').textContent = 'Update car';
+  $('garageMessage').textContent =
+    'Editing ' + (car.nickname || (car.make + ' ' + car.model));
+
+  carForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  $('carNickname').focus();
 }
 
   carForm.addEventListener('submit', async event => {
