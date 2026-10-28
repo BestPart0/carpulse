@@ -402,6 +402,11 @@ button#showCarFormBtn.garage-plus-btn {
 button#showCarFormBtn.garage-plus-btn:hover {
   background: #13540B !important;
 }
+  .pro-plan-badge {
+  background: #c8f7c5 !important;
+  color: #14532d !important;
+  border: 1px solid #86efac !important;
+}
 </style>
 </head>
 <body>
@@ -1129,8 +1134,10 @@ try {
   const isPro = subscription?.plan === 'pro' &&
                 subscription?.status === 'active';
 
-  if (planBadge) {
-    planBadge.textContent = isPro ? 'PRO PLAN' : 'FREE PLAN';
+ if (planBadge) {
+  planBadge.textContent = isPro ? 'PRO PLAN' : 'FREE PLAN';
+  planBadge.classList.toggle('pro-plan-badge', isPro);
+}
   }
 } catch (error) {
   console.error('Could not load subscription:', error);
