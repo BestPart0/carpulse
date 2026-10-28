@@ -953,7 +953,20 @@ const car = {
 };
 
 
-      const { error } = await db.from('cars').insert(car);
+      let saveQuery;
+
+if (editingCarId) {
+  saveQuery = db
+    .from('cars')
+    .update(car)
+    .eq('id', editingCarId)
+    .eq('user_id', session.user.id);
+} else {
+  saveQuery = db.from('cars').insert(car);
+}
+
+const { error } = await saveQuery;
+if (error) throw error;
       if (error) throw error;
 
       $('garageMessage').textContent = 'Car saved successfully!';
