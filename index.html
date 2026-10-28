@@ -1235,6 +1235,22 @@ garageList.querySelectorAll('[data-edit-car]').forEach(button => {
     if (selectedCar) startEditCar(selectedCar);
   });
 });
+      garageList.querySelectorAll('[data-use-car]').forEach(button => {
+  button.addEventListener('click', () => {
+    const car = cars.find(car => car.id === button.dataset.useCar);
+    if (!car) return;
+
+    $('make').value = car.make || '';
+    $('model').value = car.model || '';
+    $('year').value = car.year || '';
+    $('engine').value = car.engine || '';
+
+    $('make').scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+  });
+});
     } catch (error) {
       garageList.innerHTML = '<p class="sub">Could not load cars: ' +
         escapeGarageText(error.message) + '</p>';
