@@ -425,11 +425,53 @@ language: lang
     updateMode();
 
     if (session) {
-      title.textContent = 'You’re logged in';
-      description.textContent = 'Your CarPulse account is active.';
-      form.style.display = 'none';
-      switchButton.style.display = 'none';
-      showMessage('Logged in as ' + (session.user.email || 'your account'));
+     
+title.textContent = 'You’re logged in';
+description.textContent = 'Your CarPulse account is active.';
+form.style.display = 'none';
+switchButton.style.display = 'none';
+
+showMessage('Logged in as ' + (session.user.email || 'your account'));
+
+const accountActions = document.createElement('div');
+accountActions.style.cssText = 'display:flex;gap:10px;flex-wrap:wrap;margin-top:14px';
+
+const garageButton = document.createElement('button');
+garageButton.type = 'button';
+garageButton.className = 'btn primary';
+garageButton.textContent = 'My Garage';
+garageButton.addEventListener('click', () => {
+  modal.classList.add('hidden');
+  document.getElementById('garageSection').scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+});
+
+const logoutButton = document.createElement('button');
+logoutButton.type = 'button';
+logoutButton.className = 'btn secondary';
+logoutButton.textContent = 'Log out';
+logoutButton.addEventListener('click', async () => {
+  const { error } = await db.auth.signOut();
+  if (error) {
+    showMessage('Could not log out: ' + error.message, true);
+    return;
+  }
+  modal.classList.add('hidden');
+  form.style.display = 'block';
+  switchButton.style.display = 'block';
+  showMessage('You have logged out.');
+});
+
+accountActions.append(garageButton, logoutButton);
+
+const oldActions = modal.querySelector('#accountActions');
+if (oldActions) oldActions.remove();
+
+accountActions.id = 'accountActions';
+form.parentElement.appendChild(accountActions);
+
     } else {
       form.style.display = 'block';
       switchButton.style.display = 'block';
