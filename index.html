@@ -785,12 +785,49 @@ garageList.innerHTML = '<p class="sub">Loading your cars...</p>';
         </div>
       `).join('');
 
-      garageList.querySelectorAll('[data-use-car]').forEach(button => {
-        button.addEventListener('click', () => {
-          const selectedCar = cars.find(car => car.id === button.dataset.useCar);
-          if (selectedCar) selectGarageCar(selectedCar);
-        });
-      });
+     garageList.querySelectorAll('[data-use-car]').forEach(button => {
+  button.addEventListener('click', () => {
+    const selectedCar = cars.find(car => car.id === button.dataset.useCar);
+    if (selectedCar) selectGarageCar(selectedCar);
+  });
+});
+
+garageList.querySelectorAll('[data-delete-car]').forEach(button => {
+  button.addEventListener('click', async () => {
+    const confirmed = confirm(
+      'Are you sure you want to permanently delete this car?'
+    );
+
+    if (!confirmed) return;
+
+    const { data: { session } } = await db.auth.getSession();
+    if (!session) return;
+
+    button.disabled = true;
+    button.textContent = 'Deleting...';
+
+    const { error } = await db
+      .from('cars')
+      .delete()
+      .eq('id', button.dataset.deleteCar)
+      .eq('user_id', session.user.id);
+
+    if (error) {
+      alert('Could not delete car: ' + error.message);
+      await loadGarage();
+      return;
+    }
+
+    await loadGarage();
+  });
+});
+
+garageList.querySelectorAll('[data-edit-car]').forEach(button => {
+  button.addEventListener('click', () => {
+    const selectedCar = cars.find(car => car.id === button.dataset.editCar);
+    if (selectedCar) startEditCar(selectedCar);
+  });
+});
     } catch (error) {
       garageList.innerHTML = '<p class="sub">Could not load cars: ' +
         escapeGarageText(error.message) + '</p>';
