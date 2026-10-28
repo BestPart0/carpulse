@@ -1292,7 +1292,8 @@ garageList.querySelectorAll('[data-edit-car]').forEach(button => {
   
 function startEditCar(car) {
   editingCarId = car.id;
-
+carForm.classList.remove('hidden');
+$('carFormTitle').textContent = 'Edit car';
   $('carNickname').value = car.nickname || '';
   $('carMake').value = car.make || '';
   $('carModel').value = car.model || '';
