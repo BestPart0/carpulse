@@ -295,6 +295,25 @@ language: lang
 
 </script>
   
+<div id="authModal" class="hidden" style="position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#151b22;border:1px solid #303a45;border-radius:16px;padding:24px;width:100%;max-width:400px;color:#f0f6fc;position:relative">
+    <button id="closeAuth" type="button" style="position:absolute;right:14px;top:12px;background:none;border:0;color:#a8b3bd;font-size:24px;cursor:pointer">×</button>
+    <h2 id="authTitle" style="margin:0 0 8px">Welcome to CarPulse</h2>
+    <p id="authDescription" style="color:#a8b3bd;margin:0 0 20px">Log in or create an account to save your cars and history.</p>
+    <form id="authForm">
+      <label for="authName" id="authNameLabel" style="display:none;font-size:14px">Name</label>
+      <input id="authName" type="text" autocomplete="name" placeholder="Your name" style="display:none;width:100%;box-sizing:border-box;padding:12px;margin:6px 0 12px;border-radius:8px;border:1px solid #303a45;background:#0d1117;color:white">
+      <label for="authEmail" style="font-size:14px">Email</label>
+      <input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required style="width:100%;box-sizing:border-box;padding:12px;margin:6px 0 12px;border-radius:8px;border:1px solid #303a45;background:#0d1117;color:white">
+      <label for="authPassword" style="font-size:14px">Password</label>
+      <input id="authPassword" type="password" autocomplete="current-password" placeholder="Your password" required style="width:100%;box-sizing:border-box;padding:12px;margin:6px 0 16px;border-radius:8px;border:1px solid #303a45;background:#0d1117;color:white">
+      <button id="authSubmit" type="submit" style="width:100%;padding:12px;border:0;border-radius:8px;background:#7ee787;color:#101820;font-weight:700;cursor:pointer">Log in</button>
+    </form>
+    <p id="authMessage" role="status" style="font-size:14px;line-height:1.5;margin:14px 0 0"></p>
+    <button id="authSwitch" type="button" style="margin-top:12px;background:none;border:0;color:#7ee787;cursor:pointer;padding:0">New here? Create an account</button>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
@@ -302,6 +321,138 @@ language: lang
     'https://trcdakfvfhhnbkgrbkym.supabase.co',
     'sb_publishable_2v3QNutbX8Srr4Csqw9ptw_Tsqql70i'
   );
+</script>
+
+<script>
+(() => {
+  const db = window.carpulseSupabase;
+  const $ = id => document.getElementById(id);
+
+  const modal = $('authModal');
+  const form = $('authForm');
+  const nameInput = $('authName');
+  const nameLabel = $('authNameLabel');
+  const emailInput = $('authEmail');
+  const passwordInput = $('authPassword');
+  const title = $('authTitle');
+  const description = $('authDescription');
+  const submit = $('authSubmit');
+  const message = $('authMessage');
+  const switchButton = $('authSwitch');
+  const accountButton = $('accountBtn');
+
+  if (!db || !modal || !accountButton) {
+    console.error('CarPulse account setup is missing a required element.');
+    return;
+  }
+
+  let signupMode = false;
+
+  function showMessage(text, error = false) {
+    message.textContent = text;
+    message.style.color = error ? '#ff8585' : '#7ee787';
+  }
+
+  function updateMode() {
+    title.textContent = signupMode ? 'Create your account' : 'Welcome to CarPulse';
+    description.textContent = signupMode
+      ? 'Create an account to save your cars and history.'
+      : 'Log in to access your saved cars and history.';
+    nameInput.style.display = signupMode ? 'block' : 'none';
+    nameLabel.style.display = signupMode ? 'block' : 'none';
+    nameInput.required = signupMode;
+    passwordInput.autocomplete = signupMode ? 'new-password' : 'current-password';
+    submit.textContent = signupMode ? 'Create account' : 'Log in';
+    switchButton.textContent = signupMode
+      ? 'Already have an account? Log in'
+      : 'New here? Create an account';
+    showMessage('');
+  }
+
+  accountButton.addEventListener('click', async () => {
+    const { data: { session } } = await db.auth.getSession();
+
+    signupMode = false;
+    updateMode();
+
+    if (session) {
+      title.textContent = 'You’re logged in';
+      description.textContent = 'Your CarPulse account is active.';
+      form.style.display = 'none';
+      switchButton.style.display = 'none';
+      showMessage('Logged in as ' + (session.user.email || 'your account'));
+    } else {
+      form.style.display = 'block';
+      switchButton.style.display = 'block';
+    }
+
+    modal.classList.remove('hidden');
+  });
+
+  $('closeAuth').addEventListener('click', () => {
+    modal.classList.add('hidden');
+  });
+
+  modal.addEventListener('click', event => {
+    if (event.target === modal) modal.classList.add('hidden');
+  });
+
+  switchButton.addEventListener('click', () => {
+    signupMode = !signupMode;
+    form.style.display = 'block';
+    switchButton.style.display = 'block';
+    updateMode();
+  });
+
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    submit.disabled = true;
+    submit.textContent = 'Please wait…';
+    showMessage('');
+
+    try {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      if (signupMode) {
+        const { data, error } = await db.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { name: nameInput.value.trim() }
+          }
+        });
+
+        if (error) throw error;
+
+        if (data.session) {
+          showMessage('Account created successfully!');
+        } else {
+          showMessage('Account created. Check your email for a confirmation link before logging in.');
+        }
+      } else {
+        const { error } = await db.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error) throw error;
+
+        showMessage('Login successful!');
+        modal.classList.add('hidden');
+      }
+    } catch (error) {
+      showMessage(error.message || 'Something went wrong. Please try again.', true);
+    } finally {
+      submit.disabled = false;
+      submit.textContent = signupMode ? 'Create account' : 'Log in';
+    }
+  });
+
+  db.auth.onAuthStateChange((event, session) => {
+    accountButton.textContent = session ? 'My account' : 'Log in / Sign up';
+  });
+})();
 </script>
 
 <div style="text-align:center;padding:24px 16px;color:#a8b3bd;font-size:14px">
