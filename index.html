@@ -23,7 +23,10 @@
 <body>
 <div class="wrap" id="app">
   <nav class="nav">
-    <div class="brand"><div class="logo">⌁</div>CarPulse</div>
+    <div class="brand">
+  <img src="logo.png" alt="CarPulse logo" class="brand-logo">
+  CarPulse
+</div>
     <div class="navright"><span class="pill">EARLY ACCESS · EGYPT</span><button class="btn secondary" id="langBtn" type="button">العربية</button></div>
   </nav>
   <header class="hero">
@@ -94,10 +97,10 @@ function setLanguage(next){
    else el.innerHTML=el.dataset[lang];
  });
  $('langBtn').textContent=lang==='en'?'العربية':'English';
- $('make').placeholder=lang==='ar'?'مثال: كيا':'e.g. Kia';
- $('model').placeholder=lang==='ar'?'مثال: بيكانتو':'e.g. Picanto';
- $('year').placeholder=lang==='ar'?'مثال: 2009':'e.g. 2009';
- $('engine').placeholder=lang==='ar'?'مثال: 1.1 بنزين':'e.g. 1.1 petrol';
+ $('make').placeholder=lang==='ar'? 'مثال: تويوتا':'e.g. Toyota';
+ $('model').placeholder=lang==='ar'?'مثال: كورولا':'e.g. Corolla';
+ $('year').placeholder=lang==='ar'?'مثال: 2019':'e.g. 2019';
+ $('engine').placeholder=lang==='ar'?'1600 CC':'e.g. 1,600 CC';
  if(!$('result').classList.contains('show')) $('recordHelp').textContent=text('Allow microphone access when your browser asks.','اسمح باستخدام الميكروفون لما المتصفح يطلب.');
 }
 $('langBtn').addEventListener('click',()=>setLanguage(lang==='en'?'ar':'en'));
