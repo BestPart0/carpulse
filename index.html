@@ -664,10 +664,20 @@ garageList.innerHTML = '<p class="sub">Loading your cars...</p>';
             ${escapeGarageText(car.make)} ${escapeGarageText(car.model)} · ${car.year}
             ${car.engine ? ' · ' + escapeGarageText(car.engine) : ''}
           </p>
-          <button class="btn secondary" type="button"
-            data-use-car="${car.id}" style="margin-top:10px">
-            Use for diagnosis
-          </button>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+  <button class="btn secondary" type="button"
+    data-use-car="${car.id}">
+    Use for diagnosis
+  </button>
+  <button class="btn secondary" type="button"
+    data-edit-car="${car.id}">
+    Edit
+  </button>
+  <button class="btn secondary" type="button"
+    data-delete-car="${car.id}">
+    Delete
+  </button>
+</div>
         </div>
       `).join('');
 
