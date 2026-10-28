@@ -994,7 +994,14 @@ form.parentElement.appendChild(accountActions);
   
   // CarPulse Garage
   const carForm = $('carForm');
+const showCarFormBtn = $('showCarFormBtn');
 
+showCarFormBtn?.addEventListener('click', () => {
+  carForm.classList.remove('hidden');
+  $('carFormTitle').textContent = 'Add a car';
+  $('saveCarBtn').textContent = 'Save car';
+  carForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
   // Car icon picker
   let selectedIconType = 'sedan';
   let editingCarId = null;
