@@ -35,7 +35,7 @@
 
   </nav>
   
-  <section class="card" id="garageSection" style="margin-bottom:20px">
+  <section class="card hidden" id="garageSection" style="margin-bottom:20px">
     <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
       <div>
         <h2>My Garage</h2>
@@ -694,6 +694,7 @@ function selectGarageCar(car) {
 
 
   db.auth.onAuthStateChange((event, session) => {
+    document.getElementById('garageSection').classList.toggle('hidden', !session);
     accountButton.textContent = session ? 'My account' : 'Log in / Sign up';
   });
 })();
