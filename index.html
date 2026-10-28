@@ -1020,6 +1020,11 @@ showCarFormBtn?.addEventListener('click', () => {
   $('saveCarBtn').textContent = 'Save car';
   carForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
+  const closeCarFormBtn = $('closeCarFormBtn');
+
+closeCarFormBtn?.addEventListener('click', () => {
+  carForm.classList.add('hidden');
+});
   // Car icon picker
   let selectedIconType = 'sedan';
   let editingCarId = null;
