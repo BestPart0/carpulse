@@ -34,6 +34,55 @@
 <div class="navright"><span class="pill">EARLY ACCESS · EGYPT</span><button class="btn secondary" id="accountBtn" type="button">Log in / Sign up</button><button class="btn secondary" id="langBtn" type="button">العربية</button></div>
 
   </nav>
+  
+  <section class="card" id="garageSection" style="margin-bottom:20px">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <div>
+        <h2>My Garage</h2>
+        <p class="sub" style="margin:5px 0 0">Save your cars and manage their details.</p>
+      </div>
+      <span class="pill" id="planBadge">FREE PLAN</span>
+    </div>
+
+    <div id="garageMessage" class="status" role="status" style="margin:12px 0"></div>
+
+    <div id="garageList"></div>
+
+    <form id="carForm" style="margin-top:16px">
+      <h3 style="font-size:15px;margin:0 0 12px">Add a car</h3>
+
+      <div class="two">
+        <div class="field">
+          <label for="carNickname">Nickname (optional)</label>
+          <input id="carNickname" placeholder="e.g. Daily driver">
+        </div>
+        <div class="field">
+          <label for="carMake">Make *</label>
+          <input id="carMake" placeholder="e.g. Kia" required>
+        </div>
+      </div>
+
+      <div class="two">
+        <div class="field">
+          <label for="carModel">Model *</label>
+          <input id="carModel" placeholder="e.g. Picanto" required>
+        </div>
+        <div class="field">
+          <label for="carYear">Year *</label>
+          <input id="carYear" type="number" min="1950" max="2035" placeholder="e.g. 2009" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="carEngine">Engine / fuel (optional)</label>
+        <input id="carEngine" placeholder="e.g. 1.1 petrol">
+      </div>
+
+      <button class="btn primary" id="saveCarBtn" type="submit">Save car</button>
+      <button class="btn secondary" id="upgradeBtn" type="button" style="display:none">Explore Pro</button>
+    </form>
+  </section>
+
   <header class="hero">
     <div class="eyebrow" data-en="LESS GUESSING. BETTER REPAIRS." data-ar="تخمين أقل. تصليح أذكى.">LESS GUESSING. BETTER REPAIRS.</div>
     <h1 data-en="Your car is talking.<br><span>Let's listen.</span>" data-ar="عربيتك بتتكلم.<br><span>خلينا نسمعها.</span>">Your car is talking.<br><span>Let's listen.</span></h1>
