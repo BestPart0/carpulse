@@ -498,6 +498,72 @@ language: lang
     }
   });
 
+  // CarPulse Garage
+  const carForm = $('carForm');
+
+  carForm.addEventListener('submit', async event => {
+    event.preventDefault();
+
+    const { data: { session } } = await db.auth.getSession();
+
+    if (!session) {
+      showMessage('Please log in before saving a car.', true);
+      modal.classList.remove('hidden');
+      return;
+    }
+
+    const saveButton = $('saveCarBtn');
+    saveButton.disabled = true;
+    saveButton.textContent = 'Saving...';
+
+    try {
+      const { data: existingCars, error: countError } = await db
+        .from('cars')
+        .select('id')
+        .eq('user_id', session.user.id);
+
+      if (countError) throw countError;
+
+      const { data: subscription, error: planError } = await db
+        .from('subscriptions')
+        .select('plan,status')
+        .eq('user_id', session.user.id)
+        .maybeSingle();
+
+      if (planError) throw planError;
+
+      const isPro = subscription?.plan === 'pro' &&
+                    subscription?.status === 'active';
+
+      if (!isPro && existingCars.length >= 1) {
+        $('garageMessage').textContent =
+          'Free accounts can save one car. Upgrade to Pro for more.';
+        $('upgradeBtn').style.display = 'inline-block';
+        return;
+      }
+
+      const car = {
+        user_id: session.user.id,
+        nickname: $('carNickname').value.trim(),
+        make: $('carMake').value.trim(),
+        model: $('carModel').value.trim(),
+        year: Number($('carYear').value),
+        engine: $('carEngine').value.trim()
+      };
+
+      const { error } = await db.from('cars').insert(car);
+      if (error) throw error;
+
+      $('garageMessage').textContent = 'Car saved successfully!';
+      carForm.reset();
+    } catch (error) {
+      $('garageMessage').textContent = 'Could not save car: ' + error.message;
+    } finally {
+      saveButton.disabled = false;
+      saveButton.textContent = 'Save car';
+    }
+  });
+
   db.auth.onAuthStateChange((event, session) => {
     accountButton.textContent = session ? 'My account' : 'Log in / Sign up';
   });
