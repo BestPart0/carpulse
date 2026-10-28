@@ -922,6 +922,7 @@ switchButton.style.display = 'none';
 showMessage('Logged in as ' + (session.user.email || 'your account'));
 
 const accountActions = document.createElement('div');
+accountActions.id = 'accountActions';
 accountActions.style.cssText = 'display:flex;gap:10px;flex-wrap:wrap;margin-top:14px';
 
 const garageButton = document.createElement('button');
@@ -952,14 +953,15 @@ logoutButton.addEventListener('click', async () => {
   showMessage('You have logged out.');
 });
 
-accountActions.append(garageButton, logoutButton);
-
 const oldActions = modal.querySelector('#accountActions');
 if (oldActions) oldActions.remove();
 
-accountActions.id = 'accountActions';
-form.parentElement.appendChild(accountActions);
+const { data: { session } } = await db.auth.getSession();
 
+if (session) {
+  accountActions.append(garageButton, logoutButton);
+  form.parentElement.appendChild(accountActions);
+}
     } else {
       form.style.display = 'block';
       switchButton.style.display = 'block';
