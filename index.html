@@ -862,14 +862,18 @@ if (planBadge && session) {
         return;
       }
 
-      const car = {
-        user_id: session.user.id,
-        nickname: $('carNickname').value.trim(),
-        make: $('carMake').value.trim(),
-        model: $('carModel').value.trim(),
-        year: Number($('carYear').value),
-        engine: $('carEngine').value.trim()
-      };
+     
+const car = {
+  user_id: session.user.id,
+  nickname: $('carNickname').value.trim(),
+  make: $('carMake').value.trim(),
+  model: $('carModel').value.trim(),
+  year: Number($('carYear').value),
+  engine: $('carEngine').value.trim(),
+  icon_type: selectedIconType,
+  icon_color: selectedIconColor
+};
+
 
       const { error } = await db.from('cars').insert(car);
       if (error) throw error;
