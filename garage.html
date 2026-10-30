@@ -1096,31 +1096,7 @@ closeCarFormBtn?.addEventListener('click', () => {
     defaultColorButton.style.outlineOffset = '3px';
   }
 
- // CarPulse Pro upgrade page
-const upgradeBtn = $('upgradeBtn');
-
-upgradeBtn.addEventListener('click', () => {
-  modal.classList.add('hidden');
-  $('proSection').classList.remove('hidden');
-  $('proSection').scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  });
-});
-
-$('closeProBtn').addEventListener('click', () => {
-  $('proSection').classList.add('hidden');
-  $('garageSection').scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  });
-});
-
-$('proSubscribeBtn').addEventListener('click', () => {
-  $('proMessage').textContent =
-    'Pro subscriptions are not active yet. Monthly and yearly plans are coming soon!';
-});
-async function loadDiagnosisHistory() {
+// CarPulse Pro is not displayed on this page.
   const historyList = $('historyList');
 
   historyList.innerHTML =
