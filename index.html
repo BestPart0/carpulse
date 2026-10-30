@@ -968,11 +968,7 @@ garageButton.type = 'button';
 garageButton.className = 'btn primary';
 garageButton.textContent = 'My Garage';
 garageButton.addEventListener('click', () => {
-  modal.classList.add('hidden');
-  document.getElementById('garageSection').scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  });
+  window.location.href = 'garage.html';
 });
 
 const logoutButton = document.createElement('button');
