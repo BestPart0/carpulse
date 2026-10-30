@@ -1589,6 +1589,24 @@ if (error) throw error;
     </a>
   </div>
 </div>
+<script>
+(() => {
+  const params = new URLSearchParams(window.location.search);
 
+  if (!params.has('make')) return;
+
+  document.getElementById('make').value = params.get('make') || '';
+  document.getElementById('model').value = params.get('model') || '';
+  document.getElementById('year').value = params.get('year') || '';
+  document.getElementById('engine').value = params.get('engine') || '';
+
+  document.querySelector('main.layout')?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+
+  window.history.replaceState({}, document.title, window.location.pathname);
+})();
+</script>
 </body>
 </html>
