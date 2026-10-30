@@ -1062,15 +1062,14 @@ garageList.querySelectorAll('[data-edit-car]').forEach(button => {
     const car = cars.find(car => car.id === button.dataset.useCar);
     if (!car) return;
 
-    $('make').value = car.make || '';
-    $('model').value = car.model || '';
-    $('year').value = car.year || '';
-    $('engine').value = car.engine || '';
-
-    $('make').scrollIntoView({
-      behavior: 'smooth',
-      block: 'center'
+    const params = new URLSearchParams({
+      make: car.make || '',
+      model: car.model || '',
+      year: car.year || '',
+      engine: car.engine || ''
     });
+
+    window.location.href = 'index.html?' + params.toString();
   });
 });
     } catch (error) {
