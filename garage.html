@@ -1,13 +1,1594 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Garage — CarPulse</title>
+  
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-V9PDQQ6EBS');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101820">
+<title>CarPulse — Understand your car</title>
+<style>
+:root{--bg:#0b1117;--panel:#121c25;--panel2:#17242f;--line:#283744;--text:#f3f7fa;--muted:#9eb0bd;--accent:#b8f36b;--accent2:#d8ff9f;--danger:#ff7777;--amber:#ffc66d}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% -10%,#203342 0,transparent 38%),var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}button,input,select{font:inherit}button{cursor:pointer}a{color:var(--accent)}.wrap{max-width:1050px;margin:auto;padding:22px 18px 60px}.nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:44px}.brand{display:flex;gap:10px;align-items:center;font-weight:800;font-size:21px;letter-spacing:-.5px}.brand-logo{width:28px;height:28px;max-width:28px;max-height:28px;object-fit:contain;border-radius:6px;flex-shrink:0;display:block}.navright{display:flex;gap:10px;align-items:center}.pill{border:1px solid var(--line);border-radius:999px;padding:8px 12px;color:var(--muted);font-size:13px;background:#101922}.hero{max-width:750px;margin:0 auto 30px;text-align:center}.eyebrow{color:var(--accent);font-weight:750;text-transform:uppercase;letter-spacing:2px;font-size:11px}.hero h1{font-size:clamp(36px,7vw,62px);line-height:1.04;letter-spacing:-2.8px;margin:14px 0}.hero h1 span{color:var(--accent)}.hero p{color:var(--muted);max-width:590px;margin:0 auto;font-size:17px}.layout{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:start}.card{background:linear-gradient(150deg,#14212b,#101820);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 18px 50px #0002}.card h2{font-size:19px;margin:0 0 5px;letter-spacing:-.4px}.sub{color:var(--muted);font-size:13px;margin:0 0 20px}.step{display:flex;gap:12px;align-items:flex-start}.num{flex:0 0 28px;height:28px;border-radius:9px;background:#273b2b;color:var(--accent);display:grid;place-items:center;font-weight:800;font-size:13px}.field{margin-bottom:16px}.field label{display:block;font-size:13px;color:#c9d5dd;margin-bottom:7px;font-weight:650}.field input,.field select{width:100%;background:#0b131a;border:1px solid #30414d;border-radius:11px;padding:12px;color:var(--text);outline:none}.field input:focus,.field select:focus{border-color:var(--accent)}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.recordbox{border:1px dashed #435866;background:#0b141b;border-radius:15px;padding:18px;text-align:center;margin:6px 0 15px}.mic{width:58px;height:58px;margin:0 auto 10px;border-radius:18px;background:#233a2a;color:var(--accent);display:grid;place-items:center;font-size:25px}.recordbox strong{display:block}.recordbox small{display:block;color:var(--muted);margin:4px 0 14px}.btn{border:0;border-radius:11px;padding:12px 16px;font-weight:800;transition:.15s}.primary{background:var(--accent);color:#10170d}.primary:hover{background:var(--accent2);transform:translateY(-1px)}.secondary{background:#1d2b36;color:var(--text);border:1px solid #344754}.btnrow{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}.btn:disabled{opacity:.45;cursor:not-allowed}.status{font-size:12px;color:var(--muted);margin-top:10px;min-height:18px}.audio{width:100%;margin-top:10px}.checkrow{display:flex;align-items:flex-start;gap:10px;background:#0c151c;border:1px solid #283a46;border-radius:12px;padding:12px;margin-bottom:9px;font-size:14px}.checkrow input{margin-top:5px;accent-color:var(--accent)}.analyze{width:100%;margin-top:10px;font-size:15px}.sidecard{position:sticky;top:18px}.sidehero{background:linear-gradient(135deg,#1c3026,#14211c);border:1px solid #35513a;border-radius:15px;padding:18px;margin:16px 0}.sidehero .big{font-size:30px}.sidehero p{color:#b5c9b8;font-size:13px;margin:4px 0 0}.feature{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid #263641}.feature:last-child{border:0}.featureicon{font-size:19px}.feature strong{display:block;font-size:14px}.feature span{display:block;color:var(--muted);font-size:12px}.result{display:none;margin-top:18px}.result.show{display:block}.resulthead{display:flex;gap:10px;align-items:center}.resulthead h2{margin:0}.resultbadge{font-size:11px;border-radius:999px;padding:5px 9px;background:#47341d;color:var(--amber);font-weight:800}.cause{border:1px solid var(--line);background:#0d161e;border-radius:13px;padding:14px;margin-top:10px}.cause h3{font-size:15px;margin:0 0 5px}.cause p{font-size:13px;color:var(--muted);margin:0}.cause .rank{color:var(--accent);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px}.resultactions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.disclaimer{font-size:12px;color:var(--muted);border-top:1px solid var(--line);margin-top:17px;padding-top:14px}.foot{text-align:center;color:#718391;font-size:12px;margin-top:25px}.arabic{direction:rtl}.hidden{display:none!important}@media(max-width:760px){.layout{grid-template-columns:1fr}.sidecard{position:static}.hero h1{letter-spacing:-1.7px}.nav{margin-bottom:32px}.card{padding:18px}.two{gap:9px}}
+@media(max-width:390px){.two{grid-template-columns:1fr}.hero p{font-size:15px}}
+@media(max-width:600px){#accountBtn{padding:8px 10px;font-size:12px;white-space:nowrap}.navright{gap:6px}.navright .pill{font-size:10px}}
+
+/* CarPulse garage form — integrated vehicle selector */
+#carForm {
+  margin-top: 24px !important;
+  padding: 22px;
+  border: 1px solid var(--border, rgba(255,255,255,.12));
+  border-radius: 18px;
+  background: var(--surface, rgba(255,255,255,.025));
+}
+
+#carForm .garage-form-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+#carForm .garage-eyebrow {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  opacity: .65;
+}
+
+#carForm .garage-form-heading h3 {
+  margin: 0 0 6px;
+  font-size: 22px;
+  letter-spacing: -.5px;
+}
+
+#carForm .garage-form-mark {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(50,103,213,.12);
+  border: 1px solid rgba(50,103,213,.25);
+  color: #6d9aff;
+  font-size: 24px;
+}
+
+#carForm .garage-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+#carForm .garage-fields .field {
+  min-width: 0;
+  margin: 0;
+}
+
+#carForm .garage-nickname,
+#carForm .garage-engine {
+  grid-column: 1 / -1;
+}
+
+#carForm .garage-customize {
+  margin-top: 26px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+
+#carForm .garage-section-heading h4,
+#carForm .garage-color-heading h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+#carForm .garage-section-heading p {
+  margin: 5px 0 0;
+  font-size: 12px;
+}
+
+#carForm .garage-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+#carForm .car-icon-choice {
+  display: flex;
+  min-width: 0;
+  min-height: 82px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 5px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 12px;
+  background: rgba(255,255,255,.025);
+  color: inherit;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, transform .18s ease;
+}
+
+#carForm .car-icon-choice:hover {
+  border-color: rgba(109,154,255,.6);
+  transform: translateY(-1px);
+}
+
+#carForm .car-icon-choice.selected {
+  border-color: #5688f5;
+  background: rgba(50,103,213,.14);
+  box-shadow: inset 0 0 0 1px rgba(86,136,245,.18);
+}
+
+#carForm .garage-car-emoji {
+  font-size: 25px;
+  line-height: 1;
+}
+
+#carForm .garage-color-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+#carForm .garage-color-grid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 13px;
+  background: rgba(0,0,0,.08);
+}
+
+#carForm .car-color-choice {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 30px;
+  aspect-ratio: 1;
+  justify-self: center;
+  padding: 0;
+  border: 3px solid var(--surface, #181b22);
+  border-radius: 50%;
+  background: var(--swatch);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.16);
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+#carForm .car-color-choice:hover {
+  transform: scale(1.12);
+}
+
+#carForm .car-color-choice.is-picked {
+  box-shadow: 0 0 0 2px #7da4ff;
+}
+
+#carForm .garage-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+#carForm .garage-form-actions .btn {
+  min-height: 44px;
+}
+
+@media (max-width: 520px) {
+  #carForm {
+    padding: 16px;
+  }
+
+  #carForm .garage-fields {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  #carForm .garage-nickname,
+  #carForm .garage-engine {
+    grid-column: auto;
+  }
+
+  #carForm .garage-icon-grid {
+    gap: 7px;
+  }
+
+  #carForm .car-icon-choice {
+    min-height: 74px;
+    font-size: 11px;
+  }
+
+  #carForm .garage-color-grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 10px 6px;
+    padding: 12px 8px;
+  }
+
+  #carForm .garage-form-actions .btn {
+    width: 100%;
+  }
+}
+/* Saved vehicle cards — matched to the garage form */
+.garage-car-card {
+  position: relative;
+  margin: 12px 0;
+  padding: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border, rgba(255,255,255,.12));
+  border-radius: 17px;
+  background: var(--surface, rgba(255,255,255,.025));
+}
+
+.garage-car-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--car-accent, #3267D5);
+}
+
+.garage-car-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.garage-car-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 62px;
+  width: 62px;
+  height: 58px;
+  color: var(--car-accent, #3267D5);
+  border: 1px solid color-mix(in srgb, var(--car-accent, #3267D5) 35%, transparent);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--car-accent, #3267D5) 10%, transparent);
+}
+
+.garage-car-title {
+  min-width: 0;
+}
+
+.garage-car-label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 1.5px;
+  opacity: .6;
+}
+
+.garage-car-title h3 {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.garage-car-title p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  opacity: .7;
+}
+
+.garage-car-details {
+  display: grid;
+  grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr);
+  gap: 10px;
+  margin-top: 19px;
+  padding: 13px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  background: rgba(0,0,0,.07);
+}
+
+.garage-car-detail {
+  min-width: 0;
+}
+
+.garage-car-detail span {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  opacity: .6;
+}
+
+.garage-car-detail strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.garage-car-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.garage-car-actions .btn {
+  min-height: 40px;
+}
+
+.garage-car-actions [data-use-car] {
+  flex: 1 1 150px;
+}
+
+.garage-car-actions [data-edit-car],
+.garage-car-actions [data-delete-car] {
+  flex: 0 0 auto;
+}
+
+.garage-car-actions .garage-delete-btn {
+  opacity: .8;
+}
+
+@media (max-width: 520px) {
+  .garage-car-card {
+    padding: 16px;
+  }
+
+  .garage-car-details {
+    gap: 8px;
+    padding: 11px;
+  }
+
+  .garage-car-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .garage-car-actions [data-use-car] {
+    grid-column: 1 / -1;
+  }
+
+  .garage-car-actions .btn {
+    width: 100%;
+  }
+}
+  .garage-form-close {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.garage-form-close:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+  /* Force the Garage + button to match CarPulse */
+button#showCarFormBtn.garage-plus-btn {
+  background: #289566 !important;
+  color: #ffffff !important;
+  border: 1px solid #207A53 !important;
+  border-radius: 12px;
+  appearance: none;
+  -webkit-appearance: none;
+  box-shadow: none;
+}
+
+button#showCarFormBtn.garage-plus-btn:hover {
+  background: #207A53 !important;
+}
+
+button#showCarFormBtn.garage-plus-btn:hover {
+  background: #13540B !important;
+}
+  .pro-plan-badge {
+  background: #c8f7c5 !important;
+  color: #14532d !important;
+  border: 1px solid #86efac !important;
+}
+</style>
 </head>
 <body>
-  <h1>My Garage</h1>
-  <p>CarPulse garage page coming soon.</p>
-  <a href="index.html">Back to CarPulse</a>
+<div class="wrap" id="app">
+  <nav class="nav">
+    <div class="brand">
+  <img src="logo.png" alt="CarPulse logo" class="brand-logo">
+  CarPulse
+</div>
+
+<div class="navright"><span class="pill">EARLY ACCESS · EGYPT</span><button class="btn secondary" id="accountBtn" type="button">Log in / Sign up</button><button class="btn secondary" id="langBtn" type="button">العربية</button></div>
+
+  </nav>
+  
+  <section class="card hidden" id="garageSection" style="margin-bottom:20px">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <div>
+        <h2>My Garage</h2>
+        <p class="sub" style="margin:5px 0 0">Save your cars and manage their details.</p>
+      </div>
+      <span class="pill" id="planBadge">FREE PLAN</span>
+    </div>
+
+    <div id="garageMessage" class="status" role="status" style="margin:12px 0"></div>
+
+    <div id="garageList"></div>
+    <div id="diagnosisHistory" style="margin-top:30px;padding-top:22px;border-top:1px solid #283744">
+  <h2>Diagnosis History</h2>
+  <p class="sub">Your previous AI reports, saved to your account.</p>
+  <div id="historyList">
+    <p class="sub">Loading your diagnosis history...</p>
+  </div>
+</div>
+<div class="garage-add-row">
+  <span>Add another vehicle</span>
+  <button type="button" id="showCarFormBtn" class="garage-plus-btn" aria-label="Add a car">+</button>
+</div>
+    
+<form id="carForm" class="garage-form hidden">
+  <div class="garage-form-heading">
+    <div>
+      <span class="garage-eyebrow">YOUR GARAGE</span>
+      <h3 id="carFormTitle">Add a car</h3>
+      <p class="sub">Set up your vehicle for faster diagnoses.</p>
+    </div>
+    <button type="button" id="closeCarFormBtn" class="garage-form-close" aria-label="Close form">×</button>
+  </div>
+
+  <div class="garage-fields">
+    <div class="field garage-nickname">
+      <label for="carNickname">Nickname <span class="sub">(optional)</span></label>
+      <input id="carNickname" placeholder="e.g. Daily driver">
+    </div>
+
+    <div class="field">
+      <label for="carMake">Make *</label>
+      <input id="carMake" placeholder="e.g. Toyota" required>
+    </div>
+
+    <div class="field">
+      <label for="carModel">Model *</label>
+      <input id="carModel" placeholder="e.g. Corolla" required>
+    </div>
+
+    <div class="field">
+      <label for="carYear">Year *</label>
+      <input id="carYear" type="number" min="1950" max="2035" placeholder="2019" required>
+    </div>
+
+    <div class="field garage-engine">
+      <label for="carEngine">Engine / fuel <span class="sub">(optional)</span></label>
+      <input id="carEngine" placeholder="e.g. 1600 CC petrol">
+    </div>
+  </div>
+
+  <div class="garage-customize">
+    <div class="garage-section-heading">
+      <div>
+        <h4>Vehicle style</h4>
+        <p class="sub">Choose the silhouette for your car.</p>
+      </div>
+    </div>
+
+    <div class="garage-icon-grid">
+      <button type="button" class="car-icon-choice selected" data-icon-type="sedan">
+        <span class="garage-car-emoji">🚘</span>
+        <span>Sedan</span>
+      </button>
+      <button type="button" class="car-icon-choice" data-icon-type="suv">
+        <span class="garage-car-emoji">🚙</span>
+        <span>SUV</span>
+      </button>
+      <button type="button" class="car-icon-choice" data-icon-type="hatchback">
+        <span class="garage-car-emoji">🚗</span>
+        <span>Hatchback</span>
+      </button>
+      <button type="button" class="car-icon-choice" data-icon-type="coupe">
+        <span class="garage-car-emoji">🏎️</span>
+        <span>Coupe</span>
+      </button>
+    </div>
+
+    <div class="garage-color-heading">
+      <h4>Icon color</h4>
+      <span class="sub">Pick a color</span>
+    </div>
+
+    <div class="garage-color-grid">
+      <button type="button" class="car-color-choice is-picked" data-icon-color="#3267D5" aria-label="Blue" title="Blue" style="--swatch:#3267D5"></button>
+      <button type="button" class="car-color-choice" data-icon-color="#D94343" aria-label="Red" title="Red" style="--swatch:#D94343"></button>
+      <button type="button" class="car-color-choice" data-icon-color="#242424" aria-label="Black" title="Black" style="--swatch:#242424"></button>
+      <button type="button" class="car-color-choice" data-icon-color="#9AA0A8" aria-label="Silver" title="Silver" style="--swatch:#9AA0A8"></button>
+      <button type="button" class="car-color-choice" data-icon-color="#F4F4F4" aria-label="White" title="White" style="--swatch:#F4F4F4"></button>
+      <button type="button" class="car-color-choice" data-icon-color="#289566" aria-label="Green" title="Green" style="--swatch:#289566"></button>
+      <button type="button" class="car-color-choice" data-icon-color="#D9A52E" aria-label="Gold" title="Gold" style="--swatch:#D9A52E"></button>
+      <button type="button" class="car-color-choice" data-icon-color="#E87832" aria-label="Orange" title="Orange" style="--swatch:#E87832"></button>
+      <button type="button" class="car-color-choice" data-icon-color="#8855BB" aria-label="Purple" title="Purple" style="--swatch:#8855BB"></button>
+      <button type="button" class="car-color-choice" data-icon-color="#D66A9C" aria-label="Pink" title="Pink" style="--swatch:#D66A9C"></button>
+      <button type="button" class="car-color-choice" data-icon-color="#199C9C" aria-label="Teal" title="Teal" style="--swatch:#199C9C"></button>
+      <button type="button" class="car-color-choice" data-icon-color="#193A70" aria-label="Navy" title="Navy" style="--swatch:#193A70"></button>
+      <button type="button" class="car-color-choice" data-icon-color="#875B43" aria-label="Brown" title="Brown" style="--swatch:#875B43"></button>
+      <button type="button" class="car-color-choice" data-icon-color="#E8C63E" aria-label="Yellow" title="Yellow" style="--swatch:#E8C63E"></button>
+      <button type="button" class="car-color-choice" data-icon-color="#802D43" aria-label="Burgundy" title="Burgundy" style="--swatch:#802D43"></button>
+      <button type="button" class="car-color-choice" data-icon-color="#48BDE0" aria-label="Cyan" title="Cyan" style="--swatch:#48BDE0"></button>
+    </div>
+  </div>
+
+  <div class="garage-form-actions">
+    <button class="btn primary" id="saveCarBtn" type="submit">Save car</button>
+    <button class="btn secondary" id="upgradeBtn" type="button" style="display:none">Explore Pro</button>
+  </div>
+</form>
+
+  </section>
+
+  
+<section class="card hidden" id="proSection" style="margin-bottom:20px">
+  <button class="btn secondary" id="closeProBtn" type="button">← Back to CarPulse</button>
+
+  <div style="text-align:center;padding:24px 8px">
+    <span class="pill">CARPULSE PRO</span>
+    <h2 style="font-size:30px;margin:16px 0 8px">Know your car better.</h2>
+    <p class="sub">More cars. Deeper insights. Smarter maintenance.</p>
+  </div>
+
+  <div class="two">
+    <div class="card">
+      <h3>Free</h3>
+      <h2>$0 <span class="sub">/ forever</span></h2>
+      <p>✓ 1 saved car</p>
+      <p>✓ AI sound diagnosis</p>
+      <p>✓ Limited history</p>
+    </div>
+
+    <div class="card">
+      <h3>Pro ⭐</h3>
+      <h2>Coming soon</h2>
+      <p>✓ Multiple saved cars</p>
+      <p>✓ Full diagnostic history</p>
+      <p>✓ Recurring problem tracking</p>
+      <p>✓ Deeper AI explanations</p>
+      <p>✓ Maintenance reminders</p>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:20px">
+    <button class="btn primary" id="proSubscribeBtn" type="button">Get CarPulse Pro</button>
+    <p class="sub" id="proMessage" role="status">Monthly and yearly plans coming soon.</p>
+  </div>
+</section>
+
+  <header class="hero">
+    <div class="eyebrow" data-en="LESS GUESSING. BETTER REPAIRS." data-ar="تخمين أقل. تصليح أذكى.">LESS GUESSING. BETTER REPAIRS.</div>
+    <h1 data-en="Your car is talking.<br><span>Let's listen.</span>" data-ar="عربيتك بتتكلم.<br><span>خلينا نسمعها.</span>">Your car is talking.<br><span>Let's listen.</span></h1>
+    <p data-en="Record a strange noise, tell us what your car is doing, and get possible causes plus the next steps to take." data-ar="سجّل الصوت الغريب، واحكيلنا العربية بتعمل إيه، واعرف الأسباب المحتملة والخطوة الجاية.">Record a strange noise, tell us what your car is doing, and get possible causes plus the next steps to take.</p>
+  </header>
+  <main class="layout">
+    <section class="card">
+      <div class="step"><div class="num">01</div><div><h2 data-en="Tell us about your car" data-ar="قولنا معلومات عن عربيتك">Tell us about your car</h2><p class="sub" data-en="A few details help narrow down the possibilities." data-ar="شوية تفاصيل بتساعدنا نضيّق الاحتمالات.">A few details help narrow down the possibilities.</p></div></div>
+      <div class="two">
+        <div class="field"><label data-en="Make" data-ar="الماركة">Make</label><input id="make" placeholder="e.g. Toyota" value=""></div>
+        <div class="field"><label data-en="Model" data-ar="الموديل">Model</label><input id="model" placeholder="e.g. Corolla"></div>
+      </div>
+      <div class="two">
+        <div class="field"><label data-en="Year" data-ar="سنة الصنع">Year</label><input id="year" type="number" min="1950" max="2035" placeholder="e.g. 2019"></div>
+        <div class="field"><label data-en="Engine / fuel (optional)" data-ar="الموتور / نوع الوقود (اختياري)">Engine / fuel (optional)</label><input id="engine" placeholder="e.g. 1600 CC"></div>
+      </div>
+      <div class="field"><label data-en="When do you hear the noise?" data-ar="الصوت بيظهر إمتى؟">When do you hear the noise?</label>
+        <select id="when">
+          <option value="idle" data-en="While idling / stopped" data-ar="والعربية واقفة / على السلانسيه">While idling / stopped</option>
+          <option value="start" data-en="When starting the engine" data-ar="وقت تدوير الموتور">When starting the engine</option>
+          <option value="accel" data-en="When accelerating / driving" data-ar="مع التسارع / أثناء السواقة">When accelerating / driving</option>
+          <option value="brake" data-en="When braking" data-ar="وقت الفرامل">When braking</option>
+          <option value="turn" data-en="When turning the steering wheel" data-ar="وقت لف الدركسيون">When turning the steering wheel</option>
+          <option value="bumps" data-en="Over bumps / rough roads" data-ar="على المطبات / الطرق المكسّرة">Over bumps / rough roads</option>
+        </select>
+      </div>
+      <div class="step" style="margin-top:20px"><div class="num">02</div><div><h2 data-en="Record the sound" data-ar="سجّل الصوت">Record the sound</h2><p class="sub" data-en="Aim your phone safely toward the sound. Never put your hands near moving parts." data-ar="وجّه الموبايل ناحية الصوت بأمان. متقربش إيدك من أي أجزاء متحركة.">Aim your phone safely toward the sound. Never put your hands near moving parts.</p></div></div>
+      <div class="recordbox">
+        <div class="mic">🎙</div>
+        <strong id="recordTitle" data-en="Capture up to 20 seconds" data-ar="سجّل لحد ٢٠ ثانية">Capture up to 20 seconds</strong>
+        <small id="recordHelp" data-en="Allow microphone access when your browser asks." data-ar="اسمح باستخدام الميكروفون لما المتصفح يطلب.">Allow microphone access when your browser asks.</small>
+        <div class="btnrow"><button class="btn primary" id="recordBtn" type="button">● <span data-en="Start recording" data-ar="ابدأ التسجيل">Start recording</span></button><button class="btn secondary hidden" id="stopBtn" type="button" data-en="Stop" data-ar="إيقاف">Stop</button></div>
+        <audio id="player" class="audio hidden" controls></audio>
+        <div class="status" id="recordStatus" aria-live="polite"></div>
+      </div>
+      <div class="step" style="margin-top:20px"><div class="num">03</div><div><h2 data-en="What else do you notice?" data-ar="إيه كمان اللي لاحظته؟">What else do you notice?</h2><p class="sub" data-en="Select anything that applies." data-ar="اختار كل اللي بينطبق على عربيتك.">Select anything that applies.</p></div></div>
+      <label class="checkrow"><input type="checkbox" value="shake"> <span data-en="Engine or car shakes / vibrates" data-ar="الموتور أو العربية بيتهزوا">Engine or car shakes / vibrates</span></label>
+      <label class="checkrow"><input type="checkbox" value="warning"> <span data-en="Warning light is on" data-ar="في لمبة تحذير منوّرة">Warning light is on</span></label>
+      <label class="checkrow"><input type="checkbox" value="power"> <span data-en="Loss of power / struggling to accelerate" data-ar="سحب ضعيف / صعوبة في التسارع">Loss of power / struggling to accelerate</span></label>
+      <label class="checkrow"><input type="checkbox" value="smell"> <span data-en="Burning smell, fuel smell, or smoke" data-ar="ريحة حريق أو بنزين أو في دخان">Burning smell, fuel smell, or smoke</span></label>
+      <label class="checkrow"><input type="checkbox" value="metal"> <span data-en="Metallic knocking / grinding" data-ar="خبط معدن أو صوت طحن">Metallic knocking / grinding</span></label>
+      <label class="checkrow"><input type="checkbox" value="none"> <span data-en="None of these" data-ar="ولا حاجة من دول">None of these</span></label>
+      <button class="btn primary analyze" id="analyzeBtn" type="button" data-en="Check possible causes →" data-ar="اعرف الأسباب المحتملة ←">Check possible causes →</button>
+      <div class="result" id="result" aria-live="polite"></div>
+    </section>
+    <aside class="card sidecard">
+      <h2 data-en="How CarPulse works" data-ar="CarPulse بيشتغل إزاي">How CarPulse works</h2>
+      <p class="sub" data-en="Built to help you make a more informed next move." data-ar="مصمم يساعدك تاخد قرار أذكى.">Built to help you make a more informed next move.</p>
+      <div class="sidehero"><div class="big">🚘 + 🎙️</div><strong data-en="Sound + symptoms" data-ar="الصوت + الأعراض">Sound + symptoms</strong><p data-en="The recording is saved only in this browser prototype. This version uses your answers—not AI audio recognition—to suggest causes." data-ar="التسجيل موجود في المتصفح بس في النسخة التجريبية دي. الاقتراحات مبنية على إجاباتك، مش تحليل ذكي للصوت لسه.">The recording is saved only in this browser prototype. This version uses your answers—not AI audio recognition—to suggest causes.</p></div>
+      <div class="feature"><div class="featureicon">🔎</div><div><strong data-en="Possible causes" data-ar="الأسباب المحتملة">Possible causes</strong><span data-en="A shortlist, not a pretend certainty." data-ar="احتمالات مش تشخيص مؤكد.">A shortlist, not a pretend certainty.</span></div></div>
+      <div class="feature"><div class="featureicon">🧰</div><div><strong data-en="Practical next steps" data-ar="خطوات عملية">Practical next steps</strong><span data-en="Know what you can check—and when to stop." data-ar="اعرف إيه اللي تقدر تراجعه وإمتى توقف.">Know what you can check—and when to stop.</span></div></div>
+      <div class="feature"><div class="featureicon">📍</div><div><strong data-en="Nearby repair shops" data-ar="ورش قريبة منك">Nearby repair shops</strong><span data-en="Opens a map search using the location you choose." data-ar="بيفتح بحث خرائط حسب المكان اللي تختاره.">Opens a map search using the location you choose.</span></div></div>
+      <div class="disclaimer" data-en="Safety first: if you see smoke, smell strong fuel, hear severe knocking, or have brake/steering problems, stop in a safe place and seek professional help. This prototype cannot confirm a diagnosis." data-ar="الأمان أولاً: لو في دخان، ريحة بنزين قوية، خبط شديد، أو مشكلة فرامل/دركسيون، اركن في مكان آمن واطلب مساعدة متخصص. النسخة دي مش بتأكد التشخيص.">Safety first: if you see smoke, smell strong fuel, hear severe knocking, or have brake/steering problems, stop in a safe place and seek professional help. This prototype cannot confirm a diagnosis.</div>
+    </aside>
+  </main>
+  <footer class="foot">CarPulse prototype · Built for Egypt, with care. No account required.</footer>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+let recorder, chunks=[], stream, timer, seconds=0, audioBlob=null, lang='en';
+function text(en,ar){return lang==='ar'?ar:en}
+function setLanguage(next){
+ lang=next;document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+ document.querySelectorAll('[data-en][data-ar]').forEach(el=>{
+   if(el.tagName==='OPTION') el.textContent=el.dataset[lang];
+   else el.innerHTML=el.dataset[lang];
+ });
+ $('langBtn').textContent=lang==='en'?'العربية':'English';
+ $('make').placeholder=lang==='ar'? 'مثال: تويوتا':'e.g. Toyota';
+ $('model').placeholder=lang==='ar'?'مثال: كورولا':'e.g. Corolla';
+ $('year').placeholder=lang==='ar'?'مثال: 2019':'e.g. 2019';
+ $('engine').placeholder=lang==='ar'?'1600 CC':'e.g. 1,600 CC';
+ if(!$('result').classList.contains('show')) $('recordHelp').textContent=text('Allow microphone access when your browser asks.','اسمح باستخدام الميكروفون لما المتصفح يطلب.');
+}
+$('langBtn').addEventListener('click',()=>setLanguage(lang==='en'?'ar':'en'));
+$('recordBtn').addEventListener('click',async()=>{
+ if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!window.MediaRecorder){
+  $('recordStatus').textContent=text('Recording needs a modern browser and a secure (HTTPS) website. Publish this page first, then try again.','التسجيل محتاج متصفح حديث وموقع آمن (HTTPS). انشر الموقع الأول وجرب تاني.');return;
+ }
+ try{
+  stream=await navigator.mediaDevices.getUserMedia({audio:true});chunks=[];
+  let options={};if(MediaRecorder.isTypeSupported('audio/webm;codecs=opus'))options.mimeType='audio/webm;codecs=opus';
+  recorder=new MediaRecorder(stream,options);
+  recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
+  recorder.onstop=()=>{
+   audioBlob=new Blob(chunks,{type:recorder.mimeType||'audio/webm'});
+   $('player').src=URL.createObjectURL(audioBlob);$('player').classList.remove('hidden');
+   $('recordStatus').textContent=text('Recording ready. Playback stays in this browser; it is not uploaded.','التسجيل جاهز. تقدر تسمعه هنا؛ مش بيترفع على أي سيرفر.');
+   stream.getTracks().forEach(t=>t.stop());$('recordBtn').disabled=false;$('stopBtn').classList.add('hidden');
+  };
+  recorder.start();seconds=0;$('recordBtn').disabled=true;$('stopBtn').classList.remove('hidden');
+  $('recordTitle').textContent=text('Recording… 0 / 20 seconds','بيسجّل… ٠ / ٢٠ ثانية');
+  $('recordStatus').textContent=text('Keep the phone safely away from moving parts.','خلي الموبايل بعيد بأمان عن الأجزاء المتحركة.');
+  timer=setInterval(()=>{seconds++;$('recordTitle').textContent=text(`Recording… ${seconds} / 20 seconds`,`بيسجّل… ${seconds} / ٢٠ ثانية`);if(seconds>=20)stopRecording()},1000);
+ }catch(e){$('recordStatus').textContent=text('Microphone permission was denied or unavailable. You can still use the symptom checker.','إذن الميكروفون مرفوض أو مش متاح. تقدر تستخدم فحص الأعراض عادي.');}
+});
+function stopRecording(){clearInterval(timer);if(recorder&&recorder.state!=='inactive')recorder.stop();$('recordTitle').textContent=text('Capture up to 20 seconds','سجّل لحد ٢٠ ثانية');$('recordBtn').disabled=false}
+$('stopBtn').addEventListener('click',stopRecording);
+function getCauses(when,symptoms){
+ let out=[];
+ const add=(rank,titleAr,titleEn,whyAr,whyEn,fixAr,fixEn)=>out.push({rank,titleAr,titleEn,whyAr,whyEn,fixAr,fixEn});
+ if(symptoms.includes('smell')) add('urgent','تسريب وقود أو مشكلة كهرباء/سخونة','Fuel leak or electrical/overheating issue','وجود ريحة قوية أو دخان ممكن يشير لخطر. أوقف العربية في مكان آمن وما تدورش الموتور لو في ريحة بنزين قوية أو دخان.','A strong smell or smoke can indicate a safety risk. Stop safely; do not restart if there is a strong fuel smell or smoke.','اطلب مساعدة متخصصة أو ونش.','Seek professional assistance or a tow.');
+ if(symptoms.includes('metal')) add('high','تآكل أو مشكلة ميكانيكية داخلية/جزء بيلمس جزء','Mechanical wear or metal-to-metal contact','صوت خبط أو طحن معدني محتاج فحص مباشر؛ الصوت وحده مش كفاية لتحديد القطعة.','Metallic knocking or grinding needs direct inspection; audio alone cannot identify the part.','لو الصوت شديد أو جديد، بلاش تكمل سواقة قبل الفحص.','If severe or new, avoid driving until inspected.');
+ if(when==='brake') add('high','تيل/طنابير الفرامل أو جزء مرتخي','Brake pads/rotors or a loose component','الصوت المرتبط بالفرامل ممكن يكون من التيل أو الطنابير أو جزء مرتخي.','Brake-related noise may come from pads, rotors, or a loose component.','لو الفرامل ضعفت أو الصوت طحن مستمر، ما تسوقش العربية؛ اطلب فحصًا.','If braking performance is reduced or grinding persists, do not drive; get it inspected.');
+ if(when==='turn') add('medium','مكونات الدركسيون أو العفشة أو الكاوتش','Steering, suspension, or tire components','الصوت وقت لف الدركسيون ممكن يكون من العفشة أو مكونات التوجيه أو الكاوتش.','Noise while steering can involve suspension, steering components, or tires.','افحص وجود تلف واضح في الكاوتش، واطلب فحص عفشة/دركسيون.','Look for visible tire damage and arrange a steering/suspension inspection.');
+ if(when==='bumps') add('medium','جزء في العفشة أو حاجة مرتخية','Suspension component or loose part','الخبط على المطبات ممكن يرتبط بجلب أو وصلات أو جزء مرتخي، لكنه محتاج فحص.','Clunks over bumps can involve bushings, links, or a loose part; inspection is needed.','خلي فني يفحص العفشة؛ ما تدخلش تحت عربية مرفوعة من غير تجهيز آمن.','Have a mechanic inspect the suspension; never get under an improperly supported car.');
+ if(when==='start') add('medium','البطارية/المارش أو سير أو ملحقات الموتور','Battery/starter or engine belt/accessories','صوت التدوير بيعتمد على نوعه: تكتكة، طحن، أو صرير ليهم أسباب مختلفة.','Starting noises vary: clicking, grinding, and squealing can have different causes.','لاحظ هل الموتور بيلف ببطء أو الصوت بيختفي بعد التشغيل، واطلب فحصًا.','Note whether cranking is slow or the noise stops after startup, then get it checked.');
+ if(when==='accel') add('medium','سير أو ملحقات الموتور أو مشكلة احتراق/عادم','Belt/accessory, combustion, or exhaust issue','الصوت مع التسارع ممكن يتأثر بالحمل أو دوران الموتور أو العادم.','Noise during acceleration can vary with engine load, RPM, or exhaust flow.','ما تضغطش على الموتور لتكرار الصوت؛ سجّل الظروف واطلب فحصًا.','Do not repeatedly rev the engine to reproduce it; note conditions and get it checked.');
+ if(when==='idle'&&symptoms.includes('shake')) add('medium','تقطيع احتراق (misfire)، قاعدة موتور، أو مشكلة سلانسيه','Engine misfire, engine mount, or idle-control issue','اهتزاز الموتور وهو واقف ممكن يكون من احتراق غير منتظم أو قاعدة موتور أو تحكم السلانسيه.','Engine vibration at idle may come from a misfire, engine mount, or idle-control issue.','ابدأ بفحص كمبيوتر OBD-II والبوجيهات/الكويلات حسب الأكواد؛ ما تغيّرش قطع بالتخمين.','Start with an OBD-II scan and inspect plugs/coils based on codes; avoid replacing parts by guesswork.');
+ if(symptoms.includes('warning')) add('medium','كود عطل مخزّن في كمبيوتر العربية','Stored engine or vehicle fault code','لمبة التحذير بتساعد في تحديد اتجاه الفحص، لكنها مش تشخيص لوحدها.','A warning light helps narrow the investigation but is not a diagnosis by itself.','اقرأ كود العطل بجهاز OBD-II. لو لمبة الزيت أو الحرارة أو لمبة موتور بتومض، اركن بأمان وراجع دليل العربية.','Read the code with an OBD-II scanner. If oil/temperature warning appears or the check-engine light flashes, stop safely and consult the manual.');
+ if(symptoms.includes('power')) add('medium','مشكلة احتراق أو هواء/وقود أو عادم','Combustion, air/fuel, or exhaust issue','ضعف السحب مع صوت غريب ممكن يكون له أسباب متعددة ولازم يتربط بالأكواد والفحص.','Power loss with unusual noise has several possible causes and needs codes and inspection.','تجنب الضغط العالي على الموتور لحد ما يتفحص.','Avoid heavy acceleration until it is inspected.');
+ if(out.length<3&&when==='idle') add('low','سير أو ملحقات أو جزء مرتخي','Belt/accessory or loose component','صوت السلانسيه ممكن يطلع من أكتر من مصدر، والتحديد محتاج سماع وفحص مباشر.','Idle noises can come from multiple sources and need listening and inspection.','سجّل هل الصوت بيتغير مع التكييف أو مع زيادة RPM بشكل بسيط وآمن.','Note whether the sound changes with A/C or a small, safe RPM change.');
+ if(out.length<3) add('low','مصدر صوت خارجي أو جزء مرتخي','External noise or loose component','ممكن الصوت يكون من غطاء أو جزء خارجي أو ملحق، وليس من داخل الموتور.','The noise may come from a cover, loose part, or accessory rather than inside the engine.','افحص بصريًا والعربية مطفية وباردة فقط، واترك الفحص الميكانيكي للفني.','Only visually inspect with the engine off and cool; leave mechanical checks to a professional.');
+ return out.slice(0,3);
+}
+
+$('analyzeBtn').addEventListener('click', async () => {
+  const btn = $('analyzeBtn');
+  const result = $('result');
+
+  if (!audioBlob) {
+    result.classList.add('show');
+    result.textContent = text(
+      'Please record a car sound first, then tap the analysis button.',
+      'سجّل صوت العربية الأول، وبعدها اضغط على زر التحليل.'
+    );
+    result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+
+  if (audioBlob.size > 5 * 1024 * 1024) {
+    result.classList.add('show');
+    result.textContent = text(
+      'This recording is too large. Please record a shorter clip.',
+      'حجم التسجيل كبير. سجّل مقطع أقصر وجرب تاني.'
+    );
+    return;
+  }
+
+  btn.disabled = true;
+  result.classList.add('show');
+  result.textContent = text(
+    'Analyzing your recording with AI… Please wait.',
+    'الذكاء الاصطناعي بيحلل التسجيل… استنى شوية.'
+  );
+  result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  try {
+    const audioBase64 = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(
+        String(reader.result).split(',')[1]
+      );
+      reader.onerror = () => reject(new Error('Could not read audio.'));
+      reader.readAsDataURL(audioBlob);
+    });
+
+    const carDetails = [
+      $('make').value,
+      $('model').value,
+      $('year').value,
+      $('engine').value
+    ].filter(Boolean).join(' ') || 'Not provided';
+
+    const symptoms = [
+      ...document.querySelectorAll('.checkrow input:checked')
+    ].map(input => input.parentElement.innerText.trim());
+
+    const response = await fetch(
+      'https://ancient-math-f552.2212rezk2212.workers.dev/',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+       
+body: JSON.stringify({
+  audioBase64,
+  mimeType: (audioBlob.type || 'audio/webm').split(';')[0],
+  carDetails,
+  symptoms: symptoms.join(', ') || 'None selected',
+language: lang
+})
+
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'The AI request failed.');
+    }
+const supabaseClient = window.carpulseSupabase;
+
+if (supabaseClient) {
+  const { data: { user }, error: authError } =
+    await supabaseClient.auth.getUser();
+
+  if (authError) {
+    console.error('Could not identify user:', authError.message);
+  }
+
+  if (user && data.analysis) {
+    const { error: saveError } = await supabaseClient
+      .from('diagnosis_history')
+      .insert({
+        user_id: user.id,
+        car_details: carDetails,
+        symptoms: symptoms.join(', ') || 'None selected',
+        analysis: data.analysis,
+        disclaimer: data.disclaimer || null
+      });
+
+    if (saveError) {
+      console.error('Could not save diagnosis:', saveError.message);
+    } else {
+      console.log('Diagnosis saved successfully.');
+    }
+  }
+}
+    result.replaceChildren();
+
+    const heading = document.createElement('h2');
+    heading.textContent = text(
+      'CarPulse AI analysis',
+      'تحليل CarPulse بالذكاء الاصطناعي'
+    );
+    result.appendChild(heading);
+
+    const note = document.createElement('p');
+    note.className = 'sub';
+    note.textContent = text(
+      'Possible causes only — not a confirmed diagnosis.',
+      'أسباب محتملة فقط — مش تشخيص مؤكد.'
+    );
+    result.appendChild(note);
+
+    const analysisBox = document.createElement('div');
+    analysisBox.className = 'cause';
+    analysisBox.style.whiteSpace = 'pre-wrap';
+    analysisBox.style.overflowWrap = 'anywhere';
+    analysisBox.textContent = data.analysis;
+    result.appendChild(analysisBox);
+
+    const disclaimer = document.createElement('p');
+    disclaimer.className = 'disclaimer';
+    disclaimer.textContent = data.disclaimer ||
+      'Have safety-critical or severe problems checked by a mechanic.';
+    result.appendChild(disclaimer);
+
+    const mapsButton = document.createElement('button');
+    mapsButton.className = 'btn primary';
+    mapsButton.textContent = text(
+      'Find nearby garages ↗',
+      'دور على ورش قريبة ↗'
+    );
+    mapsButton.onclick = () => {
+      const area = prompt(text(
+        'Enter your city or area (optional):',
+        'اكتب المدينة أو المنطقة (اختياري):'
+      )) || '';
+      const query = encodeURIComponent(
+        'car repair mechanic ' + area
+      );
+      window.open(
+        'https://www.google.com/maps/search/?api=1&query=' + query,
+        '_blank',
+        'noopener'
+      );
+    };
+    result.appendChild(mapsButton);
+
+  } catch (error) {
+    result.replaceChildren();
+    const message = document.createElement('p');
+    message.textContent = text(
+      'Analysis failed: ',
+      'التحليل فشل: '
+    ) + error.message + text(
+      '. Please try again.',
+      '. حاول تاني.'
+    );
+    result.appendChild(message);
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+</script>
+  
+<div id="authModal" class="hidden" style="position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#151b22;border:1px solid #303a45;border-radius:16px;padding:24px;width:100%;max-width:400px;color:#f0f6fc;position:relative">
+    <button id="closeAuth" type="button" style="position:absolute;right:14px;top:12px;background:none;border:0;color:#a8b3bd;font-size:24px;cursor:pointer">×</button>
+    <h2 id="authTitle" style="margin:0 0 8px">Welcome to CarPulse</h2>
+    <p id="authDescription" style="color:#a8b3bd;margin:0 0 20px">Log in or create an account to save your cars and history.</p>
+    <form id="authForm">
+      <label for="authName" id="authNameLabel" style="display:none;font-size:14px">Name</label>
+      <input id="authName" type="text" autocomplete="name" placeholder="Your name" style="display:none;width:100%;box-sizing:border-box;padding:12px;margin:6px 0 12px;border-radius:8px;border:1px solid #303a45;background:#0d1117;color:white">
+      <label for="authEmail" style="font-size:14px">Email</label>
+      <input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required style="width:100%;box-sizing:border-box;padding:12px;margin:6px 0 12px;border-radius:8px;border:1px solid #303a45;background:#0d1117;color:white">
+      <label for="authPassword" style="font-size:14px">Password</label>
+      <input id="authPassword" type="password" autocomplete="current-password" placeholder="Your password" required style="width:100%;box-sizing:border-box;padding:12px;margin:6px 0 16px;border-radius:8px;border:1px solid #303a45;background:#0d1117;color:white">
+      <button id="authSubmit" type="submit" style="width:100%;padding:12px;border:0;border-radius:8px;background:#7ee787;color:#101820;font-weight:700;cursor:pointer">Log in</button>
+    </form>
+    <p id="authMessage" role="status" style="font-size:14px;line-height:1.5;margin:14px 0 0"></p>
+    <button id="authSwitch" type="button" style="margin-top:12px;background:none;border:0;color:#7ee787;cursor:pointer;padding:0">New here? Create an account</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  window.carpulseSupabase = window.supabase.createClient(
+    'https://trcdakfvfhhnbkgrbkym.supabase.co',
+    'sb_publishable_2v3QNutbX8Srr4Csqw9ptw_Tsqql70i'
+  );
+</script>
+
+<script>
+(() => {
+  const db = window.carpulseSupabase;
+  const $ = id => document.getElementById(id);
+
+  const modal = $('authModal');
+  const form = $('authForm');
+  const nameInput = $('authName');
+  const nameLabel = $('authNameLabel');
+  const emailInput = $('authEmail');
+  const passwordInput = $('authPassword');
+  const title = $('authTitle');
+  const description = $('authDescription');
+  const submit = $('authSubmit');
+  const message = $('authMessage');
+  const switchButton = $('authSwitch');
+  const accountButton = $('accountBtn');
+
+  if (!db || !modal || !accountButton) {
+    console.error('CarPulse account setup is missing a required element.');
+    return;
+  }
+
+  let signupMode = false;
+
+  function showMessage(text, error = false) {
+    message.textContent = text;
+    message.style.color = error ? '#ff8585' : '#7ee787';
+  }
+
+  function updateMode() {
+    title.textContent = signupMode ? 'Create your account' : 'Welcome to CarPulse';
+    description.textContent = signupMode
+      ? 'Create an account to save your cars and history.'
+      : 'Log in to access your saved cars and history.';
+    nameInput.style.display = signupMode ? 'block' : 'none';
+    nameLabel.style.display = signupMode ? 'block' : 'none';
+    nameInput.required = signupMode;
+    passwordInput.autocomplete = signupMode ? 'new-password' : 'current-password';
+    submit.textContent = signupMode ? 'Create account' : 'Log in';
+    switchButton.textContent = signupMode
+      ? 'Already have an account? Log in'
+      : 'New here? Create an account';
+    showMessage('');
+  }
+
+  accountButton.addEventListener('click', async () => {
+    const { data: { session } } = await db.auth.getSession();
+
+    signupMode = false;
+    updateMode();
+
+    if (session) {
+     
+title.textContent = 'You’re logged in';
+description.textContent = 'Your CarPulse account is active.';
+form.style.display = 'none';
+switchButton.style.display = 'none';
+
+showMessage('Logged in as ' + (session.user.email || 'your account'));
+
+const accountActions = document.createElement('div');
+accountActions.id = 'accountActions';
+accountActions.style.cssText = 'display:flex;gap:10px;flex-wrap:wrap;margin-top:14px';
+
+const garageButton = document.createElement('button');
+garageButton.type = 'button';
+garageButton.className = 'btn primary';
+garageButton.textContent = 'My Garage';
+garageButton.addEventListener('click', () => {
+  modal.classList.add('hidden');
+  document.getElementById('garageSection').scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+});
+
+const logoutButton = document.createElement('button');
+logoutButton.type = 'button';
+logoutButton.className = 'btn secondary';
+logoutButton.textContent = 'Log out';
+logoutButton.addEventListener('click', async () => {
+  const { error } = await db.auth.signOut();
+  if (error) {
+    showMessage('Could not log out: ' + error.message, true);
+    return;
+  }
+  modal.classList.add('hidden');
+  modal.querySelector('#accountActions')?.remove();
+  form.style.display = 'block';
+  switchButton.style.display = 'block';
+  showMessage('You have logged out.');
+});
+
+const oldActions = modal.querySelector('#accountActions');
+if (oldActions) oldActions.remove();
+
+const { data: { session: currentSession } } = await db.auth.getSession();
+
+if (currentSession) {
+  accountActions.append(garageButton, logoutButton);
+  form.parentElement.appendChild(accountActions);
+}
+    } else {
+      form.style.display = 'block';
+      switchButton.style.display = 'block';
+    }
+
+    modal.classList.remove('hidden');
+  });
+
+  $('closeAuth').addEventListener('click', () => {
+    modal.classList.add('hidden');
+  });
+
+  modal.addEventListener('click', event => {
+    if (event.target === modal) modal.classList.add('hidden');
+  });
+
+  switchButton.addEventListener('click', () => {
+    signupMode = !signupMode;
+    form.style.display = 'block';
+    switchButton.style.display = 'block';
+    updateMode();
+  });
+
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    submit.disabled = true;
+    submit.textContent = 'Please wait…';
+    showMessage('');
+
+    try {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      if (signupMode) {
+        const { data, error } = await db.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { name: nameInput.value.trim() }
+          }
+        });
+
+        if (error) throw error;
+
+        if (data.session) {
+          showMessage('Account created successfully!');
+        } else {
+          showMessage('Account created. Check your email for a confirmation link before logging in.');
+        }
+      } else {
+        const { error } = await db.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error) throw error;
+
+        showMessage('Login successful!');
+        modal.classList.add('hidden');
+      }
+    } catch (error) {
+      showMessage(error.message || 'Something went wrong. Please try again.', true);
+    } finally {
+      submit.disabled = false;
+      submit.textContent = signupMode ? 'Create account' : 'Log in';
+    }
+  });
+
+  
+  // CarPulse Garage
+  const carForm = $('carForm');
+const showCarFormBtn = $('showCarFormBtn');
+
+showCarFormBtn?.addEventListener('click', () => {
+  carForm.classList.remove('hidden');
+  $('carFormTitle').textContent = 'Add a car';
+  $('saveCarBtn').textContent = 'Save car';
+  carForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+  const closeCarFormBtn = $('closeCarFormBtn');
+
+closeCarFormBtn?.addEventListener('click', () => {
+  carForm.classList.add('hidden');
+});
+  // Car icon picker
+  let selectedIconType = 'sedan';
+  let editingCarId = null;
+  let selectedIconColor = '#3267D5';
+
+  document.querySelectorAll('.car-icon-choice').forEach(button => {
+    button.addEventListener('click', () => {
+      selectedIconType = button.dataset.iconType;
+
+      document.querySelectorAll('.car-icon-choice').forEach(choice => {
+        choice.classList.remove('selected');
+      });
+
+      button.classList.add('selected');
+    });
+  });
+
+  document.querySelectorAll('.car-color-choice').forEach(button => {
+    button.addEventListener('click', () => {
+      selectedIconColor = button.dataset.iconColor;
+
+      document.querySelectorAll('.car-color-choice').forEach(choice => {
+        choice.style.outline = 'none';
+      });
+
+      button.style.outline = '3px solid #3267D5';
+      button.style.outlineOffset = '3px';
+    });
+  });
+
+  const defaultColorButton = document.querySelector(
+    '.car-color-choice[data-icon-color="#3267D5"]'
+  );
+
+  if (defaultColorButton) {
+    defaultColorButton.style.outline = '3px solid #3267D5';
+    defaultColorButton.style.outlineOffset = '3px';
+  }
+
+ // CarPulse Pro upgrade page
+const upgradeBtn = $('upgradeBtn');
+
+upgradeBtn.addEventListener('click', () => {
+  modal.classList.add('hidden');
+  $('proSection').classList.remove('hidden');
+  $('proSection').scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+});
+
+$('closeProBtn').addEventListener('click', () => {
+  $('proSection').classList.add('hidden');
+  $('garageSection').scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+});
+
+$('proSubscribeBtn').addEventListener('click', () => {
+  $('proMessage').textContent =
+    'Pro subscriptions are not active yet. Monthly and yearly plans are coming soon!';
+});
+async function loadDiagnosisHistory() {
+  const historyList = $('historyList');
+
+  historyList.innerHTML =
+    '<p class="sub">Loading your diagnosis history...</p>';
+
+  try {
+    const { data: { session } } = await db.auth.getSession();
+
+    if (!session) {
+      historyList.innerHTML =
+        '<p class="sub">Log in to view your history.</p>';
+      return;
+    }
+
+    const { data: diagnoses, error } = await db
+      .from('diagnosis_history')
+      .select('id, car_details, symptoms, analysis, disclaimer, created_at')
+      .eq('user_id', session.user.id)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    if (!diagnoses || diagnoses.length === 0) {
+      historyList.innerHTML =
+        '<p class="sub">No diagnoses saved yet.</p>';
+      return;
+    }
+
+    historyList.innerHTML = diagnoses.map(item => `
+      <div class="garage-car-card" style="margin-top:12px">
+        <span class="garage-car-label">AI DIAGNOSIS</span>
+        <h3>${escapeGarageText(item.car_details || 'Car not specified')}</h3>
+        <p class="sub">
+          ${new Date(item.created_at).toLocaleString()}
+        </p>
+        <p><strong>Symptoms:</strong>
+          ${escapeGarageText(item.symptoms || 'None specified')}
+        </p>
+        <details style="margin-top:12px">
+          <summary style="cursor:pointer;color:var(--accent);font-weight:700">
+            View full report
+          </summary>
+          <div class="cause" style="white-space:pre-wrap;overflow-wrap:anywhere">
+            ${escapeGarageText(item.analysis)}
+          </div>
+          <p class="disclaimer">
+            ${escapeGarageText(item.disclaimer || '')}
+          </p>
+        </details>
+        <button class="btn secondary" type="button"
+          data-delete-diagnosis="${item.id}" style="margin-top:12px">
+          Delete report
+        </button>
+      </div>
+    `).join('');
+
+    historyList.querySelectorAll('[data-delete-diagnosis]').forEach(button => {
+      button.addEventListener('click', async () => {
+        if (!confirm('Permanently delete this diagnosis?')) return;
+
+        button.disabled = true;
+        button.textContent = 'Deleting...';
+
+        const { error } = await db
+          .from('diagnosis_history')
+          .delete()
+          .eq('id', button.dataset.deleteDiagnosis)
+          .eq('user_id', session.user.id);
+
+        if (error) {
+          alert('Could not delete report: ' + error.message);
+          button.disabled = false;
+          button.textContent = 'Delete report';
+          return;
+        }
+
+        await loadDiagnosisHistory();
+      });
+    });
+
+  } catch (error) {
+    console.error('History loading failed:', error);
+    historyList.innerHTML =
+      '<p class="sub">Could not load history: ' +
+      escapeGarageText(error.message) + '</p>';
+  }
+}
+  async function loadGarage() {
+    const garageList = $('garageList');
+    const garageMessage = $('garageMessage');
+
+   
+const { data: { session } } = await db.auth.getSession();
+
+if (!session) {
+  garageList.innerHTML = '<p class="sub">Log in to view your saved cars.</p>';
+  return;
+}
+
+const planBadge = $('planBadge');
+
+try {
+  const { data: subscription, error } = await db
+    .from('subscriptions')
+    .select('plan,status')
+    .eq('user_id', session.user.id)
+    .maybeSingle();
+
+  if (error) throw error;
+
+  const isPro = subscription?.plan === 'pro' &&
+                subscription?.status === 'active';
+
+ if (planBadge) {
+  planBadge.textContent = isPro ? 'PRO PLAN' : 'FREE PLAN';
+  planBadge.classList.toggle('pro-plan-badge', isPro);
+}
+} catch (error) {
+  console.error('Could not load subscription:', error);
+}
+
+garageList.innerHTML = '<p class="sub">Loading your cars...</p>';
+
+
+    try {
+      const { data: cars, error } = await db
+        .from('cars')
+        .select('id,nickname,make,model,year,engine,icon_type,icon_color')
+        .eq('user_id', session.user.id)
+        .order('created_at', { ascending: true });
+
+      if (error) throw error;
+
+      if (!cars || cars.length === 0) {
+        garageList.innerHTML = '<p class="sub">No cars saved yet. Add your first car below.</p>';
+        return;
+      }
+
+garageList.innerHTML = cars.map((car, index) => `
+  <div class="garage-car-card ${index > 0 ? 'garage-car-extra hidden' : ''}" style="--car-accent:${car.icon_color || '#3267D5'}">
+    <div class="garage-car-header">
+      <div class="garage-car-icon">
+        <svg viewBox="0 0 64 40" width="44" height="30" aria-hidden="true">
+          <path d="${
+            car.icon_type === 'suv'
+              ? 'M8 14 L13 6 H43 L51 14 L57 17 V29 H7 V18 Z'
+              : car.icon_type === 'hatchback'
+              ? 'M8 17 L18 7 H39 L49 17 L56 20 V29 H7 V20 Z'
+              : car.icon_type === 'coupe'
+              ? 'M7 18 L22 8 H43 L53 19 L58 21 V29 H6 V21 Z'
+              : 'M7 18 L17 10 H43 L51 18 L57 21 V29 H6 V21 Z'
+          }" fill="${car.icon_color || '#3267D5'}" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          <circle cx="17" cy="29" r="5" fill="#333"/>
+          <circle cx="47" cy="29" r="5" fill="#333"/>
+          <circle cx="17" cy="29" r="2" fill="#ddd"/>
+          <circle cx="47" cy="29" r="2" fill="#ddd"/>
+        </svg>
+      </div>
+
+      <div class="garage-car-title">
+        <span class="garage-car-label">SAVED VEHICLE</span>
+        <h3>${escapeGarageText(car.nickname || (car.make + ' ' + car.model))}</h3>
+        <p>${escapeGarageText(car.make)} ${escapeGarageText(car.model)}</p>
+      </div>
+    </div>
+
+    <div class="garage-car-details">
+      <div class="garage-car-detail">
+        <span>YEAR</span>
+        <strong>${car.year}</strong>
+      </div>
+      <div class="garage-car-detail">
+        <span>ENGINE / FUEL</span>
+        <strong>${car.engine ? escapeGarageText(car.engine) : 'Not specified'}</strong>
+      </div>
+    </div>
+
+    <div class="garage-car-actions">
+      <button class="btn primary" type="button" data-use-car="${car.id}">Use for diagnosis</button>
+      <button class="btn secondary" type="button" data-edit-car="${car.id}">Edit</button>
+      <button class="btn secondary garage-delete-btn" type="button" data-delete-car="${car.id}">Delete</button>
+    </div>
+  </div>
+`).join('');
+      if (cars.length > 1) {
+  const viewCarsBtn = document.createElement('button');
+  viewCarsBtn.type = 'button';
+  viewCarsBtn.className = 'btn secondary garage-view-all-btn';
+  viewCarsBtn.textContent = `View all cars (${cars.length})`;
+
+  garageList.appendChild(viewCarsBtn);
+
+  viewCarsBtn.addEventListener('click', () => {
+    const extras = garageList.querySelectorAll('.garage-car-extra');
+    const isExpanded = viewCarsBtn.dataset.expanded === 'true';
+
+    extras.forEach(car => {
+      car.classList.toggle('hidden', isExpanded);
+    });
+
+    viewCarsBtn.dataset.expanded = String(!isExpanded);
+    viewCarsBtn.textContent = isExpanded
+      ? `View all cars (${cars.length})`
+      : 'Show fewer cars';
+  });
+}
+garageList.querySelectorAll('[data-delete-car]').forEach(button => {
+  button.addEventListener('click', async () => {
+    const confirmed = confirm(
+      'Are you sure you want to permanently delete this car?'
+    );
+
+    if (!confirmed) return;
+
+    const { data: { session } } = await db.auth.getSession();
+    if (!session) return;
+
+    button.disabled = true;
+    button.textContent = 'Deleting...';
+
+    const { error } = await db
+      .from('cars')
+      .delete()
+      .eq('id', button.dataset.deleteCar)
+      .eq('user_id', session.user.id);
+
+    if (error) {
+      alert('Could not delete car: ' + error.message);
+      await loadGarage();
+      return;
+    }
+
+    await loadGarage();
+  });
+});
+
+garageList.querySelectorAll('[data-edit-car]').forEach(button => {
+  button.addEventListener('click', () => {
+    const selectedCar = cars.find(car => car.id === button.dataset.editCar);
+    if (selectedCar) startEditCar(selectedCar);
+  });
+});
+      garageList.querySelectorAll('[data-use-car]').forEach(button => {
+  button.addEventListener('click', () => {
+    const car = cars.find(car => car.id === button.dataset.useCar);
+    if (!car) return;
+
+    $('make').value = car.make || '';
+    $('model').value = car.model || '';
+    $('year').value = car.year || '';
+    $('engine').value = car.engine || '';
+
+    $('make').scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+  });
+});
+    } catch (error) {
+      garageList.innerHTML = '<p class="sub">Could not load cars: ' +
+        escapeGarageText(error.message) + '</p>';
+    }
+  }
+
+  function escapeGarageText(value) {
+    return String(value ?? '').replace(/[&<>"']/g, character => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    })[character]);
+  }
+
+  
+function startEditCar(car) {
+  editingCarId = car.id;
+carForm.classList.remove('hidden');
+$('carFormTitle').textContent = 'Edit car';
+  $('carNickname').value = car.nickname || '';
+  $('carMake').value = car.make || '';
+  $('carModel').value = car.model || '';
+  $('carYear').value = car.year || '';
+  $('carEngine').value = car.engine || '';
+
+  selectedIconType = car.icon_type || 'sedan';
+  selectedIconColor = car.icon_color || '#3267D5';
+
+  document.querySelectorAll('.car-icon-choice').forEach(button => {
+    button.classList.toggle(
+      'selected',
+      button.dataset.iconType === selectedIconType
+    );
+  });
+
+  document.querySelectorAll('.car-color-choice').forEach(button => {
+    button.style.outline =
+      button.dataset.iconColor === selectedIconColor
+        ? '3px solid #3267D5'
+        : 'none';
+
+    button.style.outlineOffset = '3px';
+  });
+
+  $('saveCarBtn').textContent = 'Update car';
+  $('garageMessage').textContent =
+    'Editing ' + (car.nickname || (car.make + ' ' + car.model));
+
+  carForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  $('carNickname').focus();
+}
+
+  carForm.addEventListener('submit', async event => {
+    event.preventDefault();
+
+    const { data: { session } } = await db.auth.getSession();
+const planBadge = $('planBadge');
+
+if (planBadge && session) {
+  const { data: subscription, error } = await db
+    .from('subscriptions')
+    .select('plan,status')
+    .eq('user_id', session.user.id)
+    .maybeSingle();
+
+  if (!error && subscription) {
+    const isPro = subscription.plan === 'pro' &&
+                  subscription.status === 'active';
+
+    planBadge.textContent = isPro ? 'PRO PLAN' : 'FREE PLAN';
+  } else {
+    planBadge.textContent = 'FREE PLAN';
+  }
+}
+    if (!session) {
+      showMessage('Please log in before saving a car.', true);
+      modal.classList.remove('hidden');
+      return;
+    }
+
+    const saveButton = $('saveCarBtn');
+    saveButton.disabled = true;
+    saveButton.textContent = 'Saving...';
+
+    try {
+      const { data: existingCars, error: countError } = await db
+        .from('cars')
+        .select('id')
+        .eq('user_id', session.user.id);
+
+      if (countError) throw countError;
+
+      const { data: subscription, error: planError } = await db
+        .from('subscriptions')
+        .select('plan,status')
+        .eq('user_id', session.user.id)
+        .maybeSingle();
+
+      if (planError) throw planError;
+
+      const isPro = subscription?.plan === 'pro' &&
+                    subscription?.status === 'active';
+
+      if (!editingCarId && !isPro && existingCars.length >= 1) {
+        $('garageMessage').textContent =
+          'Free accounts can save one car. Upgrade to Pro for more.';
+        $('upgradeBtn').style.display = 'inline-block';
+        return;
+      }
+
+     
+const car = {
+  user_id: session.user.id,
+  nickname: $('carNickname').value.trim(),
+  make: $('carMake').value.trim(),
+  model: $('carModel').value.trim(),
+  year: Number($('carYear').value),
+  engine: $('carEngine').value.trim(),
+  icon_type: selectedIconType,
+  icon_color: selectedIconColor
+};
+
+
+      let saveQuery;
+
+if (editingCarId) {
+  saveQuery = db
+    .from('cars')
+    .update(car)
+    .eq('id', editingCarId)
+    .eq('user_id', session.user.id);
+} else {
+  saveQuery = db.from('cars').insert(car);
+}
+
+const { error } = await saveQuery;
+if (error) throw error;
+      if (error) throw error;
+
+      $('garageMessage').textContent = 'Car saved successfully!';
+      carForm.reset();
+      await loadGarage();
+    } catch (error) {
+      $('garageMessage').textContent =
+        'Could not save car: ' + error.message;
+    } finally {
+      saveButton.disabled = false;
+      saveButton.textContent = 'Save car';
+    }
+  });
+
+    loadGarage();
+  loadDiagnosisHistory();
+
+  db.auth.onAuthStateChange((event, session) => {
+    document.getElementById('garageSection').classList.toggle('hidden', !session);
+    accountButton.textContent = session ? 'My account' : 'Log in / Sign up';
+
+    if (event === 'SIGNED_IN') {
+      loadGarage();
+      loadDiagnosisHistory();
+    } else if (event === 'SIGNED_OUT') {
+      $('historyList').innerHTML =
+        '<p class="sub">Log in to view your history.</p>';
+    }
+  });
+})();
+</script>
+
+<div style="text-align:center;padding:24px 16px;color:#a8b3bd;font-size:14px">
+  Need help or have feedback?
+  <a href="mailto:carpulse.me@gmail.com" style="color:#7ee787;text-decoration:none;font-weight:600">
+    Contact CarPulse
+  </a>
+  <div style="margin-top:6px">
+    <a href="mailto:carpulse.me@gmail.com" style="color:#a8b3bd">
+      carpulse.me@gmail.com
+    </a>
+  </div>
+</div>
+
 </body>
 </html>
