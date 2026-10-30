@@ -1532,8 +1532,19 @@ if (error) throw error;
     }
   });
 
+   db.auth.getSession().then(({ data: { session } }) => {
+  accountButton.textContent = session ? 'My account' : 'Log in / Sign up';
+
+  if (session) {
     loadGarage();
-  loadDiagnosisHistory();
+    loadDiagnosisHistory();
+  } else {
+    $('garageList').innerHTML =
+      '<p class="sub">Log in to view your saved cars.</p>';
+    $('historyList').innerHTML =
+      '<p class="sub">Log in to view your history.</p>';
+  }
+});
 
   db.auth.onAuthStateChange((event, session) => {
     document.getElementById('garageSection').classList.toggle('hidden', !session);
