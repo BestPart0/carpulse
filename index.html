@@ -1444,14 +1444,16 @@ if (error) throw error;
     }
   });
 
-  db.auth.onAuthStateChange((event, session) => {
-    accountButton.textContent = session ? 'My account' : 'Log in / Sign up';
+  async function updateAccountButton() {
+  const { data: { session } } = await db.auth.getSession();
+  accountButton.textContent = session ? 'My account' : 'Log in / Sign up';
+}
 
-    if (event === 'SIGNED_IN') {
-     
-    }
-  });
-})();
+updateAccountButton();
+
+db.auth.onAuthStateChange((event, session) => {
+  accountButton.textContent = session ? 'My account' : 'Log in / Sign up';
+});
 </script>
 
 <div style="text-align:center;padding:24px 16px;color:#a8b3bd;font-size:14px">
