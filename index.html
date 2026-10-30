@@ -425,127 +425,15 @@ button#showCarFormBtn.garage-plus-btn:hover {
 
   </nav>
   
-  <section class="card hidden" id="garageSection" style="margin-bottom:20px">
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-      <div>
-        <h2>My Garage</h2>
-        <p class="sub" style="margin:5px 0 0">Save your cars and manage their details.</p>
-      </div>
-      <span class="pill" id="planBadge">FREE PLAN</span>
-    </div>
-
-    <div id="garageMessage" class="status" role="status" style="margin:12px 0"></div>
-
-    <div id="garageList"></div>
-    <div id="diagnosisHistory" style="margin-top:30px;padding-top:22px;border-top:1px solid #283744">
-  <h2>Diagnosis History</h2>
-  <p class="sub">Your previous AI reports, saved to your account.</p>
-  <div id="historyList">
-    <p class="sub">Loading your diagnosis history...</p>
+ <section class="card hidden" id="garageSection" style="margin-bottom:20px">
+  <div>
+    <h2>My Garage</h2>
+    <p class="sub">Manage your saved cars and diagnosis history.</p>
   </div>
-</div>
-<div class="garage-add-row">
-  <span>Add another vehicle</span>
-  <button type="button" id="showCarFormBtn" class="garage-plus-btn" aria-label="Add a car">+</button>
-</div>
-    
-<form id="carForm" class="garage-form hidden">
-  <div class="garage-form-heading">
-    <div>
-      <span class="garage-eyebrow">YOUR GARAGE</span>
-      <h3 id="carFormTitle">Add a car</h3>
-      <p class="sub">Set up your vehicle for faster diagnoses.</p>
-    </div>
-    <button type="button" id="closeCarFormBtn" class="garage-form-close" aria-label="Close form">×</button>
-  </div>
-
-  <div class="garage-fields">
-    <div class="field garage-nickname">
-      <label for="carNickname">Nickname <span class="sub">(optional)</span></label>
-      <input id="carNickname" placeholder="e.g. Daily driver">
-    </div>
-
-    <div class="field">
-      <label for="carMake">Make *</label>
-      <input id="carMake" placeholder="e.g. Toyota" required>
-    </div>
-
-    <div class="field">
-      <label for="carModel">Model *</label>
-      <input id="carModel" placeholder="e.g. Corolla" required>
-    </div>
-
-    <div class="field">
-      <label for="carYear">Year *</label>
-      <input id="carYear" type="number" min="1950" max="2035" placeholder="2019" required>
-    </div>
-
-    <div class="field garage-engine">
-      <label for="carEngine">Engine / fuel <span class="sub">(optional)</span></label>
-      <input id="carEngine" placeholder="e.g. 1600 CC petrol">
-    </div>
-  </div>
-
-  <div class="garage-customize">
-    <div class="garage-section-heading">
-      <div>
-        <h4>Vehicle style</h4>
-        <p class="sub">Choose the silhouette for your car.</p>
-      </div>
-    </div>
-
-    <div class="garage-icon-grid">
-      <button type="button" class="car-icon-choice selected" data-icon-type="sedan">
-        <span class="garage-car-emoji">🚘</span>
-        <span>Sedan</span>
-      </button>
-      <button type="button" class="car-icon-choice" data-icon-type="suv">
-        <span class="garage-car-emoji">🚙</span>
-        <span>SUV</span>
-      </button>
-      <button type="button" class="car-icon-choice" data-icon-type="hatchback">
-        <span class="garage-car-emoji">🚗</span>
-        <span>Hatchback</span>
-      </button>
-      <button type="button" class="car-icon-choice" data-icon-type="coupe">
-        <span class="garage-car-emoji">🏎️</span>
-        <span>Coupe</span>
-      </button>
-    </div>
-
-    <div class="garage-color-heading">
-      <h4>Icon color</h4>
-      <span class="sub">Pick a color</span>
-    </div>
-
-    <div class="garage-color-grid">
-      <button type="button" class="car-color-choice is-picked" data-icon-color="#3267D5" aria-label="Blue" title="Blue" style="--swatch:#3267D5"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#D94343" aria-label="Red" title="Red" style="--swatch:#D94343"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#242424" aria-label="Black" title="Black" style="--swatch:#242424"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#9AA0A8" aria-label="Silver" title="Silver" style="--swatch:#9AA0A8"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#F4F4F4" aria-label="White" title="White" style="--swatch:#F4F4F4"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#289566" aria-label="Green" title="Green" style="--swatch:#289566"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#D9A52E" aria-label="Gold" title="Gold" style="--swatch:#D9A52E"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#E87832" aria-label="Orange" title="Orange" style="--swatch:#E87832"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#8855BB" aria-label="Purple" title="Purple" style="--swatch:#8855BB"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#D66A9C" aria-label="Pink" title="Pink" style="--swatch:#D66A9C"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#199C9C" aria-label="Teal" title="Teal" style="--swatch:#199C9C"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#193A70" aria-label="Navy" title="Navy" style="--swatch:#193A70"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#875B43" aria-label="Brown" title="Brown" style="--swatch:#875B43"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#E8C63E" aria-label="Yellow" title="Yellow" style="--swatch:#E8C63E"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#802D43" aria-label="Burgundy" title="Burgundy" style="--swatch:#802D43"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#48BDE0" aria-label="Cyan" title="Cyan" style="--swatch:#48BDE0"></button>
-    </div>
-  </div>
-
-  <div class="garage-form-actions">
-    <button class="btn primary" id="saveCarBtn" type="submit">Save car</button>
-    <button class="btn secondary" id="upgradeBtn" type="button" style="display:none">Explore Pro</button>
-  </div>
-</form>
-
-  </section>
-
+  <a href="garage.html" class="btn primary" style="display:inline-block;margin-top:12px">
+    Open My Garage
+  </a>
+</section>
   
 <section class="card hidden" id="proSection" style="margin-bottom:20px">
   <button class="btn secondary" id="closeProBtn" type="button">← Back to CarPulse</button>
