@@ -554,61 +554,7 @@ button#showCarFormBtn.garage-plus-btn:hover {
 
   
 
-  <header class="hero">
-    <div class="eyebrow" data-en="LESS GUESSING. BETTER REPAIRS." data-ar="تخمين أقل. تصليح أذكى.">LESS GUESSING. BETTER REPAIRS.</div>
-    <h1 data-en="Your car is talking.<br><span>Let's listen.</span>" data-ar="عربيتك بتتكلم.<br><span>خلينا نسمعها.</span>">Your car is talking.<br><span>Let's listen.</span></h1>
-    <p data-en="Record a strange noise, tell us what your car is doing, and get possible causes plus the next steps to take." data-ar="سجّل الصوت الغريب، واحكيلنا العربية بتعمل إيه، واعرف الأسباب المحتملة والخطوة الجاية.">Record a strange noise, tell us what your car is doing, and get possible causes plus the next steps to take.</p>
-  </header>
-  <main class="layout">
-    <section class="card">
-      <div class="step"><div class="num">01</div><div><h2 data-en="Tell us about your car" data-ar="قولنا معلومات عن عربيتك">Tell us about your car</h2><p class="sub" data-en="A few details help narrow down the possibilities." data-ar="شوية تفاصيل بتساعدنا نضيّق الاحتمالات.">A few details help narrow down the possibilities.</p></div></div>
-      <div class="two">
-        <div class="field"><label data-en="Make" data-ar="الماركة">Make</label><input id="make" placeholder="e.g. Toyota" value=""></div>
-        <div class="field"><label data-en="Model" data-ar="الموديل">Model</label><input id="model" placeholder="e.g. Corolla"></div>
-      </div>
-      <div class="two">
-        <div class="field"><label data-en="Year" data-ar="سنة الصنع">Year</label><input id="year" type="number" min="1950" max="2035" placeholder="e.g. 2019"></div>
-        <div class="field"><label data-en="Engine / fuel (optional)" data-ar="الموتور / نوع الوقود (اختياري)">Engine / fuel (optional)</label><input id="engine" placeholder="e.g. 1600 CC"></div>
-      </div>
-      <div class="field"><label data-en="When do you hear the noise?" data-ar="الصوت بيظهر إمتى؟">When do you hear the noise?</label>
-        <select id="when">
-          <option value="idle" data-en="While idling / stopped" data-ar="والعربية واقفة / على السلانسيه">While idling / stopped</option>
-          <option value="start" data-en="When starting the engine" data-ar="وقت تدوير الموتور">When starting the engine</option>
-          <option value="accel" data-en="When accelerating / driving" data-ar="مع التسارع / أثناء السواقة">When accelerating / driving</option>
-          <option value="brake" data-en="When braking" data-ar="وقت الفرامل">When braking</option>
-          <option value="turn" data-en="When turning the steering wheel" data-ar="وقت لف الدركسيون">When turning the steering wheel</option>
-          <option value="bumps" data-en="Over bumps / rough roads" data-ar="على المطبات / الطرق المكسّرة">Over bumps / rough roads</option>
-        </select>
-      </div>
-      <div class="step" style="margin-top:20px"><div class="num">02</div><div><h2 data-en="Record the sound" data-ar="سجّل الصوت">Record the sound</h2><p class="sub" data-en="Aim your phone safely toward the sound. Never put your hands near moving parts." data-ar="وجّه الموبايل ناحية الصوت بأمان. متقربش إيدك من أي أجزاء متحركة.">Aim your phone safely toward the sound. Never put your hands near moving parts.</p></div></div>
-      <div class="recordbox">
-        <div class="mic">🎙</div>
-        <strong id="recordTitle" data-en="Capture up to 20 seconds" data-ar="سجّل لحد ٢٠ ثانية">Capture up to 20 seconds</strong>
-        <small id="recordHelp" data-en="Allow microphone access when your browser asks." data-ar="اسمح باستخدام الميكروفون لما المتصفح يطلب.">Allow microphone access when your browser asks.</small>
-        <div class="btnrow"><button class="btn primary" id="recordBtn" type="button">● <span data-en="Start recording" data-ar="ابدأ التسجيل">Start recording</span></button><button class="btn secondary hidden" id="stopBtn" type="button" data-en="Stop" data-ar="إيقاف">Stop</button></div>
-        <audio id="player" class="audio hidden" controls></audio>
-        <div class="status" id="recordStatus" aria-live="polite"></div>
-      </div>
-      <div class="step" style="margin-top:20px"><div class="num">03</div><div><h2 data-en="What else do you notice?" data-ar="إيه كمان اللي لاحظته؟">What else do you notice?</h2><p class="sub" data-en="Select anything that applies." data-ar="اختار كل اللي بينطبق على عربيتك.">Select anything that applies.</p></div></div>
-      <label class="checkrow"><input type="checkbox" value="shake"> <span data-en="Engine or car shakes / vibrates" data-ar="الموتور أو العربية بيتهزوا">Engine or car shakes / vibrates</span></label>
-      <label class="checkrow"><input type="checkbox" value="warning"> <span data-en="Warning light is on" data-ar="في لمبة تحذير منوّرة">Warning light is on</span></label>
-      <label class="checkrow"><input type="checkbox" value="power"> <span data-en="Loss of power / struggling to accelerate" data-ar="سحب ضعيف / صعوبة في التسارع">Loss of power / struggling to accelerate</span></label>
-      <label class="checkrow"><input type="checkbox" value="smell"> <span data-en="Burning smell, fuel smell, or smoke" data-ar="ريحة حريق أو بنزين أو في دخان">Burning smell, fuel smell, or smoke</span></label>
-      <label class="checkrow"><input type="checkbox" value="metal"> <span data-en="Metallic knocking / grinding" data-ar="خبط معدن أو صوت طحن">Metallic knocking / grinding</span></label>
-      <label class="checkrow"><input type="checkbox" value="none"> <span data-en="None of these" data-ar="ولا حاجة من دول">None of these</span></label>
-      <button class="btn primary analyze" id="analyzeBtn" type="button" data-en="Check possible causes →" data-ar="اعرف الأسباب المحتملة ←">Check possible causes →</button>
-      <div class="result" id="result" aria-live="polite"></div>
-    </section>
-    <aside class="card sidecard">
-      <h2 data-en="How CarPulse works" data-ar="CarPulse بيشتغل إزاي">How CarPulse works</h2>
-      <p class="sub" data-en="Built to help you make a more informed next move." data-ar="مصمم يساعدك تاخد قرار أذكى.">Built to help you make a more informed next move.</p>
-      <div class="sidehero"><div class="big">🚘 + 🎙️</div><strong data-en="Sound + symptoms" data-ar="الصوت + الأعراض">Sound + symptoms</strong><p data-en="The recording is saved only in this browser prototype. This version uses your answers—not AI audio recognition—to suggest causes." data-ar="التسجيل موجود في المتصفح بس في النسخة التجريبية دي. الاقتراحات مبنية على إجاباتك، مش تحليل ذكي للصوت لسه.">The recording is saved only in this browser prototype. This version uses your answers—not AI audio recognition—to suggest causes.</p></div>
-      <div class="feature"><div class="featureicon">🔎</div><div><strong data-en="Possible causes" data-ar="الأسباب المحتملة">Possible causes</strong><span data-en="A shortlist, not a pretend certainty." data-ar="احتمالات مش تشخيص مؤكد.">A shortlist, not a pretend certainty.</span></div></div>
-      <div class="feature"><div class="featureicon">🧰</div><div><strong data-en="Practical next steps" data-ar="خطوات عملية">Practical next steps</strong><span data-en="Know what you can check—and when to stop." data-ar="اعرف إيه اللي تقدر تراجعه وإمتى توقف.">Know what you can check—and when to stop.</span></div></div>
-      <div class="feature"><div class="featureicon">📍</div><div><strong data-en="Nearby repair shops" data-ar="ورش قريبة منك">Nearby repair shops</strong><span data-en="Opens a map search using the location you choose." data-ar="بيفتح بحث خرائط حسب المكان اللي تختاره.">Opens a map search using the location you choose.</span></div></div>
-      <div class="disclaimer" data-en="Safety first: if you see smoke, smell strong fuel, hear severe knocking, or have brake/steering problems, stop in a safe place and seek professional help. This prototype cannot confirm a diagnosis." data-ar="الأمان أولاً: لو في دخان، ريحة بنزين قوية، خبط شديد، أو مشكلة فرامل/دركسيون، اركن في مكان آمن واطلب مساعدة متخصص. النسخة دي مش بتأكد التشخيص.">Safety first: if you see smoke, smell strong fuel, hear severe knocking, or have brake/steering problems, stop in a safe place and seek professional help. This prototype cannot confirm a diagnosis.</div>
-    </aside>
-  </main>
+ 
   <footer class="foot">CarPulse prototype · Built for Egypt, with care. No account required.</footer>
 </div>
 <script>
