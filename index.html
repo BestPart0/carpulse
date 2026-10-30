@@ -1448,7 +1448,6 @@ if (error) throw error;
   loadDiagnosisHistory();
 
   db.auth.onAuthStateChange((event, session) => {
-    document.getElementById('garageSection').classList.toggle('hidden', !session);
     accountButton.textContent = session ? 'My account' : 'Log in / Sign up';
 
     if (event === 'SIGNED_IN') {
