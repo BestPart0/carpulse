@@ -1444,7 +1444,6 @@ if (error) throw error;
     }
   });
 
-    loadGarage();
   loadDiagnosisHistory();
 
   db.auth.onAuthStateChange((event, session) => {
@@ -1452,9 +1451,6 @@ if (error) throw error;
 
     if (event === 'SIGNED_IN') {
       loadDiagnosisHistory();
-    } else if (event === 'SIGNED_OUT') {
-      $('historyList').innerHTML =
-        '<p class="sub">Log in to view your history.</p>';
     }
   });
 })();
