@@ -765,7 +765,23 @@ language: lang
     if (!response.ok) {
       throw new Error(data.error || 'The AI request failed.');
     }
+const { data: { user } } = await db.auth.getUser();
 
+if (user && data.analysis) {
+  const { error: saveError } = await db
+    .from('diagnosis_history')
+    .insert({
+      user_id: user.id,
+      car_details: carDetails,
+      symptoms: symptoms.join(', ') || 'None selected',
+      analysis: data.analysis,
+      disclaimer: data.disclaimer || null
+    });
+
+  if (saveError) {
+    console.error('Could not save diagnosis:', saveError.message);
+  }
+}
     result.replaceChildren();
 
     const heading = document.createElement('h2');
