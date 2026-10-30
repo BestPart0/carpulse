@@ -1148,7 +1148,94 @@ $('proSubscribeBtn').addEventListener('click', () => {
   $('proMessage').textContent =
     'Pro subscriptions are not active yet. Monthly and yearly plans are coming soon!';
 });
+async function loadDiagnosisHistory() {
+  const historyList = $('historyList');
 
+  historyList.innerHTML =
+    '<p class="sub">Loading your diagnosis history...</p>';
+
+  try {
+    const { data: { session } } = await db.auth.getSession();
+
+    if (!session) {
+      historyList.innerHTML =
+        '<p class="sub">Log in to view your history.</p>';
+      return;
+    }
+
+    const { data: diagnoses, error } = await db
+      .from('diagnosis_history')
+      .select('id, car_details, symptoms, analysis, disclaimer, created_at')
+      .eq('user_id', session.user.id)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    if (!diagnoses || diagnoses.length === 0) {
+      historyList.innerHTML =
+        '<p class="sub">No diagnoses saved yet.</p>';
+      return;
+    }
+
+    historyList.innerHTML = diagnoses.map(item => `
+      <div class="garage-car-card" style="margin-top:12px">
+        <span class="garage-car-label">AI DIAGNOSIS</span>
+        <h3>${escapeGarageText(item.car_details || 'Car not specified')}</h3>
+        <p class="sub">
+          ${new Date(item.created_at).toLocaleString()}
+        </p>
+        <p><strong>Symptoms:</strong>
+          ${escapeGarageText(item.symptoms || 'None specified')}
+        </p>
+        <details style="margin-top:12px">
+          <summary style="cursor:pointer;color:var(--accent);font-weight:700">
+            View full report
+          </summary>
+          <div class="cause" style="white-space:pre-wrap;overflow-wrap:anywhere">
+            ${escapeGarageText(item.analysis)}
+          </div>
+          <p class="disclaimer">
+            ${escapeGarageText(item.disclaimer || '')}
+          </p>
+        </details>
+        <button class="btn secondary" type="button"
+          data-delete-diagnosis="${item.id}" style="margin-top:12px">
+          Delete report
+        </button>
+      </div>
+    `).join('');
+
+    historyList.querySelectorAll('[data-delete-diagnosis]').forEach(button => {
+      button.addEventListener('click', async () => {
+        if (!confirm('Permanently delete this diagnosis?')) return;
+
+        button.disabled = true;
+        button.textContent = 'Deleting...';
+
+        const { error } = await db
+          .from('diagnosis_history')
+          .delete()
+          .eq('id', button.dataset.deleteDiagnosis)
+          .eq('user_id', session.user.id);
+
+        if (error) {
+          alert('Could not delete report: ' + error.message);
+          button.disabled = false;
+          button.textContent = 'Delete report';
+          return;
+        }
+
+        await loadDiagnosisHistory();
+      });
+    });
+
+  } catch (error) {
+    console.error('History loading failed:', error);
+    historyList.innerHTML =
+      '<p class="sub">Could not load history: ' +
+      escapeGarageText(error.message) + '</p>';
+  }
+}
   async function loadGarage() {
     const garageList = $('garageList');
     const garageMessage = $('garageMessage');
@@ -1473,12 +1560,20 @@ if (error) throw error;
     }
   });
 
-  loadGarage();
-
+    loadGarage();
+  loadDiagnosisHistory();
 
   db.auth.onAuthStateChange((event, session) => {
     document.getElementById('garageSection').classList.toggle('hidden', !session);
     accountButton.textContent = session ? 'My account' : 'Log in / Sign up';
+
+    if (event === 'SIGNED_IN') {
+      loadGarage();
+      loadDiagnosisHistory();
+    } else if (event === 'SIGNED_OUT') {
+      $('historyList').innerHTML =
+        '<p class="sub">Log in to view your history.</p>';
+    }
   });
 })();
 </script>
