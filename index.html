@@ -765,21 +765,32 @@ language: lang
     if (!response.ok) {
       throw new Error(data.error || 'The AI request failed.');
     }
-const { data: { user } } = await db.auth.getUser();
+const supabaseClient = window.carpulseSupabase;
 
-if (user && data.analysis) {
-  const { error: saveError } = await db
-    .from('diagnosis_history')
-    .insert({
-      user_id: user.id,
-      car_details: carDetails,
-      symptoms: symptoms.join(', ') || 'None selected',
-      analysis: data.analysis,
-      disclaimer: data.disclaimer || null
-    });
+if (supabaseClient) {
+  const { data: { user }, error: authError } =
+    await supabaseClient.auth.getUser();
 
-  if (saveError) {
-    console.error('Could not save diagnosis:', saveError.message);
+  if (authError) {
+    console.error('Could not identify user:', authError.message);
+  }
+
+  if (user && data.analysis) {
+    const { error: saveError } = await supabaseClient
+      .from('diagnosis_history')
+      .insert({
+        user_id: user.id,
+        car_details: carDetails,
+        symptoms: symptoms.join(', ') || 'None selected',
+        analysis: data.analysis,
+        disclaimer: data.disclaimer || null
+      });
+
+    if (saveError) {
+      console.error('Could not save diagnosis:', saveError.message);
+    } else {
+      console.log('Diagnosis saved successfully.');
+    }
   }
 }
     result.replaceChildren();
