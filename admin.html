@@ -325,23 +325,31 @@ async function loadOverview() {
 }
 function renderUsers(users) {
   showTable($('usersTable'), users, 6, (tr, user) => {
-    cell(tr, user.email);
-    cell(tr, user.plan);
+    cell(tr, user.email || 'No email');
+    cell(tr, user.plan || 'free');
+
     const statusCell = document.createElement('td');
-    statusCell.appendChild(badge(user.subscription_status));
+    statusCell.appendChild(badge(user.subscription_status || 'none'));
     tr.appendChild(statusCell);
+
+    const isSuspended = user.banned_until &&
+      new Date(user.banned_until).getTime() > Date.now();
+
     const accountCell = document.createElement('td');
-    accountCell.appendChild(badge(user.banned_until ? 'Suspended' : 'Active'));
+    accountCell.appendChild(badge(isSuspended ? 'Suspended' : 'Active'));
     tr.appendChild(accountCell);
+
     cell(tr, date(user.created_at));
 
     const actionCell = document.createElement('td');
     const actions = document.createElement('div');
     actions.className = 'actions';
+
     const button = document.createElement('button');
-    button.className = user.banned_until ? 'primary' : 'danger';
-    button.textContent = user.banned_until ? 'Restore' : 'Suspend';
+    button.className = isSuspended ? 'primary' : 'danger';
+    button.textContent = isSuspended ? 'Restore' : 'Suspend';
     button.onclick = () => changeUserStatus(user);
+
     actions.appendChild(button);
     actionCell.appendChild(actions);
     tr.appendChild(actionCell);
