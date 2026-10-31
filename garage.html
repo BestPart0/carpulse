@@ -760,6 +760,12 @@ if (currentSession) {
 
   
   // CarPulse Garage
+  const upgradeButton = $('upgradeBtn');
+  upgradeButton?.addEventListener('click', () => {
+    // The Pro pricing section lives on the main homepage, not this Garage page.
+    window.location.href = 'index.html#proSection';
+  });
+
   const carForm = $('carForm');
 const showCarFormBtn = $('showCarFormBtn');
 
