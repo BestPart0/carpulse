@@ -425,7 +425,6 @@ button#showCarFormBtn.garage-plus-btn:hover {
   <span class="pill">EARLY ACCESS · EGYPT</span>
   <button class="btn secondary" id="accountBtn" type="button">Log in / Sign up</button>
   <button class="btn secondary" id="homeGarageBtn" type="button">My Garage</button>
-  <button class="btn primary" id="joinProBtn" type="button" style="display:none">Join Pro</button>
   <button class="btn secondary" id="langBtn" type="button">العربية</button>
 </div>
   </nav>
@@ -442,41 +441,55 @@ button#showCarFormBtn.garage-plus-btn:hover {
   
 <section class="card hidden" id="proSection" style="margin-bottom:20px">
   <button class="btn secondary" id="closeProBtn" type="button">← Back to CarPulse</button>
-  <div style="text-align:center;padding:24px 8px 12px">
-    <span class="pill">CARPULSE PLANS</span>
+
+  <div style="text-align:center;padding:24px 8px">
+    <span class="pill">CARPULSE PRO</span>
     <h2 style="font-size:30px;margin:16px 0 8px">Know your car better.</h2>
-    <p class="sub">Start free. Upgrade when you need more control.</p>
+    <p class="sub">More cars. Deeper insights. Smarter maintenance.</p>
   </div>
-  <div style="display:flex;justify-content:center;gap:8px;margin:8px 0 22px">
-    <button class="btn primary" id="monthlyPlanBtn" type="button" aria-pressed="true">Monthly</button>
-    <button class="btn secondary" id="annualPlanBtn" type="button" aria-pressed="false">Yearly · Save EGP 358</button>
-  </div>
-  <div class="two" style="align-items:stretch">
-    <div class="card" style="border-color:#344754">
+
+  <div class="two">
+    <div class="card">
       <h3>Free</h3>
-      <div style="font-size:30px;font-weight:850;margin:12px 0">EGP 0</div>
-      <p class="sub">Forever</p>
-      <p>✓ 1 saved vehicle</p><p>✓ 10 AI sound diagnoses / month</p>
-      <p>✓ 15 AI mechanic questions / month</p><p>✓ Basic diagnosis history</p>
-      <p>✓ Basic warning-light explanations</p>
+      <h2>EGP 0 <span class="sub">/ forever</span></h2>
+      <p>✓ 10 AI sound diagnoses / month</p>
+      <p>✓ 15 AI Mechanic Assistant questions / month</p>
+      <p>✓ 1 saved vehicle</p>
+      <p>✓ Last 10 diagnosis reports</p>
+      <p>✓ Basic symptom checker</p>
       <p>✓ Nearby garage search</p>
-      <button class="btn secondary" type="button" disabled style="width:100%;margin-top:14px">Your free plan</button>
+      <p>✓ Basic warning-light explanations</p>
     </div>
-    <div class="card" style="border-color:var(--accent)">
+    <div class="card">
       <h3>CarPulse Pro ⭐</h3>
-      <div id="proPrice" style="font-size:30px;font-weight:850;margin:12px 0">EGP 149 <span style="font-size:13px;color:var(--muted);font-weight:500">/ month</span></div>
-      <p class="sub" id="proBillingNote">Billed monthly. Cancel anytime.</p>
-      <p>✓ 10 saved vehicles</p><p>✓ 100 AI sound diagnoses / month</p>
-      <p>✓ 150 AI mechanic questions / month</p><p>✓ Full diagnosis history</p>
-      <p>✓ 30 warning-light recognitions / month</p>
-      <p>✓ Maintenance reminders and repair tracking</p>
-      <p>✓ Fuel analytics and vehicle health score</p>
-      <p>✓ Repair estimates and shareable reports</p>
-      <button class="btn primary" id="proSubscribeBtn" type="button" style="width:100%;margin-top:14px">Choose Pro</button>
+      <h2>EGP 149 <span class="sub">/ month</span></h2>
+      <p class="sub">Or EGP 1,430 / year (save EGP 358)</p>
+      <p>✓ 100 AI sound diagnoses / month</p>
+      <p>✓ 150 AI Mechanic Assistant questions / month</p>
+      <p>✓ Up to 10 saved vehicles</p>
+      <p>✓ Full diagnosis history + recurring-problem tracking</p>
+      <p>✓ Deeper AI explanations and repair guidance</p>
+      <p>✓ Warning-light recognition (30 / month)</p>
+      <p>✓ Maintenance reminders</p>
+      <p>✓ Repair and expense tracker</p>
+      <p>✓ Fuel-consumption analytics</p>
+      <p>✓ Vehicle health score</p>
+      <p>✓ Repair cost estimates</p>
+      <p>✓ Shareable Vehicle Passport and reports</p>
+      <p>✓ Used-car inspection assistant</p>
+      <p>✓ OBD-II insights (where supported)</p>
+      <p>✓ Spare-parts finder</p>
     </div>
   </div>
-  <p class="sub" style="text-align:center;margin:18px 0 0">Prices in Egyptian pounds. Secure checkout will be enabled after payment integration is configured.</p>
-  <p class="sub" id="proMessage" role="status" style="text-align:center;margin-top:8px">Choose a billing period to see your price.</p>
+  <div class="card" style="margin-top:14px">
+    <h3>Features planned for Pro</h3>
+    <p class="sub">These are part of the Pro roadmap, but are not represented as active until their integrations and data sources are ready.</p>
+    <p>• OBD-II live integrations, automated maintenance notifications, live repair-price/parts availability, and payment/subscription activation require provider setup or additional backend work.</p>
+  </div>
+  <div style="text-align:center;margin-top:20px">
+    <button class="btn primary" id="proSubscribeBtn" type="button">Get CarPulse Pro</button>
+    <p class="sub" id="proMessage" role="status">Monthly and yearly plans coming soon.</p>
+  </div>
 </section>
 
   <header class="hero">
@@ -1036,34 +1049,7 @@ closeCarFormBtn?.addEventListener('click', () => {
   }
 
  // CarPulse Pro upgrade page
-const joinProBtn = $('joinProBtn');
-joinProBtn?.addEventListener('click', () => {
-  $('proSection').classList.remove('hidden');
-  $('proSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
-});
-
-async function updateJoinProButton() {
-  if (!joinProBtn) return;
-  try {
-    const { data: { session } } = await db.auth.getSession();
-    if (!session) {
-      joinProBtn.style.display = 'inline-block';
-      return;
-    }
-    const { data: subscription, error } = await db
-      .from('subscriptions')
-      .select('plan,status')
-      .eq('user_id', session.user.id)
-      .maybeSingle();
-    const isPro = !error && subscription?.plan === 'pro' && subscription?.status === 'active';
-    joinProBtn.style.display = isPro ? 'none' : 'inline-block';
-  } catch (error) {
-    console.error('Could not check Pro status:', error);
-    joinProBtn.style.display = 'inline-block';
-  }
-}
-
-updateJoinProButton();
+const upgradeBtn = $('upgradeBtn');
 
 if (upgradeBtn) {
 
@@ -1084,29 +1070,9 @@ $('closeProBtn').addEventListener('click', () => {
   });
 });
 }
-let selectedBillingInterval = 'monthly';
-const monthlyPlanBtn = $('monthlyPlanBtn');
-const annualPlanBtn = $('annualPlanBtn');
-function updateProPrice(interval) {
-  selectedBillingInterval = interval;
-  const annual = interval === 'annual';
-  $('proPrice').innerHTML = annual
-    ? 'EGP 1,430 <span style="font-size:13px;color:var(--muted);font-weight:500">/ year</span>'
-    : 'EGP 149 <span style="font-size:13px;color:var(--muted);font-weight:500">/ month</span>';
-  $('proBillingNote').textContent = annual
-    ? 'Billed yearly. Equivalent to EGP 119.17/month.'
-    : 'Billed monthly. Cancel anytime.';
-  monthlyPlanBtn.className = annual ? 'btn secondary' : 'btn primary';
-  annualPlanBtn.className = annual ? 'btn primary' : 'btn secondary';
-  monthlyPlanBtn.setAttribute('aria-pressed', String(!annual));
-  annualPlanBtn.setAttribute('aria-pressed', String(annual));
-}
-monthlyPlanBtn?.addEventListener('click', () => updateProPrice('monthly'));
-annualPlanBtn?.addEventListener('click', () => updateProPrice('annual'));
-$('proSubscribeBtn')?.addEventListener('click', () => {
-  $('proMessage').textContent = selectedBillingInterval === 'annual'
-    ? 'Yearly Pro is selected (EGP 1,430). Checkout is not connected yet, so you will not be charged.'
-    : 'Monthly Pro is selected (EGP 149). Checkout is not connected yet, so you will not be charged.';
+$('proSubscribeBtn').addEventListener('click', () => {
+  $('proMessage').textContent =
+    'Plans and features are listed for preview. Secure checkout will be enabled after payment-provider setup.';
 });
 async function loadDiagnosisHistory() {
   const historyList = $('historyList');
@@ -1520,17 +1486,19 @@ if (error) throw error;
     }
   });
 
-  async function updateAccountButton() {
-  const { data: { session } } = await db.auth.getSession();
-  accountButton.textContent = session ? 'My account' : 'Log in / Sign up';
-}
+  function setAccountButton(session) {
+    accountButton.textContent = session ? 'My account' : 'Log in / Sign up';
+    accountButton.setAttribute('aria-label', session ? 'Open account menu' : 'Log in or create an account');
+  }
 
-updateAccountButton();
+  db.auth.getSession().then(({ data, error }) => {
+    if (error) console.error('Could not restore CarPulse session:', error);
+    setAccountButton(data?.session || null);
+  });
 
-db.auth.onAuthStateChange((event, session) => {
-  accountButton.textContent = session ? 'My account' : 'Log in / Sign up';
-  updateJoinProButton();
-});
+  db.auth.onAuthStateChange((_event, session) => {
+    setAccountButton(session);
+  });
 
 })();
 </script>
