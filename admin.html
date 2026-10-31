@@ -2,216 +2,418 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CarPulse Admin</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      padding: 24px;
-      background: #0d1117;
-      color: #f0f6fc;
-      font-family: Arial, sans-serif;
-    }
-    .container { max-width: 1100px; margin: auto; }
-    .top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    h1 { margin-bottom: 6px; }
-    .sub { color: #a8b3bd; }
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-      margin: 28px 0;
-    }
-    .card {
-      background: #151b22;
-      border: 1px solid #303a45;
-      border-radius: 14px;
-      padding: 20px;
-    }
-    .number { font-size: 32px; font-weight: bold; margin-top: 12px; }
-    button {
-      background: #7ee787;
-      color: #101820;
-      border: 0;
-      border-radius: 8px;
-      padding: 11px 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    button.secondary { background: #303a45; color: white; }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 650px;
-    }
-    th, td {
-      text-align: left;
-      padding: 13px;
-      border-bottom: 1px solid #303a45;
-    }
-    th { color: #7ee787; }
-    .table-wrap { overflow-x: auto; }
-    #message { margin-top: 20px; color: #a8b3bd; }
-    .hidden { display: none; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CarPulse | Admin</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --bg:#0b1015; --panel:#121a22; --panel2:#18232d;
+  --border:#263440; --text:#edf3f7; --muted:#91a1ae;
+  --green:#7ee787; --red:#ff7777; --yellow:#f2cc60;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
+button,input{font:inherit}
+button{cursor:pointer;border:0;border-radius:8px;padding:10px 14px;font-weight:bold}
+.primary{background:var(--green);color:#102016}
+.secondary{background:#263440;color:white}
+.danger{background:#552b31;color:#ffb0b0}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:235px;background:#101820;border-right:1px solid var(--border);padding:24px 16px;flex-shrink:0}
+.brand{font-size:22px;font-weight:bold;margin:0 0 5px}
+.brand span{color:var(--green)}
+.side-sub{font-size:12px;color:var(--muted);margin-bottom:28px}
+.nav-label{font-size:10px;letter-spacing:1.5px;color:#71818e;margin:22px 10px 9px}
+.nav-btn{display:block;width:100%;text-align:left;background:transparent;color:#aebbc5;margin:3px 0;padding:12px;border-radius:8px}
+.nav-btn:hover,.nav-btn.active{background:#1c2a34;color:var(--green)}
+.main{flex:1;min-width:0;padding:28px}
+.header{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin-bottom:24px}
+h1{font-size:25px;margin:0 0 6px}
+.subtitle{color:var(--muted);font-size:13px}
+.header-actions{display:flex;gap:9px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:14px;margin-bottom:22px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:19px}
+.metric-label{color:var(--muted);font-size:13px}
+.metric{font-size:30px;font-weight:bold;margin-top:12px}
+.section{display:none}
+.section.active{display:block}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:20px;margin-bottom:18px}
+.panel h2{font-size:17px;margin:0 0 17px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}
+input{background:#0c1319;border:1px solid var(--border);color:white;padding:11px;border-radius:8px;min-width:220px;max-width:100%}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:650px;font-size:13px}
+th,td{text-align:left;padding:13px 11px;border-bottom:1px solid var(--border);vertical-align:top}
+th{color:var(--green);font-weight:bold;white-space:nowrap}
+td{color:#d6e0e7}
+.badge{display:inline-block;padding:5px 8px;border-radius:20px;background:#263440;color:#cbd7df;font-size:11px}
+.badge.green{background:#173a28;color:var(--green)}
+.badge.red{background:#48252b;color:#ffaaaa}
+.badge.yellow{background:#40391e;color:var(--yellow)}
+.muted{color:var(--muted)}
+.empty{padding:25px;text-align:center;color:var(--muted)}
+#message{padding:12px 15px;background:#15212a;border:1px solid var(--border);border-radius:9px;color:var(--muted);margin-bottom:20px}
+.hidden{display:none!important}
+.actions{display:flex;gap:7px;flex-wrap:wrap}
+.actions button{font-size:11px;padding:7px 9px}
+.mobile-menu{display:none}
+.small-note{font-size:12px;color:var(--muted);line-height:1.6}
+@media(max-width:800px){
+ .layout{display:block}
+ .sidebar{width:100%;border-right:0;border-bottom:1px solid var(--border);padding:15px}
+ .brand{display:inline-block}
+ .side-sub{display:inline-block;margin-left:8px}
+ .nav-label{display:none}
+ .nav-list{display:flex;overflow-x:auto;gap:5px;margin-top:12px}
+ .nav-btn{white-space:nowrap;width:auto;margin:0;padding:10px}
+ .main{padding:18px 13px}
+ .header{align-items:flex-start}
+ .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .card{padding:14px}
+ .metric{font-size:25px}
+}
+</style>
 </head>
 <body>
-  <main class="container">
-    <div class="top">
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">Car<span>Pulse</span></div>
+    <div class="side-sub">ADMINISTRATION</div>
+
+    <div class="nav-list">
+      <div class="nav-label">MAIN</div>
+      <button class="nav-btn active" data-section="overview">Overview</button>
+      <button class="nav-btn" data-section="users">Users</button>
+      <button class="nav-btn" data-section="subscriptions">Subscriptions</button>
+      <button class="nav-btn" data-section="vehicles">Vehicles</button>
+      <button class="nav-btn" data-section="diagnoses">Diagnosis history</button>
+      <button class="nav-btn" data-section="conversations">Conversations</button>
+      <button class="nav-btn" data-section="messages">Messages</button>
+      <div class="nav-label">SECURITY</div>
+      <button class="nav-btn hidden" id="adminNav" data-section="admins">Admin management</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="header">
       <div>
-        <h1>CarPulse Admin</h1>
-        <p class="sub">Administration dashboard</p>
+        <h1 id="pageTitle">Overview</h1>
+        <div class="subtitle">CarPulse administration dashboard</div>
       </div>
-      <button class="secondary" id="backBtn">Back to CarPulse</button>
+      <div class="header-actions">
+        <button class="secondary" id="refreshBtn">Refresh</button>
+        <button class="secondary" id="backBtn">Back to CarPulse</button>
+      </div>
     </div>
 
-    <p id="message">Verifying admin access...</p>
+    <div id="message">Verifying admin access...</div>
 
-    <section id="dashboard" class="hidden">
-      <div class="cards">
-        <div class="card">
-          <div class="sub">Total users</div>
-          <div class="number" id="totalUsers">—</div>
+    <div id="dashboard" class="hidden">
+      <section class="section active" id="overview">
+        <div class="cards">
+          <div class="card"><div class="metric-label">Total users</div><div class="metric" id="totalUsers">—</div></div>
+          <div class="card"><div class="metric-label">Pro users</div><div class="metric" id="proUsers">—</div></div>
+          <div class="card"><div class="metric-label">Free users</div><div class="metric" id="freeUsers">—</div></div>
+          <div class="card"><div class="metric-label">Active subscriptions</div><div class="metric" id="activeSubscriptions">—</div></div>
+          <div class="card"><div class="metric-label">Registered vehicles</div><div class="metric" id="totalCars">—</div></div>
+          <div class="card"><div class="metric-label">Diagnoses</div><div class="metric" id="totalDiagnoses">—</div></div>
         </div>
-        <div class="card">
-          <div class="sub">Pro users</div>
-          <div class="number" id="proUsers">—</div>
+        <div class="panel">
+          <h2>Recent users</h2>
+          <div class="table-wrap"><table><thead><tr><th>Email</th><th>Plan</th><th>Status</th><th>Joined</th></tr></thead><tbody id="recentUsers"></tbody></table></div>
         </div>
-        <div class="card">
-          <div class="sub">Free users</div>
-          <div class="number" id="freeUsers">—</div>
-        </div>
-        <div class="card">
-          <div class="sub">Active subscriptions</div>
-          <div class="number" id="activeSubscriptions">—</div>
-        </div>
-      </div>
+      </section>
 
-      <div class="card">
-        <h2>Registered users</h2>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Email</th>
-                <th>Plan</th>
-                <th>Status</th>
-                <th>Joined</th>
-              </tr>
-            </thead>
-            <tbody id="usersTable"></tbody>
-          </table>
+      <section class="section" id="users">
+        <div class="panel">
+          <h2>User management</h2>
+          <div class="toolbar"><input id="userSearch" placeholder="Search by email or user ID..."></div>
+          <div class="table-wrap"><table><thead><tr><th>Email</th><th>Plan</th><th>Subscription</th><th>Account</th><th>Joined</th><th>Actions</th></tr></thead><tbody id="usersTable"></tbody></table></div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <section class="section" id="subscriptions">
+        <div class="panel">
+          <h2>Subscriptions</h2>
+          <div class="table-wrap"><table><thead><tr><th>User ID</th><th>Plan</th><th>Status</th><th>Billing</th><th>Provider</th><th>Period end</th></tr></thead><tbody id="subscriptionsTable"></tbody></table></div>
+        </div>
+      </section>
+
+      <section class="section" id="vehicles">
+        <div class="panel">
+          <h2>Registered vehicles</h2>
+          <div class="toolbar"><input id="vehicleSearch" placeholder="Search make, model or owner ID..."></div>
+          <div class="table-wrap"><table><thead><tr><th>Vehicle</th><th>Year</th><th>Engine</th><th>Nickname</th><th>Owner ID</th></tr></thead><tbody id="vehiclesTable"></tbody></table></div>
+        </div>
+      </section>
+
+      <section class="section" id="diagnoses">
+        <div class="panel">
+          <h2>Diagnosis history</h2>
+          <div class="table-wrap"><table><thead><tr><th>Date</th><th>Vehicle details</th><th>Symptoms</th><th>Analysis</th></tr></thead><tbody id="diagnosesTable"></tbody></table></div>
+        </div>
+      </section>
+
+      <section class="section" id="conversations">
+        <div class="panel">
+          <h2>Conversation activity</h2>
+          <p class="small-note">This section displays conversation metadata only. It does not expose private message contents.</p>
+          <div class="table-wrap"><table><thead><tr><th>Conversation ID</th><th>Title</th><th>User ID</th><th>Created</th></tr></thead><tbody id="conversationsTable"></tbody></table></div>
+        </div>
+      </section>
+
+      <section class="section" id="messages">
+        <div class="panel">
+          <h2>Message activity</h2>
+          <p class="small-note">For privacy, message contents are not displayed. Only metadata is shown.</p>
+          <div class="table-wrap"><table><thead><tr><th>Message ID</th><th>Conversation ID</th><th>Role</th><th>User ID</th><th>Date</th></tr></thead><tbody id="messagesTable"></tbody></table></div>
+        </div>
+      </section>
+
+      <section class="section" id="admins">
+        <div class="panel">
+          <h2>Admin management</h2>
+          <p class="small-note">Owner-only controls. Admin accounts should be added or removed carefully. This section will be connected to the admin-management API in a later step.</p>
+          <p class="muted">Your current role: <strong id="adminRole">—</strong></p>
+        </div>
+      </section>
+    </div>
   </main>
+</div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const db = window.supabase.createClient(
-      'https://trcdakfvfhhnbkgrbkym.supabase.co',
-      'sb_publishable_2v3QNutbX8Srr4Csqw9ptw_Tsqql70i'
-    );
+<script>
+const db = window.supabase.createClient(
+  'https://trcdakfvfhhnbkgrbkym.supabase.co',
+  'sb_publishable_2v3QNutbX8Srr4Csqw9ptw_Tsqql70i'
+);
+const WORKER_URL = 'https://ancient-math-f552.2212rezk2212.workers.dev/';
+const $ = id => document.getElementById(id);
 
-    const WORKER_URL =
-      'https://ancient-math-f552.2212rezk2212.workers.dev/';
+let token = null;
+let currentRole = null;
+let allUsers = [];
+let allCars = [];
 
-    const $ = id => document.getElementById(id);
+$('backBtn').onclick = () => location.href = 'index.html';
+$('refreshBtn').onclick = () => loadAll();
 
-    $('backBtn').addEventListener('click', () => {
-      window.location.href = 'index.html';
+function safe(value) {
+  return value === null || value === undefined || value === '' ? '—' : String(value);
+}
+function date(value) {
+  return value ? new Date(value).toLocaleString() : '—';
+}
+function cell(row, value) {
+  const td = document.createElement('td');
+  td.textContent = safe(value);
+  row.appendChild(td);
+  return td;
+}
+function badge(value) {
+  const span = document.createElement('span');
+  span.className = 'badge';
+  const v = String(value || 'unknown').toLowerCase();
+  if (v === 'active' || v === 'pro' || v === 'owner') span.classList.add('green');
+  else if (v === 'banned' || v === 'suspended' || v === 'canceled' || v === 'cancelled') span.classList.add('red');
+  else if (v === 'free' || v === 'admin') span.classList.add('yellow');
+  span.textContent = safe(value);
+  return span;
+}
+function emptyRow(tbody, columns, message = 'No records found.') {
+  tbody.replaceChildren();
+  const tr = document.createElement('tr');
+  const td = document.createElement('td');
+  td.colSpan = columns;
+  td.className = 'empty';
+  td.textContent = message;
+  tr.appendChild(td);
+  tbody.appendChild(tr);
+}
+function showTable(tbody, records, columns, render) {
+  tbody.replaceChildren();
+  if (!records || !records.length) return emptyRow(tbody, columns);
+  records.forEach(record => {
+    const tr = document.createElement('tr');
+    render(tr, record);
+    tbody.appendChild(tr);
+  });
+}
+async function api(action, extra = {}) {
+  const response = await fetch(WORKER_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({ action, ...extra })
+  });
+  const result = await response.json();
+  if (!response.ok || !result.success) {
+    throw new Error(result.error || `Request failed (${response.status})`);
+  }
+  return result;
+}
+function navigate(section) {
+  document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+  $(section).classList.add('active');
+  document.querySelector(`[data-section="${section}"]`).classList.add('active');
+  $('pageTitle').textContent = document.querySelector(`[data-section="${section}"]`).textContent;
+}
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => navigate(btn.dataset.section));
+});
+
+async function loadOverview() {
+  const result = await api('admin_overview');
+  $('totalUsers').textContent = safe(result.total_users);
+  $('proUsers').textContent = safe(result.pro_users);
+  $('freeUsers').textContent = safe(result.free_users);
+  $('activeSubscriptions').textContent = safe(result.active_subscriptions);
+  $('totalCars').textContent = safe(result.total_cars);
+  $('totalDiagnoses').textContent = safe(result.total_diagnoses);
+
+  const users = await api('admin_users');
+  allUsers = users.users || [];
+  renderUsers(allUsers);
+  showTable($('recentUsers'), allUsers.slice(0, 5), 4, (tr, user) => {
+    cell(tr, user.email);
+    cell(tr, user.plan);
+    cell(tr, user.subscription_status);
+    cell(tr, date(user.created_at));
+  });
+}
+function renderUsers(users) {
+  showTable($('usersTable'), users, 6, (tr, user) => {
+    cell(tr, user.email);
+    cell(tr, user.plan);
+    const statusCell = document.createElement('td');
+    statusCell.appendChild(badge(user.subscription_status));
+    tr.appendChild(statusCell);
+    const accountCell = document.createElement('td');
+    accountCell.appendChild(badge(user.banned_until ? 'Suspended' : 'Active'));
+    tr.appendChild(accountCell);
+    cell(tr, date(user.created_at));
+
+    const actionCell = document.createElement('td');
+    const actions = document.createElement('div');
+    actions.className = 'actions';
+    const button = document.createElement('button');
+    button.className = user.banned_until ? 'primary' : 'danger';
+    button.textContent = user.banned_until ? 'Restore' : 'Suspend';
+    button.onclick = () => changeUserStatus(user);
+    actions.appendChild(button);
+    actionCell.appendChild(actions);
+    tr.appendChild(actionCell);
+  });
+}
+async function changeUserStatus(user) {
+  const suspended = Boolean(user.banned_until);
+  const action = suspended ? 'admin_restore_user' : 'admin_suspend_user';
+  const promptText = suspended
+    ? `Restore access for ${user.email}?`
+    : `Suspend ${user.email}? They will lose access to their account.`;
+  if (!confirm(promptText)) return;
+  try {
+    await api(action, { user_id: user.id });
+    $('message').textContent = `Account updated: ${user.email}`;
+    await loadOverview();
+  } catch (error) {
+    alert(error.message);
+  }
+}
+async function loadData(table, tbody, columns, render) {
+  const result = await api('admin_data', { table });
+  renderRecords(tbody, result.records || [], columns, render);
+}
+function renderRecords(tbody, records, columns, render) {
+  showTable(tbody, records, columns, render);
+}
+async function loadAll() {
+  $('message').textContent = 'Refreshing dashboard...';
+  try {
+    await loadOverview();
+    await loadData('subscriptions', $('subscriptionsTable'), 6, (tr, item) => {
+      cell(tr, item.user_id);
+      cell(tr, item.plan);
+      cell(tr, item.status);
+      cell(tr, item.billing_interval);
+      cell(tr, item.provider);
+      cell(tr, date(item.current_period_end));
     });
+    const cars = await api('admin_data', { table: 'cars' });
+    allCars = cars.records || [];
+    renderCars(allCars);
+    await loadData('diagnosis_history', $('diagnosesTable'), 4, (tr, item) => {
+      cell(tr, date(item.created_at));
+      cell(tr, item.car_details);
+      cell(tr, item.symptoms);
+      cell(tr, item.analysis);
+    });
+    await loadData('conversations', $('conversationsTable'), 4, (tr, item) => {
+      cell(tr, item.id);
+      cell(tr, item.title);
+      cell(tr, item.user_id);
+      cell(tr, date(item.created_at));
+    });
+    await loadData('messages', $('messagesTable'), 5, (tr, item) => {
+      cell(tr, item.id);
+      cell(tr, item.conversation_id);
+      cell(tr, item.role);
+      cell(tr, item.user_id);
+      cell(tr, date(item.created_at));
+    });
+    $('message').textContent = `Access verified: ${currentRole}. Dashboard loaded successfully.`;
+  } catch (error) {
+    console.error(error);
+    $('message').textContent = error.message || 'Could not load dashboard.';
+  }
+}
+function renderCars(cars) {
+  showTable($('vehiclesTable'), cars, 5, (tr, car) => {
+    cell(tr, `${safe(car.make)} ${safe(car.model)}`);
+    cell(tr, car.year);
+    cell(tr, car.engine);
+    cell(tr, car.nickname);
+    cell(tr, car.user_id);
+  });
+}
+$('userSearch').addEventListener('input', event => {
+  const q = event.target.value.toLowerCase();
+  renderUsers(allUsers.filter(user =>
+    `${user.email || ''} ${user.id || ''}`.toLowerCase().includes(q)
+  ));
+});
+$('vehicleSearch').addEventListener('input', event => {
+  const q = event.target.value.toLowerCase();
+  renderCars(allCars.filter(car =>
+    `${car.make || ''} ${car.model || ''} ${car.user_id || ''}`.toLowerCase().includes(q)
+  ));
+});
 
-    async function loadDashboard() {
-      const { data, error } = await db.auth.getSession();
-      const session = data?.session;
-
-      if (error || !session) {
-        $('message').textContent =
-          'Please log in through CarPulse first.';
-        return;
-      }
-
-      const response = await fetch(WORKER_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session.access_token}`
-        },
-        body: JSON.stringify({ action: 'admin_overview' })
-      });
-
-      const result = await response.json();
-
-      if (!response.ok || !result.success) {
-        $('message').textContent =
-          result.error || 'Admin access denied.';
-        return;
-      }
-
-      $('totalUsers').textContent = result.total_users;
-      $('proUsers').textContent = result.pro_users;
-      $('freeUsers').textContent = result.free_users;
-      $('activeSubscriptions').textContent =
-        result.active_subscriptions;
-
-      const usersResponse = await fetch(WORKER_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session.access_token}`
-        },
-        body: JSON.stringify({ action: 'admin_users' })
-      });
-
-      const usersResult = await usersResponse.json();
-
-      if (!usersResponse.ok || !usersResult.success) {
-        $('message').textContent =
-          usersResult.error || 'Could not load users.';
-        return;
-      }
-
-      $('usersTable').replaceChildren();
-
-      usersResult.users.forEach(user => {
-        const row = document.createElement('tr');
-
-        [
-          user.email,
-          user.plan,
-          user.subscription_status,
-          user.created_at
-            ? new Date(user.created_at).toLocaleDateString()
-            : '—'
-        ].forEach(value => {
-          const cell = document.createElement('td');
-          cell.textContent = value || '—';
-          row.appendChild(cell);
-        });
-
-        $('usersTable').appendChild(row);
-      });
-
-      $('message').textContent =
-        `Access verified: ${result.role}. Dashboard loaded successfully.`;
-
-      $('dashboard').classList.remove('hidden');
+async function start() {
+  try {
+    const { data, error } = await db.auth.getSession();
+    if (error || !data.session) {
+      $('message').textContent = 'Please log in through CarPulse first.';
+      return;
     }
+    token = data.session.access_token;
+    const overview = await api('admin_overview');
+    currentRole = overview.role;
+    $('adminRole').textContent = currentRole;
 
-    loadDashboard().catch(error => {
-      console.error(error);
-      $('message').textContent =
-        'Could not load dashboard. Please try again.';
-    });
-  </script>
+    if (currentRole === 'owner') $('adminNav').classList.remove('hidden');
+
+    $('dashboard').classList.remove('hidden');
+    await loadAll();
+  } catch (error) {
+    console.error(error);
+    $('message').textContent = error.message || 'Admin access denied.';
+  }
+}
+start();
+</script>
 </body>
 </html>
