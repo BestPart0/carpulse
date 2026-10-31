@@ -1347,7 +1347,7 @@ $('carFormTitle').textContent = 'Edit car';
   $('carNickname').focus();
 }
 
-  carForm.addEventListener('submit', async event => {
+  carForm?.addEventListener('submit', async event => {
     event.preventDefault();
 
     const { data: { session } } = await db.auth.getSession();
