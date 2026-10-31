@@ -425,6 +425,7 @@ button#showCarFormBtn.garage-plus-btn:hover {
   <span class="pill">EARLY ACCESS · EGYPT</span>
   <button class="btn secondary" id="accountBtn" type="button">Log in / Sign up</button>
   <button class="btn secondary" id="homeGarageBtn" type="button">My Garage</button>
+  <button class="btn primary" id="proNavBtn" type="button">Join Pro</button>
   <button class="btn secondary" id="langBtn" type="button">العربية</button>
 </div>
   </nav>
@@ -826,7 +827,30 @@ if (supabaseClient) {
   const switchButton = $('authSwitch');
   const accountButton = $('accountBtn');
 const homeGarageButton = $('homeGarageBtn');
+const proNavBtn = $('proNavBtn');
 
+function openProSection() {
+  $('proSection').classList.remove('hidden');
+  $('proSection').scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+}
+
+proNavBtn?.addEventListener('click', openProSection);
+
+$('closeProBtn')?.addEventListener('click', () => {
+  $('proSection').classList.add('hidden');
+  document.querySelector('.hero')?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+});
+
+// Open Pro automatically when arriving from My Garage.
+if (window.location.hash === '#proSection') {
+  openProSection();
+}
 homeGarageButton?.addEventListener('click', async () => {
   const { data: { session }, error } = await db.auth.getSession();
 
