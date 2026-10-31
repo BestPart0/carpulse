@@ -441,37 +441,41 @@ button#showCarFormBtn.garage-plus-btn:hover {
   
 <section class="card hidden" id="proSection" style="margin-bottom:20px">
   <button class="btn secondary" id="closeProBtn" type="button">← Back to CarPulse</button>
-
-  <div style="text-align:center;padding:24px 8px">
-    <span class="pill">CARPULSE PRO</span>
+  <div style="text-align:center;padding:24px 8px 12px">
+    <span class="pill">CARPULSE PLANS</span>
     <h2 style="font-size:30px;margin:16px 0 8px">Know your car better.</h2>
-    <p class="sub">More cars. Deeper insights. Smarter maintenance.</p>
+    <p class="sub">Start free. Upgrade when you need more control.</p>
   </div>
-
-  <div class="two">
-    <div class="card">
+  <div style="display:flex;justify-content:center;gap:8px;margin:8px 0 22px">
+    <button class="btn primary" id="monthlyPlanBtn" type="button" aria-pressed="true">Monthly</button>
+    <button class="btn secondary" id="annualPlanBtn" type="button" aria-pressed="false">Yearly · Save EGP 358</button>
+  </div>
+  <div class="two" style="align-items:stretch">
+    <div class="card" style="border-color:#344754">
       <h3>Free</h3>
-      <h2>$0 <span class="sub">/ forever</span></h2>
-      <p>✓ 1 saved car</p>
-      <p>✓ AI sound diagnosis</p>
-      <p>✓ Limited history</p>
+      <div style="font-size:30px;font-weight:850;margin:12px 0">EGP 0</div>
+      <p class="sub">Forever</p>
+      <p>✓ 1 saved vehicle</p><p>✓ 10 AI sound diagnoses / month</p>
+      <p>✓ 15 AI mechanic questions / month</p><p>✓ Basic diagnosis history</p>
+      <p>✓ Basic warning-light explanations</p>
+      <p>✓ Nearby garage search</p>
+      <button class="btn secondary" type="button" disabled style="width:100%;margin-top:14px">Your free plan</button>
     </div>
-
-    <div class="card">
-      <h3>Pro ⭐</h3>
-      <h2>Coming soon</h2>
-      <p>✓ Multiple saved cars</p>
-      <p>✓ Full diagnostic history</p>
-      <p>✓ Recurring problem tracking</p>
-      <p>✓ Deeper AI explanations</p>
-      <p>✓ Maintenance reminders</p>
+    <div class="card" style="border-color:var(--accent)">
+      <h3>CarPulse Pro ⭐</h3>
+      <div id="proPrice" style="font-size:30px;font-weight:850;margin:12px 0">EGP 149 <span style="font-size:13px;color:var(--muted);font-weight:500">/ month</span></div>
+      <p class="sub" id="proBillingNote">Billed monthly. Cancel anytime.</p>
+      <p>✓ 10 saved vehicles</p><p>✓ 100 AI sound diagnoses / month</p>
+      <p>✓ 150 AI mechanic questions / month</p><p>✓ Full diagnosis history</p>
+      <p>✓ 30 warning-light recognitions / month</p>
+      <p>✓ Maintenance reminders and repair tracking</p>
+      <p>✓ Fuel analytics and vehicle health score</p>
+      <p>✓ Repair estimates and shareable reports</p>
+      <button class="btn primary" id="proSubscribeBtn" type="button" style="width:100%;margin-top:14px">Choose Pro</button>
     </div>
   </div>
-
-  <div style="text-align:center;margin-top:20px">
-    <button class="btn primary" id="proSubscribeBtn" type="button">Get CarPulse Pro</button>
-    <p class="sub" id="proMessage" role="status">Monthly and yearly plans coming soon.</p>
-  </div>
+  <p class="sub" style="text-align:center;margin:18px 0 0">Prices in Egyptian pounds. Secure checkout will be enabled after payment integration is configured.</p>
+  <p class="sub" id="proMessage" role="status" style="text-align:center;margin-top:8px">Choose a billing period to see your price.</p>
 </section>
 
   <header class="hero">
@@ -1052,9 +1056,29 @@ $('closeProBtn').addEventListener('click', () => {
   });
 });
 }
-$('proSubscribeBtn').addEventListener('click', () => {
-  $('proMessage').textContent =
-    'Pro subscriptions are not active yet. Monthly and yearly plans are coming soon!';
+let selectedBillingInterval = 'monthly';
+const monthlyPlanBtn = $('monthlyPlanBtn');
+const annualPlanBtn = $('annualPlanBtn');
+function updateProPrice(interval) {
+  selectedBillingInterval = interval;
+  const annual = interval === 'annual';
+  $('proPrice').innerHTML = annual
+    ? 'EGP 1,430 <span style="font-size:13px;color:var(--muted);font-weight:500">/ year</span>'
+    : 'EGP 149 <span style="font-size:13px;color:var(--muted);font-weight:500">/ month</span>';
+  $('proBillingNote').textContent = annual
+    ? 'Billed yearly. Equivalent to EGP 119.17/month.'
+    : 'Billed monthly. Cancel anytime.';
+  monthlyPlanBtn.className = annual ? 'btn secondary' : 'btn primary';
+  annualPlanBtn.className = annual ? 'btn primary' : 'btn secondary';
+  monthlyPlanBtn.setAttribute('aria-pressed', String(!annual));
+  annualPlanBtn.setAttribute('aria-pressed', String(annual));
+}
+monthlyPlanBtn?.addEventListener('click', () => updateProPrice('monthly'));
+annualPlanBtn?.addEventListener('click', () => updateProPrice('annual'));
+$('proSubscribeBtn')?.addEventListener('click', () => {
+  $('proMessage').textContent = selectedBillingInterval === 'annual'
+    ? 'Yearly Pro is selected (EGP 1,430). Checkout is not connected yet, so you will not be charged.'
+    : 'Monthly Pro is selected (EGP 149). Checkout is not connected yet, so you will not be charged.';
 });
 async function loadDiagnosisHistory() {
   const historyList = $('historyList');
