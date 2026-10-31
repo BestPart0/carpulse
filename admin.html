@@ -125,7 +125,39 @@ td{color:#d6e0e7}
         </div>
       </section>
 
-      <section class="section" id="users">
+      <section class="section" <section class="section" id="users">
+  <div class="panel">
+    <h2>User management</h2>
+
+    <div class="toolbar">
+      <input id="userSearch" placeholder="Search by email or user ID...">
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Plan</th>
+            <th>Subscription</th>
+            <th>Account</th>
+            <th>Joined</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="usersTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel hidden" id="userDetailsPanel">
+    <h2>User details</h2>
+    <div id="userDetailsContent"></div>
+    <div class="toolbar">
+      <button class="secondary" onclick="closeUserDetails()">Close details</button>
+    </div>
+  </div>
+</section>>
         <div class="panel">
           <h2>User management</h2>
           <div class="toolbar"><input id="userSearch" placeholder="Search by email or user ID..."></div>
@@ -345,15 +377,87 @@ function renderUsers(users) {
     const actions = document.createElement('div');
     actions.className = 'actions';
 
-    const button = document.createElement('button');
-    button.className = isSuspended ? 'primary' : 'danger';
-    button.textContent = isSuspended ? 'Restore' : 'Suspend';
-    button.onclick = () => changeUserStatus(user);
+    const detailsButton = document.createElement('button');
+    detailsButton.className = 'secondary';
+    detailsButton.textContent = 'View details';
+    detailsButton.onclick = () => showUserDetails(user);
+    actions.appendChild(detailsButton);
 
-    actions.appendChild(button);
+    const statusButton = document.createElement('button');
+    statusButton.className = isSuspended ? 'primary' : 'danger';
+    statusButton.textContent = isSuspended ? 'Restore' : 'Suspend';
+    statusButton.onclick = () => changeUserStatus(user);
+    actions.appendChild(statusButton);
+
     actionCell.appendChild(actions);
     tr.appendChild(actionCell);
   });
+}
+  async function showUserDetails(user) {
+  const panel = $('userDetailsPanel');
+  const content = $('userDetailsContent');
+
+  panel.classList.remove('hidden');
+  content.textContent = 'Loading user details...';
+
+  const userCars = allCars.filter(car => car.user_id === user.id);
+
+  try {
+    const diagnosesResult = await api('admin_data', {
+      table: 'diagnosis_history'
+    });
+
+    const diagnoses = (diagnosesResult.records || [])
+      .filter(item => item.user_id === user.id);
+
+    content.replaceChildren();
+
+    const details = [
+      ['Email', user.email],
+      ['User ID', user.id],
+      ['Name', user.name],
+      ['Plan', user.plan],
+      ['Subscription status', user.subscription_status],
+      ['Billing interval', user.billing_interval],
+      ['Joined', date(user.created_at)],
+      ['Last sign-in', date(user.last_sign_in_at)],
+      ['Registered cars', userCars.length],
+      ['Diagnoses', diagnoses.length]
+    ];
+
+    details.forEach(([label, value]) => {
+      const p = document.createElement('p');
+      const strong = document.createElement('strong');
+      strong.textContent = `${label}: `;
+      p.append(strong, document.createTextNode(safe(value)));
+      content.appendChild(p);
+    });
+
+    const heading = document.createElement('h3');
+    heading.textContent = 'Registered vehicles';
+    content.appendChild(heading);
+
+    if (userCars.length === 0) {
+      const p = document.createElement('p');
+      p.textContent = 'No registered vehicles.';
+      content.appendChild(p);
+    } else {
+      userCars.forEach(car => {
+        const p = document.createElement('p');
+        p.textContent =
+          `${safe(car.year)} ${safe(car.make)} ${safe(car.model)} — ${safe(car.nickname)}`;
+        content.appendChild(p);
+      });
+    }
+  } catch (error) {
+    content.textContent = `Could not load user details: ${error.message}`;
+  }
+
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function closeUserDetails() {
+  $('userDetailsPanel').classList.add('hidden');
 }
 async function changeUserStatus(user) {
   const suspended = Boolean(user.banned_until);
