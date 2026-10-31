@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CarPulse Admin</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 24px;
+      background: #0d1117;
+      color: #f0f6fc;
+      font-family: Arial, sans-serif;
+    }
+    .container { max-width: 1100px; margin: auto; }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    h1 { margin-bottom: 6px; }
+    .sub { color: #a8b3bd; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin: 28px 0;
+    }
+    .card {
+      background: #151b22;
+      border: 1px solid #303a45;
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .number { font-size: 32px; font-weight: bold; margin-top: 12px; }
+    button {
+      background: #7ee787;
+      color: #101820;
+      border: 0;
+      border-radius: 8px;
+      padding: 11px 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button.secondary { background: #303a45; color: white; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 650px;
+    }
+    th, td {
+      text-align: left;
+      padding: 13px;
+      border-bottom: 1px solid #303a45;
+    }
+    th { color: #7ee787; }
+    .table-wrap { overflow-x: auto; }
+    #message { margin-top: 20px; color: #a8b3bd; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div class="top">
+      <div>
+        <h1>CarPulse Admin</h1>
+        <p class="sub">Administration dashboard</p>
+      </div>
+      <button class="secondary" id="backBtn">Back to CarPulse</button>
+    </div>
+
+    <p id="message">Verifying admin access...</p>
+
+    <section id="dashboard" class="hidden">
+      <div class="cards">
+        <div class="card">
+          <div class="sub">Total users</div>
+          <div class="number" id="totalUsers">—</div>
+        </div>
+        <div class="card">
+          <div class="sub">Pro users</div>
+          <div class="number" id="proUsers">—</div>
+        </div>
+        <div class="card">
+          <div class="sub">Free users</div>
+          <div class="number" id="freeUsers">—</div>
+        </div>
+        <div class="card">
+          <div class="sub">Active subscriptions</div>
+          <div class="number" id="activeSubscriptions">—</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Registered users</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Plan</th>
+                <th>Status</th>
+                <th>Joined</th>
+              </tr>
+            </thead>
+            <tbody id="usersTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const db = window.supabase.createClient(
+      'https://trcdakfvfhhnbkgrbkym.supabase.co',
+      'sb_publishable_2v3QNutbX8Srr4Csqw9ptw_Tsqql70i'
+    );
+
+    const WORKER_URL =
+      'https://ancient-math-f552.2212rezk2212.workers.dev/';
+
+    const $ = id => document.getElementById(id);
+
+    $('backBtn').addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+
+    async function loadDashboard() {
+      const { data, error } = await db.auth.getSession();
+      const session = data?.session;
+
+      if (error || !session) {
+        $('message').textContent =
+          'Please log in through CarPulse first.';
+        return;
+      }
+
+      const response = await fetch(WORKER_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({ action: 'admin_overview' })
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        $('message').textContent =
+          result.error || 'Admin access denied.';
+        return;
+      }
+
+      $('totalUsers').textContent = result.total_users;
+      $('proUsers').textContent = result.pro_users;
+      $('freeUsers').textContent = result.free_users;
+      $('activeSubscriptions').textContent =
+        result.active_subscriptions;
+
+      const usersResponse = await fetch(WORKER_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({ action: 'admin_users' })
+      });
+
+      const usersResult = await usersResponse.json();
+
+      if (!usersResponse.ok || !usersResult.success) {
+        $('message').textContent =
+          usersResult.error || 'Could not load users.';
+        return;
+      }
+
+      $('usersTable').replaceChildren();
+
+      usersResult.users.forEach(user => {
+        const row = document.createElement('tr');
+
+        [
+          user.email,
+          user.plan,
+          user.subscription_status,
+          user.created_at
+            ? new Date(user.created_at).toLocaleDateString()
+            : '—'
+        ].forEach(value => {
+          const cell = document.createElement('td');
+          cell.textContent = value || '—';
+          row.appendChild(cell);
+        });
+
+        $('usersTable').appendChild(row);
+      });
+
+      $('message').textContent =
+        `Access verified: ${result.role}. Dashboard loaded successfully.`;
+
+      $('dashboard').classList.remove('hidden');
+    }
+
+    loadDashboard().catch(error => {
+      console.error(error);
+      $('message').textContent =
+        'Could not load dashboard. Please try again.';
+    });
+  </script>
+</body>
+</html>
