@@ -1456,6 +1456,8 @@ updateAccountButton();
 db.auth.onAuthStateChange((event, session) => {
   accountButton.textContent = session ? 'My account' : 'Log in / Sign up';
 });
+
+})();
 </script>
 
 <div style="text-align:center;padding:24px 16px;color:#a8b3bd;font-size:14px">
