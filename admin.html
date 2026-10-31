@@ -171,13 +171,52 @@ td{color:#d6e0e7}
         </div>
       </section>
 
-      <section class="section" id="admins">
-        <div class="panel">
-          <h2>Admin management</h2>
-          <p class="small-note">Owner-only controls. Admin accounts should be added or removed carefully. This section will be connected to the admin-management API in a later step.</p>
-          <p class="muted">Your current role: <strong id="adminRole">—</strong></p>
-        </div>
-      </section>
+     <section class="section" id="admins">
+  <div class="panel">
+    <h2>Administrator management</h2>
+    <p class="small-note">
+      Only the owner can add or remove administrators.
+      Admins cannot manage other administrators.
+    </p>
+
+    <p class="muted">
+      Your current role: <strong id="adminRole">—</strong>
+    </p>
+  </div>
+
+  <div class="panel">
+    <h2>Add administrator</h2>
+    <div class="toolbar">
+      <input
+        id="newAdminId"
+        placeholder="Enter user's Supabase UUID"
+        style="flex:1"
+      >
+      <button class="primary" id="addAdminBtn">Add admin</button>
+    </div>
+    <p class="small-note">
+      The person must already have a CarPulse account.
+      You can find their UUID in the Users section.
+    </p>
+  </div>
+
+  <div class="panel">
+    <h2>Current administrators</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Added</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="adminsTable"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
     </div>
   </main>
 </div>
