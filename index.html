@@ -807,7 +807,25 @@ if (supabaseClient) {
   const message = $('authMessage');
   const switchButton = $('authSwitch');
   const accountButton = $('accountBtn');
+const homeGarageButton = $('homeGarageBtn');
 
+homeGarageButton?.addEventListener('click', async () => {
+  const { data: { session }, error } = await db.auth.getSession();
+
+  if (error) {
+    console.error(error);
+    showMessage('Could not check your login status.', true);
+    return;
+  }
+
+  if (!session) {
+    showMessage('Please log in to access your garage.');
+    modal.classList.remove('hidden');
+    return;
+  }
+
+  window.location.href = 'garage.html';
+});
   if (!db || !modal || !accountButton) {
     console.error('CarPulse account setup is missing a required element.');
     return;
