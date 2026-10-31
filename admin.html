@@ -393,7 +393,8 @@ function renderUsers(users) {
     tr.appendChild(actionCell);
   });
 }
-  async function showUserDetails(user) {
+  
+async function showUserDetails(user) {
   const panel = $('userDetailsPanel');
   const content = $('userDetailsContent');
 
@@ -411,6 +412,11 @@ function renderUsers(users) {
       .filter(item => item.user_id === user.id);
 
     content.replaceChildren();
+
+    // Account information
+    const detailsHeading = document.createElement('h3');
+    detailsHeading.textContent = 'Account information';
+    content.appendChild(detailsHeading);
 
     const details = [
       ['Email', user.email],
@@ -433,9 +439,10 @@ function renderUsers(users) {
       content.appendChild(p);
     });
 
-    const heading = document.createElement('h3');
-    heading.textContent = 'Registered vehicles';
-    content.appendChild(heading);
+    // Registered vehicles
+    const carsHeading = document.createElement('h3');
+    carsHeading.textContent = 'Registered vehicles';
+    content.appendChild(carsHeading);
 
     if (userCars.length === 0) {
       const p = document.createElement('p');
@@ -449,11 +456,58 @@ function renderUsers(users) {
         content.appendChild(p);
       });
     }
+
+    // Diagnosis history
+    const diagnosisHeading = document.createElement('h3');
+    diagnosisHeading.textContent = 'Diagnosis history';
+    content.appendChild(diagnosisHeading);
+
+    if (diagnoses.length === 0) {
+      const p = document.createElement('p');
+      p.textContent = 'No diagnoses recorded.';
+      content.appendChild(p);
+    } else {
+      diagnoses.forEach((diagnosis, index) => {
+        const card = document.createElement('details');
+        const summary = document.createElement('summary');
+
+        summary.textContent =
+          `Diagnosis ${index + 1} — ${date(diagnosis.created_at)}`;
+
+        card.appendChild(summary);
+
+        const fields = [
+          ['Vehicle', diagnosis.car_details],
+          ['Symptoms', diagnosis.symptoms],
+          ['AI Analysis', diagnosis.analysis],
+          ['Disclaimer', diagnosis.disclaimer]
+        ];
+
+        fields.forEach(([label, value]) => {
+          const p = document.createElement('p');
+          const strong = document.createElement('strong');
+          strong.textContent = `${label}: `;
+          p.append(strong, document.createTextNode(safe(value)));
+          card.appendChild(p);
+        });
+
+        content.appendChild(card);
+      });
+    }
+
   } catch (error) {
-    content.textContent = `Could not load user details: ${error.message}`;
+    content.textContent =
+      `Could not load user details: ${error.message}`;
   }
 
-  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  panel.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+}
+
+function closeUserDetails() {
+  $('userDetailsPanel').classList.add('hidden');
 }
 
 function closeUserDetails() {
