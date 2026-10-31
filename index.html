@@ -425,6 +425,7 @@ button#showCarFormBtn.garage-plus-btn:hover {
   <span class="pill">EARLY ACCESS · EGYPT</span>
   <button class="btn secondary" id="accountBtn" type="button">Log in / Sign up</button>
   <button class="btn secondary" id="homeGarageBtn" type="button">My Garage</button>
+  <button class="btn primary" id="joinProBtn" type="button" style="display:none">Join Pro</button>
   <button class="btn secondary" id="langBtn" type="button">العربية</button>
 </div>
   </nav>
@@ -1035,7 +1036,34 @@ closeCarFormBtn?.addEventListener('click', () => {
   }
 
  // CarPulse Pro upgrade page
-const upgradeBtn = $('upgradeBtn');
+const joinProBtn = $('joinProBtn');
+joinProBtn?.addEventListener('click', () => {
+  $('proSection').classList.remove('hidden');
+  $('proSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+async function updateJoinProButton() {
+  if (!joinProBtn) return;
+  try {
+    const { data: { session } } = await db.auth.getSession();
+    if (!session) {
+      joinProBtn.style.display = 'inline-block';
+      return;
+    }
+    const { data: subscription, error } = await db
+      .from('subscriptions')
+      .select('plan,status')
+      .eq('user_id', session.user.id)
+      .maybeSingle();
+    const isPro = !error && subscription?.plan === 'pro' && subscription?.status === 'active';
+    joinProBtn.style.display = isPro ? 'none' : 'inline-block';
+  } catch (error) {
+    console.error('Could not check Pro status:', error);
+    joinProBtn.style.display = 'inline-block';
+  }
+}
+
+updateJoinProButton();
 
 if (upgradeBtn) {
 
@@ -1501,6 +1529,7 @@ updateAccountButton();
 
 db.auth.onAuthStateChange((event, session) => {
   accountButton.textContent = session ? 'My account' : 'Log in / Sign up';
+  updateJoinProButton();
 });
 
 })();
