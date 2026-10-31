@@ -760,12 +760,6 @@ if (currentSession) {
 
   
   // CarPulse Garage
-  const upgradeButton = $('upgradeBtn');
-  upgradeButton?.addEventListener('click', () => {
-    // The Pro pricing section lives on the main homepage, not this Garage page.
-    window.location.href = 'index.html#proSection';
-  });
-
   const carForm = $('carForm');
 const showCarFormBtn = $('showCarFormBtn');
 
@@ -1134,42 +1128,24 @@ $('carFormTitle').textContent = 'Edit car';
 
   carForm.addEventListener('submit', async event => {
     event.preventDefault();
-
-    const { data: { session } } = await db.auth.getSession();
-const planBadge = $('planBadge');
-
-if (planBadge && session) {
-  const { data: subscription, error } = await db
-    .from('subscriptions')
-    .select('plan,status')
-    .eq('user_id', session.user.id)
-    .maybeSingle();
-
-  if (!error && subscription) {
-    const isPro = subscription.plan === 'pro' &&
-                  subscription.status === 'active';
-
-    planBadge.textContent = isPro ? 'PRO PLAN' : 'FREE PLAN';
-  } else {
-    planBadge.textContent = 'FREE PLAN';
-  }
-}
-    if (!session) {
-      showMessage('Please log in before saving a car.', true);
-      modal.classList.remove('hidden');
-      return;
-    }
-
     const saveButton = $('saveCarBtn');
     saveButton.disabled = true;
     saveButton.textContent = 'Saving...';
+    $('garageMessage').textContent = '';
 
     try {
+      const { data: { session }, error: sessionError } = await db.auth.getSession();
+      if (sessionError) throw sessionError;
+      if (!session) {
+        showMessage('Please log in before saving a car.', true);
+        modal.classList.remove('hidden');
+        return;
+      }
+
       const { data: existingCars, error: countError } = await db
         .from('cars')
         .select('id')
         .eq('user_id', session.user.id);
-
       if (countError) throw countError;
 
       const { data: subscription, error: planError } = await db
@@ -1177,84 +1153,104 @@ if (planBadge && session) {
         .select('plan,status')
         .eq('user_id', session.user.id)
         .maybeSingle();
-
       if (planError) throw planError;
 
-      const isPro = subscription?.plan === 'pro' &&
-                    subscription?.status === 'active';
-
-      if (!editingCarId && !isPro && existingCars.length >= 1) {
-        $('garageMessage').textContent =
-          'Free accounts can save one car. Upgrade to Pro for more.';
+      const isPro = subscription?.plan === 'pro' && subscription?.status === 'active';
+      if (!editingCarId && !isPro && (existingCars || []).length >= 1) {
+        $('garageMessage').textContent = 'Free accounts can save one car. Upgrade to Pro for more.';
         $('upgradeBtn').style.display = 'inline-block';
         return;
       }
 
-     
-const car = {
-  user_id: session.user.id,
-  nickname: $('carNickname').value.trim(),
-  make: $('carMake').value.trim(),
-  model: $('carModel').value.trim(),
-  year: Number($('carYear').value),
-  engine: $('carEngine').value.trim(),
-  icon_type: selectedIconType,
-  icon_color: selectedIconColor
-};
+      const car = {
+        user_id: session.user.id,
+        nickname: $('carNickname').value.trim(),
+        make: $('carMake').value.trim(),
+        model: $('carModel').value.trim(),
+        year: Number($('carYear').value),
+        engine: $('carEngine').value.trim(),
+        icon_type: selectedIconType,
+        icon_color: selectedIconColor
+      };
 
+      const saveQuery = editingCarId
+        ? db.from('cars').update(car).eq('id', editingCarId).eq('user_id', session.user.id)
+        : db.from('cars').insert(car);
+      const { error: saveError } = await saveQuery;
+      if (saveError) throw saveError;
 
-      let saveQuery;
-
-if (editingCarId) {
-  saveQuery = db
-    .from('cars')
-    .update(car)
-    .eq('id', editingCarId)
-    .eq('user_id', session.user.id);
-} else {
-  saveQuery = db.from('cars').insert(car);
-}
-
-const { error } = await saveQuery;
-if (error) throw error;
-      if (error) throw error;
-
-      $('garageMessage').textContent = 'Car saved successfully!';
+      $('garageMessage').textContent = editingCarId ? 'Car updated successfully!' : 'Car saved successfully!';
+      editingCarId = null;
       carForm.reset();
+      carForm.classList.add('hidden');
+      $('carFormTitle').textContent = 'Add a car';
+      $('saveCarBtn').textContent = 'Save car';
+      $('upgradeBtn').style.display = 'none';
       await loadGarage();
     } catch (error) {
-      $('garageMessage').textContent =
-        'Could not save car: ' + error.message;
+      console.error('Saving car failed:', error);
+      $('garageMessage').textContent = 'Could not save car: ' + (error.message || 'Unknown error');
     } finally {
       saveButton.disabled = false;
-      saveButton.textContent = 'Save car';
+      saveButton.textContent = editingCarId ? 'Update car' : 'Save car';
     }
   });
 
-   db.auth.getSession().then(({ data: { session } }) => {
-  accountButton.textContent = session ? 'My account' : 'Log in / Sign up';
+  // Keep the Garage visible even when signed out so visitors can see the login prompt.
+  // Do not make Supabase requests directly inside onAuthStateChange: Supabase holds
+  // an internal auth lock while notifying listeners, which can stall getSession().
+  let lastLoadedUserId = null;
+  let refreshTimer = null;
 
-  if (session) {
-    loadGarage();
-    loadDiagnosisHistory();
-  } else {
-    $('garageList').innerHTML =
-      '<p class="sub">Log in to view your saved cars.</p>';
-    $('historyList').innerHTML =
-      '<p class="sub">Log in to view your history.</p>';
+  function renderSignedOutState() {
+    lastLoadedUserId = null;
+    accountButton.textContent = 'Log in / Sign up';
+    $('garageList').innerHTML = '<p class="sub">Log in to view your saved cars.</p>';
+    $('historyList').innerHTML = '<p class="sub">Log in to view your history.</p>';
+    $('planBadge').textContent = 'FREE PLAN';
+    $('planBadge').classList.remove('pro-plan-badge');
   }
-});
+
+  async function refreshForSession(session) {
+    if (!session) {
+      renderSignedOutState();
+      return;
+    }
+
+    accountButton.textContent = 'My account';
+    if (lastLoadedUserId === session.user.id) return;
+    lastLoadedUserId = session.user.id;
+    await Promise.all([loadGarage(), loadDiagnosisHistory()]);
+  }
+
+  // Initial session restoration (including a previously saved login).
+  db.auth.getSession()
+    .then(({ data, error }) => {
+      if (error) throw error;
+      return refreshForSession(data.session);
+    })
+    .catch(error => {
+      console.error('Could not restore CarPulse session:', error);
+      $('garageMessage').textContent = 'Could not restore your login: ' + error.message;
+      renderSignedOutState();
+    });
 
   db.auth.onAuthStateChange((event, session) => {
-    document.getElementById('garageSection').classList.toggle('hidden', !session);
+    // Update the visible account state immediately, then defer database work
+    // until Supabase has released its auth lock.
     accountButton.textContent = session ? 'My account' : 'Log in / Sign up';
-
-    if (event === 'SIGNED_IN') {
-      loadGarage();
-      loadDiagnosisHistory();
-    } else if (event === 'SIGNED_OUT') {
-      $('historyList').innerHTML =
-        '<p class="sub">Log in to view your history.</p>';
+    if (event === 'SIGNED_OUT') {
+      renderSignedOutState();
+      return;
+    }
+    if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'INITIAL_SESSION') {
+      if (refreshTimer) clearTimeout(refreshTimer);
+      refreshTimer = setTimeout(() => {
+        refreshForSession(session).catch(error => {
+          console.error('Garage refresh failed:', error);
+          $('garageMessage').textContent = 'Could not load your account data: ' + error.message;
+        });
+      }, 0);
     }
   });
 })();
