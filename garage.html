@@ -1,1126 +1,1432 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-V9PDQQ6EBS');
-</script>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#101820">
-<title>CarPulse — Understand your car</title>
+<meta name="theme-color" content="#090f14">
+<title>CarPulse | My Garage</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--bg:#0b1117;--panel:#121c25;--panel2:#17242f;--line:#283744;--text:#f3f7fa;--muted:#9eb0bd;--accent:#b8f36b;--accent2:#d8ff9f;--danger:#ff7777;--amber:#ffc66d}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% -10%,#203342 0,transparent 38%),var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}button,input,select{font:inherit}button{cursor:pointer}a{color:var(--accent)}.wrap{max-width:1050px;margin:auto;padding:22px 18px 60px}.nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:44px}.brand{display:flex;gap:10px;align-items:center;font-weight:800;font-size:21px;letter-spacing:-.5px}.brand-logo{width:28px;height:28px;max-width:28px;max-height:28px;object-fit:contain;border-radius:6px;flex-shrink:0;display:block}.navright{display:flex;gap:10px;align-items:center}.pill{border:1px solid var(--line);border-radius:999px;padding:8px 12px;color:var(--muted);font-size:13px;background:#101922}.hero{max-width:750px;margin:0 auto 30px;text-align:center}.eyebrow{color:var(--accent);font-weight:750;text-transform:uppercase;letter-spacing:2px;font-size:11px}.hero h1{font-size:clamp(36px,7vw,62px);line-height:1.04;letter-spacing:-2.8px;margin:14px 0}.hero h1 span{color:var(--accent)}.hero p{color:var(--muted);max-width:590px;margin:0 auto;font-size:17px}.layout{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:start}.card{background:linear-gradient(150deg,#14212b,#101820);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 18px 50px #0002}.card h2{font-size:19px;margin:0 0 5px;letter-spacing:-.4px}.sub{color:var(--muted);font-size:13px;margin:0 0 20px}.step{display:flex;gap:12px;align-items:flex-start}.num{flex:0 0 28px;height:28px;border-radius:9px;background:#273b2b;color:var(--accent);display:grid;place-items:center;font-weight:800;font-size:13px}.field{margin-bottom:16px}.field label{display:block;font-size:13px;color:#c9d5dd;margin-bottom:7px;font-weight:650}.field input,.field select{width:100%;background:#0b131a;border:1px solid #30414d;border-radius:11px;padding:12px;color:var(--text);outline:none}.field input:focus,.field select:focus{border-color:var(--accent)}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.recordbox{border:1px dashed #435866;background:#0b141b;border-radius:15px;padding:18px;text-align:center;margin:6px 0 15px}.mic{width:58px;height:58px;margin:0 auto 10px;border-radius:18px;background:#233a2a;color:var(--accent);display:grid;place-items:center;font-size:25px}.recordbox strong{display:block}.recordbox small{display:block;color:var(--muted);margin:4px 0 14px}.btn{border:0;border-radius:11px;padding:12px 16px;font-weight:800;transition:.15s}.primary{background:var(--accent);color:#10170d}.primary:hover{background:var(--accent2);transform:translateY(-1px)}.secondary{background:#1d2b36;color:var(--text);border:1px solid #344754}.btnrow{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}.btn:disabled{opacity:.45;cursor:not-allowed}.status{font-size:12px;color:var(--muted);margin-top:10px;min-height:18px}.audio{width:100%;margin-top:10px}.checkrow{display:flex;align-items:flex-start;gap:10px;background:#0c151c;border:1px solid #283a46;border-radius:12px;padding:12px;margin-bottom:9px;font-size:14px}.checkrow input{margin-top:5px;accent-color:var(--accent)}.analyze{width:100%;margin-top:10px;font-size:15px}.sidecard{position:sticky;top:18px}.sidehero{background:linear-gradient(135deg,#1c3026,#14211c);border:1px solid #35513a;border-radius:15px;padding:18px;margin:16px 0}.sidehero .big{font-size:30px}.sidehero p{color:#b5c9b8;font-size:13px;margin:4px 0 0}.feature{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid #263641}.feature:last-child{border:0}.featureicon{font-size:19px}.feature strong{display:block;font-size:14px}.feature span{display:block;color:var(--muted);font-size:12px}.result{display:none;margin-top:18px}.result.show{display:block}.resulthead{display:flex;gap:10px;align-items:center}.resulthead h2{margin:0}.resultbadge{font-size:11px;border-radius:999px;padding:5px 9px;background:#47341d;color:var(--amber);font-weight:800}.cause{border:1px solid var(--line);background:#0d161e;border-radius:13px;padding:14px;margin-top:10px}.cause h3{font-size:15px;margin:0 0 5px}.cause p{font-size:13px;color:var(--muted);margin:0}.cause .rank{color:var(--accent);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px}.resultactions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.disclaimer{font-size:12px;color:var(--muted);border-top:1px solid var(--line);margin-top:17px;padding-top:14px}.foot{text-align:center;color:#718391;font-size:12px;margin-top:25px}.arabic{direction:rtl}.hidden{display:none!important}@media(max-width:760px){.layout{grid-template-columns:1fr}.sidecard{position:static}.hero h1{letter-spacing:-1.7px}.nav{margin-bottom:32px}.card{padding:18px}.two{gap:9px}}
-@media(max-width:390px){.two{grid-template-columns:1fr}.hero p{font-size:15px}}
-@media(max-width:600px){#accountBtn{padding:8px 10px;font-size:12px;white-space:nowrap}.navright{gap:6px}.navright .pill{font-size:10px}}
-
-/* CarPulse garage form — integrated vehicle selector */
-#carForm {
-  margin-top: 24px !important;
-  padding: 22px;
-  border: 1px solid var(--border, rgba(255,255,255,.12));
-  border-radius: 18px;
-  background: var(--surface, rgba(255,255,255,.025));
+:root {
+  color-scheme: dark;
+  --bg: #090f14;
+  --panel: #101a22;
+  --panel2: #14222c;
+  --line: #263945;
+  --text: #f2f7f8;
+  --muted: #91a5b1;
+  --green: #b8f36b;
+  --green2: #d8ff9f;
+  --red: #ff7777;
+  --amber: #ffc66d;
+  --radius: 20px;
 }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 82% -10%, rgba(61,100,112,.22), transparent 38%),
+    var(--bg);
+  color: var(--text);
+  font: 15px/1.5 Inter, system-ui, sans-serif;
+}
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+.hidden { display: none !important; }
+.muted, .sub { color: var(--muted); }
+.sub { font-size: 13px; }
 
-#carForm .garage-form-heading {
+.wrap {
+  width: min(1180px, 100%);
+  margin: auto;
+  padding: 24px 24px 60px;
+}
+.nav {
   display: flex;
-  align-items: flex-start;
   justify-content: space-between;
+  align-items: center;
   gap: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 34px;
 }
-
-#carForm .garage-eyebrow {
-  display: block;
-  margin-bottom: 7px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.8px;
-  opacity: .65;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-size: 21px;
+  font-weight: 850;
+  text-decoration: none;
+  color: var(--text);
 }
-
-#carForm .garage-form-heading h3 {
-  margin: 0 0 6px;
-  font-size: 22px;
-  letter-spacing: -.5px;
-}
-
-#carForm .garage-form-mark {
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: rgba(50,103,213,.12);
-  border: 1px solid rgba(50,103,213,.25);
-  color: #6d9aff;
-  font-size: 24px;
+  background: linear-gradient(145deg, #d8ff9f, #8dcf4e);
+  color: #10170d;
+  font-weight: 950;
 }
-
-#carForm .garage-fields {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
-#carForm .garage-fields .field {
-  min-width: 0;
-  margin: 0;
-}
-
-#carForm .garage-nickname,
-#carForm .garage-engine {
-  grid-column: 1 / -1;
-}
-
-#carForm .garage-customize {
-  margin-top: 26px;
-  padding-top: 22px;
-  border-top: 1px solid rgba(255,255,255,.1);
-}
-
-#carForm .garage-section-heading h4,
-#carForm .garage-color-heading h4 {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 650;
-}
-
-#carForm .garage-section-heading p {
-  margin: 5px 0 0;
-  font-size: 12px;
-}
-
-#carForm .garage-icon-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: 14px;
-}
-
-#carForm .car-icon-choice {
+.navright {
   display: flex;
-  min-width: 0;
-  min-height: 82px;
-  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 7px 11px;
+  background: #101922;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 750;
+}
+.pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+}
+.btn {
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 11px 15px;
+  font-weight: 750;
+  font-size: 13px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px 5px;
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 12px;
-  background: rgba(255,255,255,.025);
-  color: inherit;
-  font: inherit;
+  transition: .18s ease;
+  text-decoration: none;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.primary { background: var(--green); color: #10170d; }
+.primary:hover { background: var(--green2); }
+.secondary {
+  background: #172630;
+  border-color: #304652;
+  color: var(--text);
+}
+.ghost {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--muted);
+}
+.danger {
+  color: #ffaaaa;
+  border-color: #653a3a;
+  background: #291a1c;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  margin: 16px 0 24px;
+}
+.eyebrow {
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 2px;
+  color: var(--green);
+}
+.hero h1 {
+  font-size: clamp(34px, 5vw, 52px);
+  line-height: 1.04;
+  letter-spacing: -2px;
+  margin: 8px 0;
+}
+.hero p {
+  color: var(--muted);
+  max-width: 560px;
+}
+.hero-actions {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 12px;
+  margin-bottom: 22px;
+}
+.stat-card {
+  padding: 17px 18px;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  background: linear-gradient(145deg,#14212a,#0f1820);
+}
+.stat-label {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.stat-value {
+  font-size: 28px;
+  font-weight: 850;
+  margin-top: 7px;
+}
+.stat-note {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.section { margin-top: 25px; }
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 14px;
+  margin-bottom: 13px;
+}
+.section-head h2 { font-size: 20px; margin: 0; }
+.section-head p { font-size: 12px; color: var(--muted); }
+.section-kicker {
+  font-size: 9px;
+  letter-spacing: 1.8px;
+  color: var(--green);
+  font-weight: 850;
+}
+.panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(150deg,rgba(20,33,43,.96),rgba(13,22,29,.98));
+  padding: 21px;
+}
+#garageMessage {
+  min-height: 18px;
+  margin-bottom: 12px;
+  color: var(--green);
   font-size: 12px;
-  cursor: pointer;
-  transition: border-color .18s ease, background .18s ease, transform .18s ease;
 }
-
-#carForm .car-icon-choice:hover {
-  border-color: rgba(109,154,255,.6);
-  transform: translateY(-1px);
+#garageList {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 13px;
 }
-
-#carForm .car-icon-choice.selected {
-  border-color: #5688f5;
-  background: rgba(50,103,213,.14);
-  box-shadow: inset 0 0 0 1px rgba(86,136,245,.18);
+.garage-car-card {
+  padding: 19px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: linear-gradient(145deg,#14232d,#101820);
+  transition: .2s;
 }
-
-#carForm .garage-car-emoji {
-  font-size: 25px;
-  line-height: 1;
+.garage-car-card:hover {
+  border-color: #526b78;
+  transform: translateY(-2px);
 }
-
-#carForm .garage-color-heading {
+.garage-car-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.garage-car-icon {
+  width: 65px;
+  height: 60px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: #263945;
+  font-size: 30px;
+}
+.garage-car-title h3 {
+  font-size: 18px;
+  margin: 0;
+}
+.garage-car-title p {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 5px 0 0;
+}
+.garage-car-label {
+  display: block;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 1.6px;
+}
+.garage-car-details {
+  display: grid;
+  grid-template-columns: .7fr 1.3fr;
+  gap: 9px;
+  margin-top: 17px;
+}
+.garage-car-detail {
+  padding: 11px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #0b141b;
+}
+.garage-car-detail span {
+  display: block;
+  color: var(--muted);
+  font-size: 9px;
+  margin-bottom: 4px;
+}
+.garage-car-detail strong { font-size: 12px; }
+.garage-car-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 13px;
+}
+.garage-car-actions .btn { flex: 1; }
+.garage-add-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-top: 24px;
+  margin-top: 15px;
+  padding: 14px 16px;
+  border: 1px dashed #405764;
+  border-radius: 15px;
+  background: #0d171e;
+  color: var(--muted);
+}
+.garage-plus-btn {
+  width: 37px;
+  height: 37px;
+  border: 0;
+  border-radius: 11px;
+  background: var(--green);
+  color: #10170d;
+  font-size: 25px;
 }
 
-#carForm .garage-color-grid {
+.promo {
+  margin-bottom: 22px;
+  border: 1px solid #465b3d;
+  border-radius: 19px;
+  padding: 20px;
+  background: radial-gradient(ellipse at 100% 0%,#344b2a 0,transparent 48%),#15221d;
+}
+.promo-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+}
+.promo h3 { font-size: 18px; margin: 9px 0 0; }
+.promo-price { color: #c4d7b4; font-size: 12px; }
+.pro-label {
+  display: inline-flex;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #263b25;
+  color: var(--green);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 1.2px;
+}
+.promo-list {
   display: grid;
-  grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin-top: 14px;
-  padding: 14px;
-  border: 1px solid rgba(255,255,255,.09);
-  border-radius: 13px;
-  background: rgba(0,0,0,.08);
+  margin-top: 15px;
+  font-size: 12px;
+  color: #d3e0d1;
 }
+.promo-list div div { margin-bottom: 7px; }
+.promo-list div div:before {
+  content: "✓";
+  color: var(--green);
+  margin-right: 8px;
+}
+.promo-foot { font-size: 10px; color: #a9b9a7; }
 
-#carForm .car-color-choice {
-  position: relative;
+#carForm {
+  margin-top: 16px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 19px;
+  background: #0e1820;
+}
+.garage-form-heading {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.garage-form-heading h3 { font-size: 21px; margin: 4px 0; }
+.garage-form-close {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: #172630;
+  color: white;
+  font-size: 24px;
+}
+.garage-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+}
+.garage-nickname, .garage-engine { grid-column: 1/-1; }
+.field { margin-bottom: 13px; }
+.field label {
   display: block;
+  color: #c9d5dd;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.field input, .field select {
   width: 100%;
-  max-width: 30px;
-  aspect-ratio: 1;
-  justify-self: center;
-  padding: 0;
-  border: 3px solid var(--surface, #181b22);
+  background: #091219;
+  border: 1px solid #304652;
+  border-radius: 11px;
+  padding: 11px 12px;
+  color: var(--text);
+  outline: none;
+}
+.field input:focus, .field select:focus {
+  border-color: var(--green);
+}
+.garage-customize {
+  margin-top: 12px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.garage-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 9px;
+  margin-top: 12px;
+}
+.car-icon-choice {
+  display: flex;
+  min-height: 75px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #111e27;
+  color: var(--text);
+  font-size: 11px;
+}
+.car-icon-choice.selected {
+  border-color: var(--green);
+  background: #203522;
+}
+.garage-car-emoji { font-size: 23px; }
+.garage-color-heading {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.garage-color-grid {
+  display: grid;
+  grid-template-columns: repeat(8,1fr);
+  gap: 12px;
+  margin-top: 12px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.car-color-choice {
+  width: 25px;
+  height: 25px;
+  border: 3px solid #14212a;
   border-radius: 50%;
   background: var(--swatch);
-  box-shadow: 0 0 0 1px rgba(255,255,255,.16);
-  cursor: pointer;
-  transition: transform .18s ease, box-shadow .18s ease;
 }
-
-#carForm .car-color-choice:hover {
-  transform: scale(1.12);
+.car-color-choice.is-picked {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
 }
-
-#carForm .car-color-choice.is-picked {
-  box-shadow: 0 0 0 2px #7da4ff;
-}
-
-#carForm .garage-form-actions {
+.garage-form-actions {
   display: flex;
+  gap: 9px;
+  margin-top: 18px;
+}
+
+.maintenance-panel { border-color: #3a5438; }
+.maintenance-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 24px;
+}
+.maintenance-top h2 { font-size: 20px; margin: 6px 0 3px; }
+.maintenance-form {
+  margin-top: 14px;
+  padding: 17px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: #0b151c;
+}
+.maintenance-form h3 { font-size: 14px; margin: 0 0 14px; }
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.cause {
+  border: 1px solid var(--line);
+  background: #0c161e;
+  border-radius: 13px;
+  padding: 14px;
+  margin-top: 10px;
+}
+.cause p { font-size: 12px; color: var(--muted); }
+#maintenanceRecords { display: grid; gap: 9px; }
+
+#diagnosisHistory {
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+.history-toolbar {
+  display: flex;
+  gap: 9px;
+  margin: 13px 0;
+}
+.history-toolbar input, .history-toolbar select {
+  background: #0b151c;
+  border: 1px solid #344b59;
+  border-radius: 11px;
+  padding: 10px 12px;
+  color: var(--text);
+}
+.history-toolbar input { flex: 1; min-width: 150px; }
+.history-item {
+  margin-bottom: 10px;
+  padding: 17px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: #101b23;
+}
+.history-item h3 { font-size: 15px; margin: 4px 0; }
+.history-item p { font-size: 12px; color: var(--muted); }
+.history-item summary {
+  cursor: pointer;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 800;
+}
+.result-report {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.status { font-size: 12px; color: var(--muted); }
+.foot {
+  text-align: center;
+  color: #718391;
+  font-size: 11px;
+  margin-top: 34px;
 }
 
-#carForm .garage-form-actions .btn {
-  min-height: 44px;
-}
-
-@media (max-width: 520px) {
-  #carForm {
-    padding: 16px;
-  }
-
-  #carForm .garage-fields {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 14px;
-  }
-
-  #carForm .garage-nickname,
-  #carForm .garage-engine {
-    grid-column: auto;
-  }
-
-  #carForm .garage-icon-grid {
-    gap: 7px;
-  }
-
-  #carForm .car-icon-choice {
-    min-height: 74px;
-    font-size: 11px;
-  }
-
-  #carForm .garage-color-grid {
-    grid-template-columns: repeat(8, minmax(0, 1fr));
-    gap: 10px 6px;
-    padding: 12px 8px;
-  }
-
-  #carForm .garage-form-actions .btn {
-    width: 100%;
-  }
-}
-/* Saved vehicle cards — matched to the garage form */
-.garage-car-card {
-  position: relative;
-  margin: 12px 0;
-  padding: 20px;
-  overflow: hidden;
-  border: 1px solid var(--border, rgba(255,255,255,.12));
-  border-radius: 17px;
-  background: var(--surface, rgba(255,255,255,.025));
-}
-
-.garage-car-card::before {
-  content: "";
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 3px;
-  background: var(--car-accent, #3267D5);
-}
-
-.garage-car-header {
+#authModal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,.78);
   display: flex;
   align-items: center;
-  gap: 15px;
+  justify-content: center;
+  padding: 20px;
+}
+.auth-box {
+  position: relative;
+  width: 100%;
+  max-width: 410px;
+  padding: 25px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #131e27;
+}
+.auth-box h2 { margin: 0 0 7px; }
+.auth-box p { color: var(--muted); font-size: 13px; }
+.auth-box label { display: block; font-size: 12px; margin: 9px 0 5px; }
+.auth-box input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #0a141b;
+  color: white;
+}
+.auth-close {
+  position: absolute;
+  right: 14px;
+  top: 10px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 25px;
 }
 
-.garage-car-icon {
-  display: grid;
-  place-items: center;
-  flex: 0 0 62px;
-  width: 62px;
-  height: 58px;
-  color: var(--car-accent, #3267D5);
-  border: 1px solid color-mix(in srgb, var(--car-accent, #3267D5) 35%, transparent);
-  border-radius: 14px;
-  background: color-mix(in srgb, var(--car-accent, #3267D5) 10%, transparent);
+@media(max-width:800px) {
+  .dashboard-grid { grid-template-columns: repeat(2,1fr); }
+  #garageList { grid-template-columns: 1fr; }
+  .hero { align-items: flex-start; flex-direction: column; }
+  .hero-actions { width: 100%; }
 }
-
-.garage-car-title {
-  min-width: 0;
-}
-
-.garage-car-label {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 9px;
-  font-weight: 750;
-  letter-spacing: 1.5px;
-  opacity: .6;
-}
-
-.garage-car-title h3 {
-  margin: 0;
-  font-size: 17px;
-  line-height: 1.35;
-  overflow-wrap: anywhere;
-}
-
-.garage-car-title p {
-  margin: 4px 0 0;
-  font-size: 12px;
-  opacity: .7;
-}
-
-.garage-car-details {
-  display: grid;
-  grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr);
-  gap: 10px;
-  margin-top: 19px;
-  padding: 13px;
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 12px;
-  background: rgba(0,0,0,.07);
-}
-
-.garage-car-detail {
-  min-width: 0;
-}
-
-.garage-car-detail span {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  opacity: .6;
-}
-
-.garage-car-detail strong {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  overflow-wrap: anywhere;
-}
-
-.garage-car-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 15px;
-}
-
-.garage-car-actions .btn {
-  min-height: 40px;
-}
-
-.garage-car-actions [data-use-car] {
-  flex: 1 1 150px;
-}
-
-.garage-car-actions [data-edit-car],
-.garage-car-actions [data-delete-car] {
-  flex: 0 0 auto;
-}
-
-.garage-car-actions .garage-delete-btn {
-  opacity: .8;
-}
-
-@media (max-width: 520px) {
-  .garage-car-card {
-    padding: 16px;
-  }
-
-  .garage-car-details {
-    gap: 8px;
-    padding: 11px;
-  }
-
-  .garage-car-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .garage-car-actions [data-use-car] {
-    grid-column: 1 / -1;
-  }
-
-  .garage-car-actions .btn {
-    width: 100%;
-  }
-}
-  .garage-form-close {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  flex-shrink: 0;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.06);
-  color: #ffffff;
-  font-size: 28px;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.garage-form-close:hover {
-  background: rgba(255, 255, 255, 0.14);
-}
-  /* Force the Garage + button to match CarPulse */
-button#showCarFormBtn.garage-plus-btn {
-  background: #289566 !important;
-  color: #ffffff !important;
-  border: 1px solid #207A53 !important;
-  border-radius: 12px;
-  appearance: none;
-  -webkit-appearance: none;
-  box-shadow: none;
-}
-
-button#showCarFormBtn.garage-plus-btn:hover {
-  background: #207A53 !important;
-}
-
-button#showCarFormBtn.garage-plus-btn:hover {
-  background: #13540B !important;
-}
-  .pro-plan-badge {
-  background: #c8f7c5 !important;
-  color: #14532d !important;
-  border: 1px solid #86efac !important;
+@media(max-width:560px) {
+  .wrap { padding: 16px 14px 45px; }
+  .nav { align-items: flex-start; }
+  .navright .pill { display: none; }
+  .brand { font-size: 18px; }
+  .hero h1 { letter-spacing: -1.5px; }
+  .panel { padding: 15px; }
+  .stat-card { padding: 13px; }
+  .stat-value { font-size: 24px; }
+  .promo-list, .two { grid-template-columns: 1fr; }
+  .garage-fields { grid-template-columns: 1fr; }
+  .garage-nickname, .garage-engine { grid-column: auto; }
+  .garage-color-grid { gap: 9px 5px; }
+  .garage-car-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .garage-car-actions .btn:first-child { grid-column: 1/-1; }
+  .history-toolbar { flex-wrap: wrap; }
 }
 </style>
 </head>
 <body>
 <div class="wrap" id="app">
   <nav class="nav">
-    <div class="brand">
-  <img src="logo.png" alt="CarPulse logo" class="brand-logo">
-  CarPulse
-</div>
-
-<div class="navright">
-  <span class="pill">EARLY ACCESS · EGYPT</span>
-  <a href="index.html" class="btn secondary">← Back to CarPulse</a>
-  <button class="btn secondary" id="accountBtn" type="button">Log in / Sign up</button>
-  <button class="btn secondary" id="langBtn" type="button">العربية</button>
-</div>
+    <a class="brand" href="index.html">
+      <span class="brand-mark">C</span>
+      <span>CarPulse</span>
+    </a>
+    <div class="navright">
+      <span class="pill"><span class="pill-dot"></span> EARLY ACCESS · EGYPT</span>
+      <a href="index.html" class="btn secondary">← Back</a>
+      <button class="btn secondary" id="accountBtn" type="button">Log in / Sign up</button>
+      <button class="btn ghost" id="langBtn" type="button">العربية</button>
+    </div>
   </nav>
-  
-  <section class="card" id="garageSection" style="margin-bottom:20px">
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+
+  <section id="garageSection">
+    <header class="hero">
       <div>
-        <h2>My Garage</h2>
-        <p class="sub" style="margin:5px 0 0">Save your cars and manage their details.</p>
+        <span class="eyebrow">YOUR VEHICLES · YOUR RECORDS</span>
+        <h1>Your garage.<br><span style="color:var(--green)">Under control.</span></h1>
+        <p>Keep every vehicle, service record and AI diagnosis organised in one place.</p>
       </div>
-      <span class="pill" id="planBadge">FREE PLAN</span>
+      <div class="hero-actions">
+        <button class="btn primary" type="button" id="heroAddCar">＋ Add a vehicle</button>
+        <a class="btn secondary" href="index.html">⌁ Diagnose a sound</a>
+      </div>
+    </header>
+
+    <div class="dashboard-grid">
+      <div class="stat-card"><div class="stat-label">Vehicles saved</div><div class="stat-value" id="statCars">—</div><div class="stat-note">In your garage</div></div>
+      <div class="stat-card"><div class="stat-label">Membership</div><div class="stat-value" id="statPlan">—</div><div class="stat-note" id="statPlanNote">Your CarPulse plan</div></div>
+      <div class="stat-card"><div class="stat-label">AI reports</div><div class="stat-value" id="statReports">—</div><div class="stat-note">Saved diagnosis reports</div></div>
+      <div class="stat-card"><div class="stat-label">Service records</div><div class="stat-value" id="statServices">—</div><div class="stat-note">Maintenance entries</div></div>
     </div>
 
-    <div id="garageMessage" class="status" role="status" style="margin:12px 0"></div>
+    <div id="garageMessage" role="status"></div>
 
-    <div class="card" id="proPromoCard" style="margin:16px 0;border:1px solid #344653">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
-        <div><h3 style="margin:0">CarPulse Pro</h3><p class="sub" style="margin:5px 0">EGP 149 monthly · EGP 1,430 yearly</p></div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <a class="btn secondary" href="index.html#proSection">View plans</a>
-          <button class="btn secondary" id="closeProPromoBtn" type="button" aria-label="Close Pro promotion" title="Close">×</button>
+    <section class="promo" id="proPromoCard">
+      <div class="promo-top">
+        <div>
+          <span class="pro-label">UNLOCK THE FULL GARAGE</span>
+          <h3>CarPulse Pro</h3>
+          <div class="promo-price">EGP 149 monthly · EGP 1,430 yearly</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:flex-start">
+          <a class="btn primary" href="index.html#proSection">Explore Pro ↗</a>
+          <button class="btn ghost" id="closeProPromoBtn" type="button">×</button>
         </div>
       </div>
-      <p class="sub" style="margin:12px 0 6px">Pro includes:</p>
-      <div class="two">
+      <div class="promo-list">
         <div>
-          <p>✓ Up to 10 saved vehicles</p><p>✓ Full diagnosis history</p><p>✓ 100 AI sound diagnoses / month</p><p>✓ 150 mechanic-assistant questions / month</p><p>✓ Recurring-problem tracking</p><p>✓ Warning-light recognition</p><p>✓ Maintenance reminders</p><p>✓ Repair and expense tracker</p>
+          <div>Up to 10 saved vehicles</div>
+          <div>Full diagnosis history</div>
+          <div>100 AI sound diagnoses / month</div>
+          <div>150 mechanic-assistant questions / month</div>
+          <div>Recurring-problem tracking</div>
+          <div>Warning-light recognition</div>
+          <div>Maintenance reminders</div>
         </div>
         <div>
-          <p>✓ Fuel analytics and vehicle health score</p><p>✓ Repair cost estimates</p><p>✓ Shareable Vehicle Passport</p><p>✓ Used-car inspection assistant</p><p>✓ OBD-II insights where supported</p><p>✓ Spare-parts finder</p><p>✓ Deeper AI explanations</p>
+          <div>Repair and expense tracker</div>
+          <div>Fuel analytics and vehicle health score</div>
+          <div>Shareable Vehicle Passport</div>
+          <div>Used-car inspection assistant</div>
+          <div>OBD-II insights where supported</div>
+          <div>Spare-parts finder</div>
+          <div>Deeper AI explanations</div>
         </div>
       </div>
-      <p class="sub">Some integrations (payments, live OBD-II data, live parts/repair availability and automated notifications) still need setup and are not active yet.</p>
-    </div>
+      <p class="promo-foot">Some integrations still need setup and may not be active yet.</p>
+    </section>
 
-    <div id="garageList"></div>
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">01 / YOUR COLLECTION</span>
+          <h2>My vehicles</h2>
+          <p>Choose a vehicle to start a diagnosis or update its details.</p>
+        </div>
+        <span class="pill" id="planBadge">FREE PLAN</span>
+      </div>
 
-    <section id="maintenanceSection" class="card" style="margin-top:24px;border-color:#35513a">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-        <div><span class="garage-car-label">CARPULSE PRO</span><h2 style="margin-top:5px">Maintenance Tracker</h2><p class="sub">Keep service records for each vehicle and track upcoming maintenance.</p></div>
+      <div id="garageList"><div class="panel muted">Loading your garage…</div></div>
+
+      <div class="garage-add-row">
+        <span>Have another vehicle to add?</span>
+        <button type="button" id="showCarFormBtn" class="garage-plus-btn">+</button>
+      </div>
+
+      <form id="carForm" class="hidden">
+        <div class="garage-form-heading">
+          <div>
+            <span class="section-kicker">GARAGE SETUP</span>
+            <h3 id="carFormTitle">Add a vehicle</h3>
+            <p class="sub">Add the details once. CarPulse can reuse them for future diagnoses.</p>
+          </div>
+          <button type="button" id="closeCarFormBtn" class="garage-form-close">×</button>
+        </div>
+
+        <div class="garage-fields">
+          <div class="field garage-nickname">
+            <label for="carNickname">Vehicle nickname (optional)</label>
+            <input id="carNickname" placeholder="e.g. Daily driver">
+          </div>
+          <div class="field">
+            <label for="carMake">Make *</label>
+            <input id="carMake" placeholder="e.g. Toyota" required>
+          </div>
+          <div class="field">
+            <label for="carModel">Model *</label>
+            <input id="carModel" placeholder="e.g. Corolla" required>
+          </div>
+          <div class="field">
+            <label for="carYear">Year *</label>
+            <input id="carYear" type="number" min="1950" max="2035" placeholder="2019" required>
+          </div>
+          <div class="field garage-engine">
+            <label for="carEngine">Engine / fuel (optional)</label>
+            <input id="carEngine" placeholder="e.g. 1600 CC petrol">
+          </div>
+        </div>
+
+        <div class="garage-customize">
+          <h4>Vehicle silhouette</h4>
+          <p class="sub">Pick the closest body style.</p>
+          <div class="garage-icon-grid">
+            <button type="button" class="car-icon-choice selected" data-icon-type="sedan"><span class="garage-car-emoji">🚘</span>Sedan</button>
+            <button type="button" class="car-icon-choice" data-icon-type="suv"><span class="garage-car-emoji">🚙</span>SUV</button>
+            <button type="button" class="car-icon-choice" data-icon-type="hatchback"><span class="garage-car-emoji">🚗</span>Hatchback</button>
+            <button type="button" class="car-icon-choice" data-icon-type="coupe"><span class="garage-car-emoji">🏎️</span>Coupe</button>
+          </div>
+          <div class="garage-color-heading">
+            <h4>Vehicle accent colour</h4>
+            <span class="sub">Choose a colour</span>
+          </div>
+          <div class="garage-color-grid">
+            <button type="button" class="car-color-choice is-picked" data-icon-color="#3267D5" style="--swatch:#3267D5"></button>
+            <button type="button" class="car-color-choice" data-icon-color="#D94343" style="--swatch:#D94343"></button>
+            <button type="button" class="car-color-choice" data-icon-color="#242424" style="--swatch:#242424"></button>
+            <button type="button" class="car-color-choice" data-icon-color="#9AA0A8" style="--swatch:#9AA0A8"></button>
+            <button type="button" class="car-color-choice" data-icon-color="#F4F4F4" style="--swatch:#F4F4F4"></button>
+            <button type="button" class="car-color-choice" data-icon-color="#289566" style="--swatch:#289566"></button>
+            <button type="button" class="car-color-choice" data-icon-color="#D9A52E" style="--swatch:#D9A52E"></button>
+            <button type="button" class="car-color-choice" data-icon-color="#E87832" style="--swatch:#E87832"></button>
+            <button type="button" class="car-color-choice" data-icon-color="#8855BB" style="--swatch:#8855BB"></button>
+            <button type="button" class="car-color-choice" data-icon-color="#D66A9C" style="--swatch:#D66A9C"></button>
+            <button type="button" class="car-color-choice" data-icon-color="#199C9C" style="--swatch:#199C9C"></button>
+            <button type="button" class="car-color-choice" data-icon-color="#193A70" style="--swatch:#193A70"></button>
+            <button type="button" class="car-color-choice" data-icon-color="#875B43" style="--swatch:#875B43"></button>
+            <button type="button" class="car-color-choice" data-icon-color="#E8C63E" style="--swatch:#E8C63E"></button>
+            <button type="button" class="car-color-choice" data-icon-color="#802D43" style="--swatch:#802D43"></button>
+            <button type="button" class="car-color-choice" data-icon-color="#48BDE0" style="--swatch:#48BDE0"></button>
+          </div>
+        </div>
+        <div class="garage-form-actions">
+          <button class="btn primary" id="saveCarBtn" type="submit">Save vehicle</button>
+          <button class="btn secondary" id="upgradeBtn" type="button" style="display:none">Explore Pro</button>
+        </div>
+      </form>
+    </section>
+        <section id="maintenanceSection" class="section panel maintenance-panel">
+      <div class="maintenance-top">
+        <div>
+          <span class="pro-label">CARPULSE PRO</span>
+          <h2>Maintenance centre</h2>
+          <p class="sub">A clear record of what has been done — and what is coming next.</p>
+        </div>
         <span id="maintenanceStatus" class="pill">Checking plan…</span>
       </div>
-      <div id="maintenanceLocked" class="cause" style="display:none"><strong>Maintenance Tracker is a Pro feature.</strong><p>Upgrade to Pro to save service records and track upcoming maintenance.</p><a class="btn primary" href="index.html#proSection" style="display:inline-block;margin-top:10px;text-decoration:none">Explore Pro</a></div>
+
+      <div id="maintenanceLocked" class="cause" style="display:none">
+        <strong>Keep your maintenance history in one place.</strong>
+        <p>Maintenance Tracker is a Pro feature. Upgrade to save service records and track upcoming maintenance.</p>
+        <a class="btn primary" href="index.html#proSection">Explore Pro ↗</a>
+      </div>
+
       <div id="maintenanceApp" style="display:none">
-        <div class="field"><label for="maintenanceCar">Choose vehicle</label><select id="maintenanceCar" style="width:100%;background:#0b131a;border:1px solid #30414d;border-radius:11px;padding:12px;color:var(--text)"></select></div>
-        <form id="maintenanceForm" class="cause" style="margin-top:12px">
-          <h3 style="margin:0 0 14px">Add service record</h3>
+        <div class="field" style="margin-top:17px">
+          <label for="maintenanceCar">Selected vehicle</label>
+          <select id="maintenanceCar" style="width:100%"></select>
+        </div>
+
+        <form id="maintenanceForm" class="maintenance-form">
+          <h3>＋ Add a service record</h3>
+
           <div class="two">
-            <div class="field"><label for="maintenanceType">Service type</label><select id="maintenanceType" required><option value="Oil change">Oil change</option><option value="Oil filter">Oil filter</option><option value="Air filter">Air filter</option><option value="Cabin filter">Cabin filter</option><option value="Brake pads">Brake pads</option><option value="Brake discs">Brake discs</option><option value="Tyres">Tyres</option><option value="Battery">Battery</option><option value="General service">General service</option><option value="Repair">Repair</option><option value="Other">Other</option></select></div>
-            <div class="field"><label for="maintenanceDate">Service date</label><input id="maintenanceDate" type="date" required></div>
-            <div class="field"><label for="maintenanceMileage">Mileage (km)</label><input id="maintenanceMileage" type="number" min="0" placeholder="e.g. 85000"></div>
-            <div class="field"><label for="maintenanceCost">Cost (EGP)</label><input id="maintenanceCost" type="number" min="0" step="0.01" placeholder="e.g. 2500"></div>
-            <div class="field"><label for="maintenanceNextDate">Next service date</label><input id="maintenanceNextDate" type="date"></div>
-            <div class="field"><label for="maintenanceNextMileage">Next service mileage (km)</label><input id="maintenanceNextMileage" type="number" min="0" placeholder="e.g. 95000"></div>
+            <div class="field">
+              <label for="maintenanceType">Service type</label>
+              <select id="maintenanceType" required>
+                <option value="Oil change">Oil change</option>
+                <option value="Oil filter">Oil filter</option>
+                <option value="Air filter">Air filter</option>
+                <option value="Cabin filter">Cabin filter</option>
+                <option value="Brake pads">Brake pads</option>
+                <option value="Brake discs">Brake discs</option>
+                <option value="Tyres">Tyres</option>
+                <option value="Battery">Battery</option>
+                <option value="General service">General service</option>
+                <option value="Repair">Repair</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="maintenanceDate">Service date</label>
+              <input id="maintenanceDate" type="date" required>
+            </div>
+
+            <div class="field">
+              <label for="maintenanceMileage">Mileage (km)</label>
+              <input id="maintenanceMileage" type="number" min="0" placeholder="e.g. 85,000">
+            </div>
+
+            <div class="field">
+              <label for="maintenanceCost">Cost (EGP)</label>
+              <input id="maintenanceCost" type="number" min="0" step="0.01" placeholder="e.g. 2,500">
+            </div>
+
+            <div class="field">
+              <label for="maintenanceNextDate">Next service date</label>
+              <input id="maintenanceNextDate" type="date">
+            </div>
+
+            <div class="field">
+              <label for="maintenanceNextMileage">Next service mileage (km)</label>
+              <input id="maintenanceNextMileage" type="number" min="0" placeholder="e.g. 95,000">
+            </div>
           </div>
-          <div class="field"><label for="maintenanceNotes">Notes</label><input id="maintenanceNotes" maxlength="1000" placeholder="Workshop, parts used, or other details"></div>
-          <button class="btn primary" id="saveMaintenanceBtn" type="submit">Save service record</button>
+
+          <div class="field">
+            <label for="maintenanceNotes">Notes</label>
+            <input id="maintenanceNotes" maxlength="1000" placeholder="Workshop, parts used, or other details">
+          </div>
+
+          <button class="btn primary" id="saveMaintenanceBtn" type="submit">
+            Save service record
+          </button>
           <p id="maintenanceMessage" class="status" role="status"></p>
         </form>
-        <h3 style="margin:22px 0 8px">Service history</h3>
-        <div id="maintenanceRecords"><p class="sub">Select a vehicle to view its records.</p></div>
+
+        <div class="section-head" style="margin-top:22px">
+          <div>
+            <h2 style="font-size:16px">Service history</h2>
+            <p>Records for the selected vehicle.</p>
+          </div>
+        </div>
+
+        <div id="maintenanceRecords">
+          <p class="sub">Select a vehicle to view its records.</p>
+        </div>
       </div>
     </section>
-    <div id="diagnosisHistory" style="margin-top:30px;padding-top:22px;border-top:1px solid #283744">
-  <h2>Diagnosis History</h2>
-  <p class="sub">Your previous AI reports, saved to your account.</p>
-  <div id="historyList">
-    <p class="sub">Loading your diagnosis history...</p>
-  </div>
-</div>
-<div class="garage-add-row">
-  <span>Add another vehicle</span>
-  <button type="button" id="showCarFormBtn" class="garage-plus-btn" aria-label="Add a car">+</button>
-</div>
-    
-<form id="carForm" class="garage-form hidden">
-  <div class="garage-form-heading">
-    <div>
-      <span class="garage-eyebrow">YOUR GARAGE</span>
-      <h3 id="carFormTitle">Add a car</h3>
-      <p class="sub">Set up your vehicle for faster diagnoses.</p>
-    </div>
-    <button type="button" id="closeCarFormBtn" class="garage-form-close" aria-label="Close form">×</button>
-  </div>
 
-  <div class="garage-fields">
-    <div class="field garage-nickname">
-      <label for="carNickname">Nickname <span class="sub">(optional)</span></label>
-      <input id="carNickname" placeholder="e.g. Daily driver">
-    </div>
-
-    <div class="field">
-      <label for="carMake">Make *</label>
-      <input id="carMake" placeholder="e.g. Toyota" required>
-    </div>
-
-    <div class="field">
-      <label for="carModel">Model *</label>
-      <input id="carModel" placeholder="e.g. Corolla" required>
-    </div>
-
-    <div class="field">
-      <label for="carYear">Year *</label>
-      <input id="carYear" type="number" min="1950" max="2035" placeholder="2019" required>
-    </div>
-
-    <div class="field garage-engine">
-      <label for="carEngine">Engine / fuel <span class="sub">(optional)</span></label>
-      <input id="carEngine" placeholder="e.g. 1600 CC petrol">
-    </div>
-  </div>
-
-  <div class="garage-customize">
-    <div class="garage-section-heading">
-      <div>
-        <h4>Vehicle style</h4>
-        <p class="sub">Choose the silhouette for your car.</p>
+    <section id="diagnosisHistory" class="section">
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">02 / AI INSIGHTS</span>
+          <h2>Diagnosis history</h2>
+          <p>Your previous AI reports, saved to your account.</p>
+        </div>
+        <span class="pill">PRIVATE TO YOUR ACCOUNT</span>
       </div>
-    </div>
 
-    <div class="garage-icon-grid">
-      <button type="button" class="car-icon-choice selected" data-icon-type="sedan">
-        <span class="garage-car-emoji">🚘</span>
-        <span>Sedan</span>
-      </button>
-      <button type="button" class="car-icon-choice" data-icon-type="suv">
-        <span class="garage-car-emoji">🚙</span>
-        <span>SUV</span>
-      </button>
-      <button type="button" class="car-icon-choice" data-icon-type="hatchback">
-        <span class="garage-car-emoji">🚗</span>
-        <span>Hatchback</span>
-      </button>
-      <button type="button" class="car-icon-choice" data-icon-type="coupe">
-        <span class="garage-car-emoji">🏎️</span>
-        <span>Coupe</span>
-      </button>
-    </div>
+      <div class="history-toolbar">
+        <input
+          id="historySearch"
+          type="search"
+          placeholder="Search reports, vehicles or symptoms…"
+          aria-label="Search diagnosis history"
+        >
+        <select id="historySort" aria-label="Sort diagnosis history">
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+        </select>
+      </div>
 
-    <div class="garage-color-heading">
-      <h4>Icon color</h4>
-      <span class="sub">Pick a color</span>
-    </div>
-
-    <div class="garage-color-grid">
-      <button type="button" class="car-color-choice is-picked" data-icon-color="#3267D5" aria-label="Blue" title="Blue" style="--swatch:#3267D5"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#D94343" aria-label="Red" title="Red" style="--swatch:#D94343"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#242424" aria-label="Black" title="Black" style="--swatch:#242424"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#9AA0A8" aria-label="Silver" title="Silver" style="--swatch:#9AA0A8"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#F4F4F4" aria-label="White" title="White" style="--swatch:#F4F4F4"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#289566" aria-label="Green" title="Green" style="--swatch:#289566"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#D9A52E" aria-label="Gold" title="Gold" style="--swatch:#D9A52E"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#E87832" aria-label="Orange" title="Orange" style="--swatch:#E87832"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#8855BB" aria-label="Purple" title="Purple" style="--swatch:#8855BB"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#D66A9C" aria-label="Pink" title="Pink" style="--swatch:#D66A9C"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#199C9C" aria-label="Teal" title="Teal" style="--swatch:#199C9C"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#193A70" aria-label="Navy" title="Navy" style="--swatch:#193A70"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#875B43" aria-label="Brown" title="Brown" style="--swatch:#875B43"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#E8C63E" aria-label="Yellow" title="Yellow" style="--swatch:#E8C63E"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#802D43" aria-label="Burgundy" title="Burgundy" style="--swatch:#802D43"></button>
-      <button type="button" class="car-color-choice" data-icon-color="#48BDE0" aria-label="Cyan" title="Cyan" style="--swatch:#48BDE0"></button>
-    </div>
-  </div>
-
-  <div class="garage-form-actions">
-    <button class="btn primary" id="saveCarBtn" type="submit">Save car</button>
-    <button class="btn secondary" id="upgradeBtn" type="button" style="display:none">Explore Pro</button>
-  </div>
-</form>
-
+      <div id="historyList">
+        <p class="sub">Loading your diagnosis history…</p>
+      </div>
+    </section>
   </section>
 
-  
-
-  
-
- 
-  <footer class="foot">CarPulse prototype · Built for Egypt, with care. No account required.</footer>
+  <footer class="foot">
+    CarPulse · Built for Egypt, with care.
+  </footer>
 </div>
 
-  
-<div id="authModal" class="hidden" style="position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#151b22;border:1px solid #303a45;border-radius:16px;padding:24px;width:100%;max-width:400px;color:#f0f6fc;position:relative">
-    <button id="closeAuth" type="button" style="position:absolute;right:14px;top:12px;background:none;border:0;color:#a8b3bd;font-size:24px;cursor:pointer">×</button>
-    <h2 id="authTitle" style="margin:0 0 8px">Welcome to CarPulse</h2>
-    <p id="authDescription" style="color:#a8b3bd;margin:0 0 20px">Log in or create an account to save your cars and history.</p>
+<!-- AUTHENTICATION MODAL -->
+<div id="authModal" class="hidden">
+  <div class="auth-box">
+    <button id="closeAuth" class="auth-close" type="button">×</button>
+
+    <h2 id="authTitle">Welcome to CarPulse</h2>
+    <p id="authDescription">
+      Log in or create an account to save your cars and history.
+    </p>
+
     <form id="authForm">
-      <label for="authName" id="authNameLabel" style="display:none;font-size:14px">Name</label>
-      <input id="authName" type="text" autocomplete="name" placeholder="Your name" style="display:none;width:100%;box-sizing:border-box;padding:12px;margin:6px 0 12px;border-radius:8px;border:1px solid #303a45;background:#0d1117;color:white">
-      <label for="authEmail" style="font-size:14px">Email</label>
-      <input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required style="width:100%;box-sizing:border-box;padding:12px;margin:6px 0 12px;border-radius:8px;border:1px solid #303a45;background:#0d1117;color:white">
-      <label for="authPassword" style="font-size:14px">Password</label>
-      <input id="authPassword" type="password" autocomplete="current-password" placeholder="Your password" required style="width:100%;box-sizing:border-box;padding:12px;margin:6px 0 16px;border-radius:8px;border:1px solid #303a45;background:#0d1117;color:white">
-      <button id="authSubmit" type="submit" style="width:100%;padding:12px;border:0;border-radius:8px;background:#7ee787;color:#101820;font-weight:700;cursor:pointer">Log in</button>
+      <label for="authName" id="authNameLabel" style="display:none">Name</label>
+      <input
+        id="authName"
+        type="text"
+        autocomplete="name"
+        placeholder="Your name"
+        style="display:none"
+      >
+
+      <label for="authEmail">Email</label>
+      <input
+        id="authEmail"
+        type="email"
+        autocomplete="email"
+        placeholder="you@example.com"
+        required
+      >
+
+      <label for="authPassword">Password</label>
+      <input
+        id="authPassword"
+        type="password"
+        autocomplete="current-password"
+        placeholder="Your password"
+        required
+        style="margin-bottom:15px"
+      >
+
+      <button id="authSubmit" class="btn primary" type="submit" style="width:100%">
+        Log in
+      </button>
     </form>
-    <p id="authMessage" role="status" style="font-size:14px;line-height:1.5;margin:14px 0 0"></p>
-    <button id="authSwitch" type="button" style="margin-top:12px;background:none;border:0;color:#7ee787;cursor:pointer;padding:0">New here? Create an account</button>
+
+    <p id="authMessage" role="status"></p>
+
+    <button id="authSwitch" type="button" class="btn ghost" style="width:100%">
+      New here? Create an account
+    </button>
+
+    <div id="accountActions" style="display:flex;gap:9px;flex-wrap:wrap;margin-top:12px"></div>
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+<!-- SUPABASE CONNECTION -->
 <script>
-  window.carpulseSupabase = window.supabase.createClient(
-    'https://trcdakfvfhhnbkgrbkym.supabase.co',
-    'sb_publishable_2v3QNutbX8Srr4Csqw9ptw_Tsqql70i'
-  );
+window.carpulseSupabase = window.supabase.createClient(
+  'https://trcdakfvfhhnbkgrbkym.supabase.co',
+  'sb_publishable_2v3QNutbX8Srr4Csqw9ptw_Tsqql70i'
+);
 </script>
-
 <script>
 (() => {
+  'use strict';
+
   const db = window.carpulseSupabase;
-  const $ = id => document.getElementById(id);
 
-  const modal = $('authModal');
-  const form = $('authForm');
-  const nameInput = $('authName');
-  const nameLabel = $('authNameLabel');
-  const emailInput = $('authEmail');
-  const passwordInput = $('authPassword');
-  const title = $('authTitle');
-  const description = $('authDescription');
-  const submit = $('authSubmit');
-  const message = $('authMessage');
-  const switchButton = $('authSwitch');
-  const accountButton = $('accountBtn');
+  const $ = (id) => document.getElementById(id);
 
-  if (!db || !modal || !accountButton) {
-    console.error('CarPulse account setup is missing a required element.');
-    return;
+  let currentUser = null;
+  let currentPlan = 'free';
+  let cars = [];
+  let diagnosisReports = [];
+  let maintenanceRecords = [];
+  let editingCarId = null;
+  let authMode = 'login';
+
+  const escapeHTML = (value) => String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  })[char]);
+
+  const formatDate = (value) => {
+    if (!value) return 'Not specified';
+    const date = new Date(value + (String(value).length === 10 ? 'T00:00:00' : ''));
+    return Number.isNaN(date.getTime())
+      ? 'Not specified'
+      : date.toLocaleDateString(undefined, {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric'
+        });
+  };
+
+  const formatMoney = (value) => {
+    if (value === null || value === undefined || value === '') return '—';
+    return Number(value).toLocaleString(undefined, {
+      maximumFractionDigits: 2
+    }) + ' EGP';
+  };
+
+  function message(id, text, isError = false) {
+    const element = $(id);
+    if (!element) return;
+    element.textContent = text;
+    element.style.color = isError ? '#ff7777' : '';
   }
 
-  let signupMode = false;
-
-  function showMessage(text, error = false) {
-    message.textContent = text;
-    message.style.color = error ? '#ff8585' : '#7ee787';
+  function setButtonLoading(button, loading, normalText) {
+    if (!button) return;
+    button.disabled = loading;
+    button.textContent = loading ? 'Please wait…' : normalText;
   }
 
-  function updateMode() {
-    title.textContent = signupMode ? 'Create your account' : 'Welcome to CarPulse';
-    description.textContent = signupMode
-      ? 'Create an account to save your cars and history.'
-      : 'Log in to access your saved cars and history.';
-    nameInput.style.display = signupMode ? 'block' : 'none';
-    nameLabel.style.display = signupMode ? 'block' : 'none';
-    nameInput.required = signupMode;
-    passwordInput.autocomplete = signupMode ? 'new-password' : 'current-password';
-    submit.textContent = signupMode ? 'Create account' : 'Log in';
-    switchButton.textContent = signupMode
+  function getCarName(car) {
+    return `${car.year || ''} ${car.make || ''} ${car.model || ''}`.trim();
+  }
+
+  function showAuth() {
+    $('authModal')?.classList.remove('hidden');
+    $('authModal')?.classList.add('open');
+  }
+
+  function hideAuth() {
+    $('authModal')?.classList.add('hidden');
+    $('authModal')?.classList.remove('open');
+  }
+
+  function setAuthMode(mode) {
+    authMode = mode;
+
+    const isSignup = mode === 'signup';
+
+    $('authTitle').textContent = isSignup
+      ? 'Create your CarPulse account'
+      : 'Welcome back';
+
+    $('authDescription').textContent = isSignup
+      ? 'Create an account to keep your vehicles and reports together.'
+      : 'Log in to access your garage and saved reports.';
+
+    $('authName').style.display = isSignup ? 'block' : 'none';
+    $('authNameLabel').style.display = isSignup ? 'block' : 'none';
+    $('authName').required = isSignup;
+
+    $('authPassword').autocomplete = isSignup
+      ? 'new-password'
+      : 'current-password';
+
+    $('authSubmit').textContent = isSignup ? 'Create account' : 'Log in';
+
+    $('authSwitch').textContent = isSignup
       ? 'Already have an account? Log in'
       : 'New here? Create an account';
-    showMessage('');
+
+    message('authMessage', '');
   }
 
-  accountButton.addEventListener('click', async () => {
-    const { data: { session } } = await db.auth.getSession();
+  async function loadSubscription() {
+    currentPlan = 'free';
 
-    signupMode = false;
-    updateMode();
+    if (!currentUser) return;
 
-    if (session) {
-     
-title.textContent = 'You’re logged in';
-description.textContent = 'Your CarPulse account is active.';
-form.style.display = 'none';
-switchButton.style.display = 'none';
+    const { data, error } = await db
+      .from('subscriptions')
+      .select('plan,status')
+      .eq('user_id', currentUser.id)
+      .maybeSingle();
 
-showMessage('Logged in as ' + (session.user.email || 'your account'));
-
-const accountActions = document.createElement('div');
-accountActions.id = 'accountActions';
-accountActions.style.cssText = 'display:flex;gap:10px;flex-wrap:wrap;margin-top:14px';
-
-const garageButton = document.createElement('button');
-garageButton.type = 'button';
-garageButton.className = 'btn primary';
-garageButton.textContent = 'My Garage';
-garageButton.addEventListener('click', () => {
-  modal.classList.add('hidden');
-  document.getElementById('garageSection').scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  });
-});
-
-const logoutButton = document.createElement('button');
-logoutButton.type = 'button';
-logoutButton.className = 'btn secondary';
-logoutButton.textContent = 'Log out';
-logoutButton.addEventListener('click', async () => {
-  const { error } = await db.auth.signOut();
-  if (error) {
-    showMessage('Could not log out: ' + error.message, true);
-    return;
-  }
-  modal.classList.add('hidden');
-  modal.querySelector('#accountActions')?.remove();
-  form.style.display = 'block';
-  switchButton.style.display = 'block';
-  showMessage('You have logged out.');
-});
-
-const oldActions = modal.querySelector('#accountActions');
-if (oldActions) oldActions.remove();
-
-const { data: { session: currentSession } } = await db.auth.getSession();
-
-if (currentSession) {
-  accountActions.append(garageButton, logoutButton);
-  form.parentElement.appendChild(accountActions);
-}
-    } else {
-      form.style.display = 'block';
-      switchButton.style.display = 'block';
+    if (error) {
+      console.warn('Subscription lookup:', error.message);
     }
 
-    modal.classList.remove('hidden');
-  });
+    if (
+      data &&
+      String(data.status).toLowerCase() === 'active' &&
+      String(data.plan).toLowerCase() === 'pro'
+    ) {
+      currentPlan = 'pro';
+    }
 
-  $('closeAuth').addEventListener('click', () => {
-    modal.classList.add('hidden');
-  });
+    updatePlanUI();
+  }
 
-  modal.addEventListener('click', event => {
-    if (event.target === modal) modal.classList.add('hidden');
-  });
+  function updatePlanUI() {
+    const isPro = currentPlan === 'pro';
 
-  switchButton.addEventListener('click', () => {
-    signupMode = !signupMode;
-    form.style.display = 'block';
-    switchButton.style.display = 'block';
-    updateMode();
-  });
+    if ($('planBadge')) {
+      $('planBadge').textContent = isPro ? 'PRO MEMBER' : 'FREE PLAN';
+    }
 
-  form.addEventListener('submit', async event => {
-    event.preventDefault();
-    submit.disabled = true;
-    submit.textContent = 'Please wait…';
-    showMessage('');
+    if ($('statPlan')) {
+      $('statPlan').textContent = isPro ? 'Pro' : 'Free';
+    }
 
-    try {
-      const email = emailInput.value.trim();
-      const password = passwordInput.value;
+    if ($('statPlanNote')) {
+      $('statPlanNote').textContent = isPro
+        ? 'Your Pro features are active'
+        : 'Upgrade to unlock more features';
+    }
 
-      if (signupMode) {
-        const { data, error } = await db.auth.signUp({
-          email,
-          password,
-          options: {
-            data: { name: nameInput.value.trim() }
-          }
-        });
+    if ($('maintenanceStatus')) {
+      $('maintenanceStatus').textContent = isPro
+        ? 'PRO ACTIVE'
+        : 'PRO FEATURE';
+    }
 
-        if (error) throw error;
+    if ($('maintenanceLocked')) {
+      $('maintenanceLocked').style.display = isPro ? 'none' : 'block';
+    }
 
-        if (data.session) {
-          showMessage('Account created successfully!');
-        } else {
-          showMessage('Account created. Check your email for a confirmation link before logging in.');
-        }
+    if ($('maintenanceApp')) {
+      $('maintenanceApp').style.display = isPro ? 'block' : 'none';
+    }
+
+    if ($('proPromoCard')) {
+      $('proPromoCard').style.display = isPro ? 'none' : '';
+    }
+  }
+
+  function updateAccountButton() {
+    const button = $('accountBtn');
+    if (!button) return;
+
+    button.textContent = currentUser
+      ? (currentUser.email || 'My account')
+      : 'Log in';
+
+    const actions = $('accountActions');
+    if (actions) {
+      actions.innerHTML = currentUser
+        ? '<button class="btn ghost" type="button" id="logoutBtn">Log out</button>'
+        : '';
+    }
+
+    $('logoutBtn')?.addEventListener('click', async () => {
+      const { error } = await db.auth.signOut();
+      if (error) {
+        alert(error.message);
       } else {
-        const { error } = await db.auth.signInWithPassword({
-          email,
-          password
-        });
-
-        if (error) throw error;
-
-        showMessage('Login successful!');
-        modal.classList.add('hidden');
+        hideAuth();
       }
-    } catch (error) {
-      showMessage(error.message || 'Something went wrong. Please try again.', true);
-    } finally {
-      submit.disabled = false;
-      submit.textContent = signupMode ? 'Create account' : 'Log in';
-    }
-  });
-
-  
-  // CarPulse Garage
-  const upgradeButton = $('upgradeBtn');
-  upgradeButton?.addEventListener('click', () => {
-    // The Pro pricing section lives on the main homepage, not this Garage page.
-    window.location.href = 'index.html#proSection';
-  });
-
-  const carForm = $('carForm');
-const showCarFormBtn = $('showCarFormBtn');
-
-showCarFormBtn?.addEventListener('click', () => {
-  carForm.classList.remove('hidden');
-  $('carFormTitle').textContent = 'Add a car';
-  $('saveCarBtn').textContent = 'Save car';
-  carForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
-});
-  const closeProPromoBtn = $('closeProPromoBtn');
-  closeProPromoBtn?.addEventListener('click', () => {
-    $('proPromoCard')?.classList.add('hidden');
-  });
-
-  const closeCarFormBtn = $('closeCarFormBtn');
-
-closeCarFormBtn?.addEventListener('click', () => {
-  carForm.classList.add('hidden');
-});
-  // Car icon picker
-  let selectedIconType = 'sedan';
-  let editingCarId = null;
-  let selectedIconColor = '#3267D5';
-
-  document.querySelectorAll('.car-icon-choice').forEach(button => {
-    button.addEventListener('click', () => {
-      selectedIconType = button.dataset.iconType;
-
-      document.querySelectorAll('.car-icon-choice').forEach(choice => {
-        choice.classList.remove('selected');
-      });
-
-      button.classList.add('selected');
     });
-  });
-
-  document.querySelectorAll('.car-color-choice').forEach(button => {
-    button.addEventListener('click', () => {
-      selectedIconColor = button.dataset.iconColor;
-
-      document.querySelectorAll('.car-color-choice').forEach(choice => {
-        choice.style.outline = 'none';
-      });
-
-      button.style.outline = '3px solid #3267D5';
-      button.style.outlineOffset = '3px';
-    });
-  });
-
-  const defaultColorButton = document.querySelector(
-    '.car-color-choice[data-icon-color="#3267D5"]'
-  );
-
-  if (defaultColorButton) {
-    defaultColorButton.style.outline = '3px solid #3267D5';
-    defaultColorButton.style.outlineOffset = '3px';
   }
 
-// CarPulse Pro is not displayed on this page.
-  async function loadDiagnosisHistory() {
-  const historyList = $('historyList');
-
-  historyList.innerHTML =
-    '<p class="sub">Loading your diagnosis history...</p>';
-
-  try {
-    const { data: { session } } = await db.auth.getSession();
-
-    if (!session) {
-      historyList.innerHTML =
-        '<p class="sub">Log in to view your history.</p>';
+  async function loadCars() {
+    if (!currentUser) {
+      cars = [];
+      renderCars();
       return;
     }
 
-    const { data: diagnoses, error } = await db
-      .from('diagnosis_history')
-      .select('id, car_id, car_details, symptoms, analysis, disclaimer, created_at')
-      .eq('user_id', session.user.id)
+    const { data, error } = await db
+      .from('cars')
+      .select('*')
+      .eq('user_id', currentUser.id)
       .order('created_at', { ascending: false });
 
-    if (error) throw error;
-
-    if (!diagnoses || diagnoses.length === 0) {
-      historyList.innerHTML =
-        '<p class="sub">No diagnoses saved yet.</p>';
+    if (error) {
+      console.error(error);
+      $('garageMessage').textContent =
+        'Could not load your vehicles. Please refresh and try again.';
       return;
     }
 
-    historyList.innerHTML = diagnoses.map(item => `
-      <div class="garage-car-card" data-diagnosis-car="${item.car_id || ''}" style="margin-top:12px">
-        <span class="garage-car-label">AI DIAGNOSIS</span>
-        <h3>${escapeGarageText(item.car_details || 'Car not specified')}</h3>
-        <p class="sub">
-          ${new Date(item.created_at).toLocaleString()}
-        </p>
-        <p><strong>Symptoms:</strong>
-          ${escapeGarageText(item.symptoms || 'None specified')}
-        </p>
-        <details style="margin-top:12px">
-          <summary style="cursor:pointer;color:var(--accent);font-weight:700">
-            View full report
-          </summary>
-          <div class="cause" style="white-space:pre-wrap;overflow-wrap:anywhere">
-            ${escapeGarageText(item.analysis)}
+    cars = data || [];
+    renderCars();
+    updateMaintenanceCarOptions();
+  }
+
+  function renderCars() {
+    const container = $('garageList');
+    if (!container) return;
+
+    $('statCars').textContent = cars.length;
+
+    if (!currentUser) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <h3>Your garage starts here.</h3>
+          <p>Log in to save your vehicles and access them whenever you need.</p>
+          <button class="btn primary" type="button" id="emptyLoginBtn">Log in</button>
+        </div>
+      `;
+      $('emptyLoginBtn')?.addEventListener('click', showAuth);
+      return;
+    }
+
+    if (!cars.length) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">🚗</div>
+          <h3>Your garage is empty.</h3>
+          <p>Add your first vehicle to start keeping track of its health.</p>
+          <button class="btn primary" type="button" id="emptyAddCarBtn">＋ Add your first car</button>
+        </div>
+      `;
+      $('emptyAddCarBtn')?.addEventListener('click', openNewCarForm);
+      return;
+    }
+
+    container.innerHTML = cars.map(car => {
+      const name = getCarName(car);
+      const nickname = car.nickname
+        ? `<span class="car-nickname">${escapeHTML(car.nickname)}</span>`
+        : '';
+
+      return `
+        <article class="car-card">
+          <div class="car-card-top">
+            <div class="car-icon" style="color:${safeColor(car.icon_color)}">
+              ${getCarIcon(car.icon_type)}
+            </div>
+            <div class="car-actions">
+              <button class="icon-btn" type="button"
+                data-edit-car="${escapeHTML(car.id)}" aria-label="Edit vehicle">✎</button>
+              <button class="icon-btn danger" type="button"
+                data-delete-car="${escapeHTML(car.id)}" aria-label="Delete vehicle">×</button>
+            </div>
           </div>
-          <p class="disclaimer">
-            ${escapeGarageText(item.disclaimer || '')}
-          </p>
-        </details>
-        <button class="btn secondary" type="button"
-          data-delete-diagnosis="${item.id}" style="margin-top:12px">
-          Delete report
-        </button>
-      </div>
-    `).join('');
 
-    historyList.querySelectorAll('[data-delete-diagnosis]').forEach(button => {
-      button.addEventListener('click', async () => {
-        if (!confirm('Permanently delete this diagnosis?')) return;
+          ${nickname}
+          <h3>${escapeHTML(name || 'My vehicle')}</h3>
+          <p>${escapeHTML(car.engine || 'Engine not specified')}</p>
 
-        button.disabled = true;
-        button.textContent = 'Deleting...';
+          <div class="car-meta">
+            <span>${escapeHTML(car.year || 'Year unknown')}</span>
+            <span>CarPulse vehicle</span>
+          </div>
 
-        const { error } = await db
-          .from('diagnosis_history')
-          .delete()
-          .eq('id', button.dataset.deleteDiagnosis)
-          .eq('user_id', session.user.id);
+          <div class="car-card-buttons">
+            <button class="btn primary" type="button"
+              data-diagnose-car="${escapeHTML(car.id)}">Diagnose vehicle ↗</button>
+            <button class="btn ghost" type="button"
+              data-edit-car="${escapeHTML(car.id)}">Edit</button>
+          </div>
+        </article>
+      `;
+    }).join('');
 
-        if (error) {
-          alert('Could not delete report: ' + error.message);
-          button.disabled = false;
-          button.textContent = 'Delete report';
-          return;
-        }
-
-        await loadDiagnosisHistory();
+    container.querySelectorAll('[data-edit-car]').forEach(button => {
+      button.addEventListener('click', () => {
+        const car = cars.find(item => String(item.id) === button.dataset.editCar);
+        if (car) openEditCarForm(car);
       });
     });
 
-  } catch (error) {
-    console.error('History loading failed:', error);
-    historyList.innerHTML =
-      '<p class="sub">Could not load history: ' +
-      escapeGarageText(error.message) + '</p>';
-  }
-}
-  async function loadGarage() {
-    const garageList = $('garageList');
-    const garageMessage = $('garageMessage');
-
-   
-const { data: { session } } = await db.auth.getSession();
-
-if (!session) {
-  garageList.innerHTML = '<p class="sub">Log in to view your saved cars.</p>';
-  return;
-}
-
-const planBadge = $('planBadge');
-
-try {
-  const { data: subscription, error } = await db
-    .from('subscriptions')
-    .select('plan,status')
-    .eq('user_id', session.user.id)
-    .maybeSingle();
-
-  if (error) throw error;
-
-  const isPro = subscription?.plan === 'pro' &&
-                subscription?.status === 'active';
-
-  const proPromoCard = $('proPromoCard');
-  if (proPromoCard) proPromoCard.classList.toggle('hidden', isPro);
-
- if (planBadge) {
-  planBadge.textContent = isPro ? 'PRO PLAN' : 'FREE PLAN';
-  planBadge.classList.toggle('pro-plan-badge', isPro);
-}
-} catch (error) {
-  console.error('Could not load subscription:', error);
-}
-
-garageList.innerHTML = '<p class="sub">Loading your cars...</p>';
-
-
-    try {
-      const { data: cars, error } = await db
-        .from('cars')
-        .select('id,nickname,make,model,year,engine,icon_type,icon_color')
-        .eq('user_id', session.user.id)
-        .order('created_at', { ascending: true });
-
-      if (error) throw error;
-
-      if (!cars || cars.length === 0) {
-        garageList.innerHTML = '<p class="sub">No cars saved yet. Add your first car below.</p>';
-        return;
-      }
-
-garageList.innerHTML = cars.map((car, index) => `
-  <div class="garage-car-card ${index > 0 ? 'garage-car-extra hidden' : ''}" style="--car-accent:${car.icon_color || '#3267D5'}">
-    <div class="garage-car-header">
-      <div class="garage-car-icon">
-        <svg viewBox="0 0 64 40" width="44" height="30" aria-hidden="true">
-          <path d="${
-            car.icon_type === 'suv'
-              ? 'M8 14 L13 6 H43 L51 14 L57 17 V29 H7 V18 Z'
-              : car.icon_type === 'hatchback'
-              ? 'M8 17 L18 7 H39 L49 17 L56 20 V29 H7 V20 Z'
-              : car.icon_type === 'coupe'
-              ? 'M7 18 L22 8 H43 L53 19 L58 21 V29 H6 V21 Z'
-              : 'M7 18 L17 10 H43 L51 18 L57 21 V29 H6 V21 Z'
-          }" fill="${car.icon_color || '#3267D5'}" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-          <circle cx="17" cy="29" r="5" fill="#333"/>
-          <circle cx="47" cy="29" r="5" fill="#333"/>
-          <circle cx="17" cy="29" r="2" fill="#ddd"/>
-          <circle cx="47" cy="29" r="2" fill="#ddd"/>
-        </svg>
-      </div>
-
-      <div class="garage-car-title">
-        <span class="garage-car-label">SAVED VEHICLE</span>
-        <h3>${escapeGarageText(car.nickname || (car.make + ' ' + car.model))}</h3>
-        <p>${escapeGarageText(car.make)} ${escapeGarageText(car.model)}</p>
-      </div>
-    </div>
-
-    <div class="garage-car-details">
-      <div class="garage-car-detail">
-        <span>YEAR</span>
-        <strong>${car.year}</strong>
-      </div>
-      <div class="garage-car-detail">
-        <span>ENGINE / FUEL</span>
-        <strong>${car.engine ? escapeGarageText(car.engine) : 'Not specified'}</strong>
-      </div>
-    </div>
-
-    <div class="garage-car-actions">
-      <button class="btn primary" type="button" data-use-car="${car.id}">Use for diagnosis</button>
-      <button class="btn secondary" type="button" data-edit-car="${car.id}">Edit</button>
-      <button class="btn secondary garage-delete-btn" type="button" data-delete-car="${car.id}">Delete</button>
-    </div>
-  </div>
-`).join('');
-      if (cars.length > 1) {
-  const viewCarsBtn = document.createElement('button');
-  viewCarsBtn.type = 'button';
-  viewCarsBtn.className = 'btn secondary garage-view-all-btn';
-  viewCarsBtn.textContent = `View all cars (${cars.length})`;
-
-  garageList.appendChild(viewCarsBtn);
-
-  viewCarsBtn.addEventListener('click', () => {
-    const extras = garageList.querySelectorAll('.garage-car-extra');
-    const isExpanded = viewCarsBtn.dataset.expanded === 'true';
-
-    extras.forEach(car => {
-      car.classList.toggle('hidden', isExpanded);
+    container.querySelectorAll('[data-delete-car]').forEach(button => {
+      button.addEventListener('click', () => deleteCar(button.dataset.deleteCar));
     });
 
-    viewCarsBtn.dataset.expanded = String(!isExpanded);
-    viewCarsBtn.textContent = isExpanded
-      ? `View all cars (${cars.length})`
-      : 'Show fewer cars';
-  });
-}
-garageList.querySelectorAll('[data-delete-car]').forEach(button => {
-  button.addEventListener('click', async () => {
+    container.querySelectorAll('[data-diagnose-car]').forEach(button => {
+      button.addEventListener('click', () => diagnoseCar(button.dataset.diagnoseCar));
+    });
+  }
+
+  function safeColor(value) {
+    const allowed = [
+      '#43d9a3', '#5da9ff', '#b18aff',
+      '#ffb45d', '#ff7185', '#eeeeee'
+    ];
+    return allowed.includes(value) ? value : '#43d9a3';
+  }
+
+  function getCarIcon(type) {
+    const icons = {
+      sedan: '🚘',
+      suv: '🚙',
+      hatchback: '🚗',
+      pickup: '🛻',
+      motorcycle: '🏍️',
+      other: '🚗'
+    };
+
+    return icons[type] || '🚗';
+  }
+
+  function openNewCarForm() {
+    if (!currentUser) {
+      showAuth();
+      return;
+    }
+
+    if (currentPlan !== 'pro' && cars.length >= 1) {
+      $('garageMessage').textContent =
+        'The Free plan supports one vehicle. Upgrade to Pro to add more.';
+      return;
+    }
+
+    editingCarId = null;
+    $('carForm').reset();
+    $('carFormTitle').textContent = 'Add a vehicle';
+    $('saveCarBtn').textContent = 'Save vehicle';
+
+    selectCarAppearance('sedan', '#43d9a3');
+
+    $('carForm').classList.remove('hidden');
+    $('carForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    message('garageMessage', '');
+  }
+
+  function openEditCarForm(car) {
+    editingCarId = car.id;
+
+    $('carNickname').value = car.nickname || '';
+    $('carMake').value = car.make || '';
+    $('carModel').value = car.model || '';
+    $('carYear').value = car.year || '';
+    $('carEngine').value = car.engine || '';
+
+    selectCarAppearance(
+      car.icon_type || 'sedan',
+      safeColor(car.icon_color)
+    );
+
+    $('carFormTitle').textContent = 'Edit vehicle';
+    $('saveCarBtn').textContent = 'Update vehicle';
+
+    $('carForm').classList.remove('hidden');
+    $('carForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function selectCarAppearance(iconType, color) {
+    document.querySelectorAll('.car-icon-choice').forEach(button => {
+      button.classList.toggle(
+        'selected',
+        button.dataset.iconType === iconType
+      );
+    });
+
+    document.querySelectorAll('.car-color-choice').forEach(button => {
+      button.classList.toggle(
+        'selected',
+        button.dataset.iconColor === color
+      );
+    });
+  }
+
+  function getSelectedIcon() {
+    return document.querySelector('.car-icon-choice.selected')?.dataset.iconType || 'sedan';
+  }
+
+  function getSelectedColor() {
+    return document.querySelector('.car-color-choice.selected')?.dataset.iconColor || '#43d9a3';
+  }
+
+  async function saveCar(event) {
+    event.preventDefault();
+
+    if (!currentUser) {
+      showAuth();
+      return;
+    }
+
+    const saveButton = $('saveCarBtn');
+    const originalText = editingCarId ? 'Update vehicle' : 'Save vehicle';
+
+    if (!editingCarId && currentPlan !== 'pro' && cars.length >= 1) {
+      message('garageMessage', 'Your Free plan allows one vehicle.', true);
+      return;
+    }
+
+    if (!editingCarId && currentPlan === 'pro' && cars.length >= 10) {
+      message('garageMessage', 'Your garage has reached the 10-vehicle limit.', true);
+      return;
+    }
+
+    const record = {
+      user_id: currentUser.id,
+      nickname: $('carNickname').value.trim() || null,
+      make: $('carMake').value.trim(),
+      model: $('carModel').value.trim(),
+      year: Number($('carYear').value),
+      engine: $('carEngine').value.trim() || null,
+      icon_type: getSelectedIcon(),
+      icon_color: getSelectedColor()
+    };
+
+    setButtonLoading(saveButton, true, originalText);
+    message('garageMessage', '');
+
+    let result;
+
+    if (editingCarId) {
+      result = await db
+        .from('cars')
+        .update(record)
+        .eq('id', editingCarId)
+        .eq('user_id', currentUser.id);
+    } else {
+      result = await db
+        .from('cars')
+        .insert(record);
+    }
+
+    setButtonLoading(saveButton, false, originalText);
+
+    if (result.error) {
+      console.error(result.error);
+      message('garageMessage', result.error.message, true);
+      return;
+    }
+
+    $('carForm').classList.add('hidden');
+    editingCarId = null;
+
+    message('garageMessage', 'Vehicle saved successfully.');
+    await loadCars();
+  }
+
+  async function deleteCar(id) {
+    const car = cars.find(item => String(item.id) === String(id));
+    if (!car) return;
+
     const confirmed = confirm(
-      'Are you sure you want to permanently delete this car?'
+      `Delete ${getCarName(car)} from your garage?\n\nThis may also affect records linked to this vehicle.`
     );
 
     if (!confirmed) return;
 
-    const { data: { session } } = await db.auth.getSession();
-    if (!session) return;
-
-    button.disabled = true;
-    button.textContent = 'Deleting...';
-
     const { error } = await db
       .from('cars')
       .delete()
-      .eq('id', button.dataset.deleteCar)
-      .eq('user_id', session.user.id);
+      .eq('id', id)
+      .eq('user_id', currentUser.id);
 
     if (error) {
-      alert('Could not delete car: ' + error.message);
-      await loadGarage();
+      alert('Could not delete vehicle: ' + error.message);
       return;
     }
 
-    await loadGarage();
-  });
-});
+    await loadCars();
+    await loadDiagnosisHistory();
+    await loadMaintenanceRecords();
 
-garageList.querySelectorAll('[data-edit-car]').forEach(button => {
-  button.addEventListener('click', () => {
-    const selectedCar = cars.find(car => car.id === button.dataset.editCar);
-    if (selectedCar) startEditCar(selectedCar);
-  });
-});
-      garageList.querySelectorAll('[data-use-car]').forEach(button => {
-  button.addEventListener('click', () => {
-    const car = cars.find(car => car.id === button.dataset.useCar);
+    message('garageMessage', 'Vehicle deleted.');
+  }
+
+  function diagnoseCar(id) {
+    const car = cars.find(item => String(item.id) === String(id));
     if (!car) return;
 
     const params = new URLSearchParams({
@@ -1131,269 +1437,481 @@ garageList.querySelectorAll('[data-edit-car]').forEach(button => {
       engine: car.engine || ''
     });
 
-    window.location.href = 'index.html?' + params.toString();
-  });
-});
-    } catch (error) {
-      garageList.innerHTML = '<p class="sub">Could not load cars: ' +
-        escapeGarageText(error.message) + '</p>';
-    }
+    window.location.href = `index.html?${params.toString()}`;
   }
 
-  function escapeGarageText(value) {
-    return String(value ?? '').replace(/[&<>"']/g, character => ({
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#39;'
-    })[character]);
-  }
+  async function loadDiagnosisHistory() {
+    const container = $('historyList');
 
-  
-function startEditCar(car) {
-  editingCarId = car.id;
-carForm.classList.remove('hidden');
-$('carFormTitle').textContent = 'Edit car';
-  $('carNickname').value = car.nickname || '';
-  $('carMake').value = car.make || '';
-  $('carModel').value = car.model || '';
-  $('carYear').value = car.year || '';
-  $('carEngine').value = car.engine || '';
-
-  selectedIconType = car.icon_type || 'sedan';
-  selectedIconColor = car.icon_color || '#3267D5';
-
-  document.querySelectorAll('.car-icon-choice').forEach(button => {
-    button.classList.toggle(
-      'selected',
-      button.dataset.iconType === selectedIconType
-    );
-  });
-
-  document.querySelectorAll('.car-color-choice').forEach(button => {
-    button.style.outline =
-      button.dataset.iconColor === selectedIconColor
-        ? '3px solid #3267D5'
-        : 'none';
-
-    button.style.outlineOffset = '3px';
-  });
-
-  $('saveCarBtn').textContent = 'Update car';
-  $('garageMessage').textContent =
-    'Editing ' + (car.nickname || (car.make + ' ' + car.model));
-
-  carForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  $('carNickname').focus();
-}
-
-  carForm.addEventListener('submit', async event => {
-    event.preventDefault();
-
-    const { data: { session } } = await db.auth.getSession();
-const planBadge = $('planBadge');
-
-if (planBadge && session) {
-  const { data: subscription, error } = await db
-    .from('subscriptions')
-    .select('plan,status')
-    .eq('user_id', session.user.id)
-    .maybeSingle();
-
-  if (!error && subscription) {
-    const isPro = subscription.plan === 'pro' &&
-                  subscription.status === 'active';
-
-    planBadge.textContent = isPro ? 'PRO PLAN' : 'FREE PLAN';
-  } else {
-    planBadge.textContent = 'FREE PLAN';
-  }
-}
-    if (!session) {
-      showMessage('Please log in before saving a car.', true);
-      modal.classList.remove('hidden');
+    if (!currentUser) {
+      container.innerHTML = '<p class="sub">Log in to see your saved diagnosis reports.</p>';
+      $('statReports').textContent = '0';
+      diagnosisReports = [];
       return;
     }
 
-    const saveButton = $('saveCarBtn');
-    saveButton.disabled = true;
-    saveButton.textContent = 'Saving...';
+    const { data, error } = await db
+      .from('diagnosis_history')
+      .select('*')
+      .eq('user_id', currentUser.id)
+      .order('created_at', { ascending: false });
 
-    try {
-      const { data: existingCars, error: countError } = await db
-        .from('cars')
-        .select('id')
-        .eq('user_id', session.user.id);
-
-      if (countError) throw countError;
-
-      const { data: subscription, error: planError } = await db
-        .from('subscriptions')
-        .select('plan,status')
-        .eq('user_id', session.user.id)
-        .maybeSingle();
-
-      if (planError) throw planError;
-
-      const isPro = subscription?.plan === 'pro' &&
-                    subscription?.status === 'active';
-
-      if (!editingCarId && !isPro && existingCars.length >= 1) {
-        $('garageMessage').textContent =
-          'Free accounts can save one car. Upgrade to Pro for more.';
-        $('upgradeBtn').style.display = 'inline-block';
-        return;
-      }
-
-     
-const car = {
-  user_id: session.user.id,
-  nickname: $('carNickname').value.trim(),
-  make: $('carMake').value.trim(),
-  model: $('carModel').value.trim(),
-  year: Number($('carYear').value),
-  engine: $('carEngine').value.trim(),
-  icon_type: selectedIconType,
-  icon_color: selectedIconColor
-};
-
-
-      let saveQuery;
-
-if (editingCarId) {
-  saveQuery = db
-    .from('cars')
-    .update(car)
-    .eq('id', editingCarId)
-    .eq('user_id', session.user.id);
-} else {
-  saveQuery = db.from('cars').insert(car);
-}
-
-const { error } = await saveQuery;
-if (error) throw error;
-      if (error) throw error;
-
-      $('garageMessage').textContent = 'Car saved successfully!';
-      carForm.reset();
-      await loadGarage();
-    } catch (error) {
-      $('garageMessage').textContent =
-        'Could not save car: ' + error.message;
-    } finally {
-      saveButton.disabled = false;
-      saveButton.textContent = 'Save car';
+    if (error) {
+      console.error(error);
+      container.innerHTML = '<p class="sub">Unable to load diagnosis history.</p>';
+      return;
     }
-  });
 
-  // Restore the saved login once the page is ready.
-  async function syncGarageSession() {
-    try {
-      const { data, error } = await db.auth.getSession();
-      if (error) throw error;
-      const session = data?.session || null;
-      document.getElementById('garageSection').classList.toggle('hidden', !session);
-      accountButton.textContent = session ? 'My account' : 'Log in / Sign up';
+    diagnosisReports = data || [];
+    $('statReports').textContent = diagnosisReports.length;
 
-      if (session) {
-        await loadGarage();
-        await loadDiagnosisHistory();
-      } else {
-        $('garageList').innerHTML = '<p class="sub">Log in to view your saved cars.</p>';
-        $('historyList').innerHTML = '<p class="sub">Log in to view your history.</p>';
-      }
-    } catch (error) {
-      console.error('CarPulse could not restore the login:', error);
-      $('garageMessage').textContent = 'Could not load your account. Please refresh and try again.';
-    }
+    renderDiagnosisHistory();
   }
 
-  syncGarageSession();
+  function getReportSearchText(report) {
+    const carDetails = typeof report.car_details === 'string'
+      ? report.car_details
+      : JSON.stringify(report.car_details || '');
 
-  // Keep auth callbacks synchronous; run database queries after the callback returns.
-  db.auth.onAuthStateChange((event, session) => {
-    document.getElementById('garageSection').classList.toggle('hidden', !session);
-    accountButton.textContent = session ? 'My account' : 'Log in / Sign up';
+    const symptoms = typeof report.symptoms === 'string'
+      ? report.symptoms
+      : JSON.stringify(report.symptoms || '');
 
-    if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
-      setTimeout(() => {
-        loadGarage();
-        loadDiagnosisHistory();
-      }, 0);
-    } else if (event === 'SIGNED_OUT') {
-      $('garageList').innerHTML = '<p class="sub">Log in to view your saved cars.</p>';
-      $('historyList').innerHTML = '<p class="sub">Log in to view your history.</p>';
-    }
-  });
-})();
-</script>
+    const analysis = typeof report.analysis === 'string'
+      ? report.analysis
+      : JSON.stringify(report.analysis || '');
 
-<div style="text-align:center;padding:24px 16px;color:#a8b3bd;font-size:14px">
-  Need help or have feedback?
-  <a href="mailto:carpulse.me@gmail.com" style="color:#7ee787;text-decoration:none;font-weight:600">
-    Contact CarPulse
-  </a>
-  <div style="margin-top:6px">
-    <a href="mailto:carpulse.me@gmail.com" style="color:#a8b3bd">
-      carpulse.me@gmail.com
-    </a>
-  </div>
-</div>
-
-
-<script>
-(() => {
-  const db = window.carpulseSupabase;
-  const $ = id => document.getElementById(id);
-  const section = $('maintenanceSection');
-  if (!db || !section) return;
-  let currentUser = null;
-  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const today = new Date();
-  $('maintenanceDate').value = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
-
-  async function initMaintenance() {
-    const { data: { session } } = await db.auth.getSession();
-    currentUser = session?.user || null;
-    if (!currentUser) { $('maintenanceStatus').textContent='Log in required'; return; }
-    const { data: sub, error: subError } = await db.from('subscriptions').select('plan,status').eq('user_id',currentUser.id).maybeSingle();
-    if (subError) { $('maintenanceStatus').textContent='Could not verify plan'; $('maintenanceLocked').style.display='block'; return; }
-    const pro = sub?.plan === 'pro' && sub?.status === 'active';
-    $('maintenanceStatus').textContent = pro ? 'PRO ACTIVE' : 'PRO FEATURE';
-    $('maintenanceLocked').style.display = pro ? 'none' : 'block';
-    $('maintenanceApp').style.display = pro ? 'block' : 'none';
-    if (!pro) return;
-    const { data: cars, error } = await db.from('cars').select('id,nickname,make,model,year').eq('user_id',currentUser.id).order('created_at',{ascending:true});
-    if (error) { $('maintenanceRecords').textContent='Could not load vehicles: '+error.message; return; }
-    if (!cars?.length) { $('maintenanceRecords').textContent='Add a vehicle to your Garage before recording maintenance.'; $('maintenanceCar').disabled=true; return; }
-    $('maintenanceCar').innerHTML = cars.map(c=>`<option value="${esc(c.id)}">${esc(c.nickname || `${c.make} ${c.model}`)} — ${esc(c.year)}</option>`).join('');
-    await loadRecords();
+    return `${carDetails} ${symptoms} ${analysis}`.toLowerCase();
   }
 
-  async function loadRecords() {
+  function renderDiagnosisHistory() {
+    const container = $('historyList');
+    const search = ($('historySearch')?.value || '').trim().toLowerCase();
+    const sort = $('historySort')?.value || 'newest';
+
+    const filtered = diagnosisReports
+      .filter(report => getReportSearchText(report).includes(search))
+      .sort((a, b) => {
+        const first = new Date(a.created_at).getTime();
+        const second = new Date(b.created_at).getTime();
+        return sort === 'oldest' ? first - second : second - first;
+      });
+
+    if (!filtered.length) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <h3>No reports found.</h3>
+          <p>${diagnosisReports.length
+            ? 'Try a different search.'
+            : 'Your completed diagnoses will appear here.'}</p>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = filtered.map(report => {
+      const details = typeof report.car_details === 'string'
+        ? report.car_details
+        : JSON.stringify(report.car_details || {});
+
+      const analysis = typeof report.analysis === 'string'
+        ? report.analysis
+        : JSON.stringify(report.analysis || '');
+
+      const symptoms = typeof report.symptoms === 'string'
+        ? report.symptoms
+        : JSON.stringify(report.symptoms || '');
+
+      const title = details || 'Vehicle diagnosis';
+      const preview = analysis || symptoms || 'No report summary available.';
+
+      return `
+        <article class="history-card">
+          <div class="history-card-main">
+            <div>
+              <span class="section-kicker">AI DIAGNOSIS</span>
+              <h3>${escapeHTML(title)}</h3>
+              <p>${escapeHTML(preview).slice(0, 220)}${preview.length > 220 ? '…' : ''}</p>
+              <span class="sub">${formatDate(report.created_at)}</span>
+            </div>
+          </div>
+
+          <div class="history-card-actions">
+            <button class="btn ghost" type="button"
+              data-view-report="${escapeHTML(report.id)}">View report</button>
+            <button class="btn ghost" type="button"
+              data-delete-report="${escapeHTML(report.id)}">Delete</button>
+          </div>
+
+          <div class="report-detail hidden" id="report-${escapeHTML(report.id)}">
+            <h4>Symptoms</h4>
+            <p>${escapeHTML(symptoms || 'Not recorded')}</p>
+            <h4>Analysis</h4>
+            <p>${escapeHTML(analysis || 'No analysis available')}</p>
+            <p class="sub">${escapeHTML(report.disclaimer || '')}</p>
+          </div>
+        </article>
+      `;
+    }).join('');
+
+    container.querySelectorAll('[data-view-report]').forEach(button => {
+      button.addEventListener('click', () => {
+        const detail = $('report-' + button.dataset.viewReport);
+        if (!detail) return;
+
+        detail.classList.toggle('hidden');
+        button.textContent = detail.classList.contains('hidden')
+          ? 'View report'
+          : 'Hide report';
+      });
+    });
+
+    container.querySelectorAll('[data-delete-report]').forEach(button => {
+      button.addEventListener('click', () => deleteReport(button.dataset.deleteReport));
+    });
+  }
+
+  async function deleteReport(id) {
+    if (!confirm('Delete this diagnosis report permanently?')) return;
+
+    const { error } = await db
+      .from('diagnosis_history')
+      .delete()
+      .eq('id', id)
+      .eq('user_id', currentUser.id);
+
+    if (error) {
+      alert('Could not delete report: ' + error.message);
+      return;
+    }
+
+    await loadDiagnosisHistory();
+  }
+
+  function updateMaintenanceCarOptions() {
+    const select = $('maintenanceCar');
+    if (!select) return;
+
+    const previous = select.value;
+
+    select.innerHTML = cars.length
+      ? cars.map(car => `
+          <option value="${escapeHTML(car.id)}">
+            ${escapeHTML(getCarName(car))}
+          </option>
+        `).join('')
+      : '<option value="">Add a vehicle first</option>';
+
+    if (cars.some(car => String(car.id) === previous)) {
+      select.value = previous;
+    }
+
+    $('statServices').textContent = maintenanceRecords.length;
+  }
+
+  async function loadMaintenanceRecords() {
+    if (!currentUser || currentPlan !== 'pro') {
+      maintenanceRecords = [];
+      $('statServices').textContent = '0';
+      return;
+    }
+
+    const selectedCar = $('maintenanceCar')?.value;
+
+    if (!selectedCar) {
+      maintenanceRecords = [];
+      $('maintenanceRecords').innerHTML =
+        '<p class="sub">Add a vehicle to start tracking maintenance.</p>';
+      $('statServices').textContent = '0';
+      return;
+    }
+
+    const { data, error } = await db
+      .from('maintenance_records')
+      .select('*')
+      .eq('user_id', currentUser.id)
+      .eq('car_id', selectedCar)
+      .order('service_date', { ascending: false });
+
+    if (error) {
+      console.error(error);
+      $('maintenanceRecords').innerHTML =
+        '<p class="sub">Could not load service records.</p>';
+      return;
+    }
+
+    maintenanceRecords = data || [];
+    renderMaintenanceRecords();
+  }
+
+  function renderMaintenanceRecords() {
+    const container = $('maintenanceRecords');
+
+    $('statServices').textContent = maintenanceRecords.length;
+
+    if (!maintenanceRecords.length) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <h3>No service records yet.</h3>
+          <p>Your saved maintenance history will appear here.</p>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = maintenanceRecords.map(record => `
+      <article class="maintenance-record">
+        <div>
+          <h3>${escapeHTML(record.service_type)}</h3>
+          <p>${formatDate(record.service_date)}</p>
+          <p class="sub">
+            Mileage: ${record.mileage !== null && record.mileage !== ''
+              ? escapeHTML(Number(record.mileage).toLocaleString()) + ' km'
+              : '—'}
+            · Cost: ${formatMoney(record.cost)}
+          </p>
+          ${record.notes
+            ? `<p>${escapeHTML(record.notes)}</p>`
+            : ''}
+          ${record.next_service_date
+            ? `<p class="sub">Next service: ${formatDate(record.next_service_date)}</p>`
+            : ''}
+          ${record.next_service_mileage
+            ? `<p class="sub">Next mileage: ${escapeHTML(record.next_service_mileage)} km</p>`
+            : ''}
+        </div>
+        <button class="btn ghost" type="button"
+          data-delete-service="${escapeHTML(record.id)}">Delete</button>
+      </article>
+    `).join('');
+
+    container.querySelectorAll('[data-delete-service]').forEach(button => {
+      button.addEventListener('click', () => deleteMaintenanceRecord(button.dataset.deleteService));
+    });
+  }
+
+  async function saveMaintenance(event) {
+    event.preventDefault();
+
+    if (!currentUser || currentPlan !== 'pro') return;
+
     const carId = $('maintenanceCar').value;
-    if (!carId || !currentUser) return;
-    $('maintenanceRecords').innerHTML='<p class="sub">Loading service history…</p>';
-    const { data, error } = await db.from('maintenance_records').select('id,service_type,service_date,mileage,cost,notes,next_service_date,next_service_mileage').eq('user_id',currentUser.id).eq('car_id',carId).order('service_date',{ascending:false});
-    if (error) { $('maintenanceRecords').textContent='Could not load records: '+error.message; return; }
-    if (!data?.length) { $('maintenanceRecords').innerHTML='<p class="sub">No maintenance records for this vehicle yet.</p>'; return; }
-    $('maintenanceRecords').innerHTML = data.map(r=>`<div class="cause"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><strong>${esc(r.service_type)}</strong><span class="sub">${esc(r.service_date)}</span></div><p>${r.mileage != null ? `Mileage: ${Number(r.mileage).toLocaleString()} km` : ''}${r.cost != null ? ` · Cost: EGP ${Number(r.cost).toLocaleString()}` : ''}</p>${r.next_service_date ? `<p>Next service: ${esc(r.next_service_date)}</p>` : ''}${r.next_service_mileage != null ? `<p>Next service mileage: ${Number(r.next_service_mileage).toLocaleString()} km</p>` : ''}${r.notes ? `<p>${esc(r.notes)}</p>` : ''}<button class="btn secondary" type="button" data-delete-maintenance="${esc(r.id)}" style="margin-top:8px">Delete record</button></div>`).join('');
-    $('maintenanceRecords').querySelectorAll('[data-delete-maintenance]').forEach(btn=>btn.addEventListener('click',async()=>{ if(!confirm('Delete this service record?')) return; btn.disabled=true; const {error}=await db.from('maintenance_records').delete().eq('id',btn.dataset.deleteMaintenance).eq('user_id',currentUser.id); if(error){alert('Could not delete record: '+error.message);btn.disabled=false;return;} await loadRecords(); }));
+
+    if (!carId) {
+      message('maintenanceMessage', 'Please add and select a vehicle first.', true);
+      return;
+    }
+
+    const mileage = $('maintenanceMileage').value;
+    const cost = $('maintenanceCost').value;
+    const nextMileage = $('maintenanceNextMileage').value;
+
+    const record = {
+      user_id: currentUser.id,
+      car_id: carId,
+      service_type: $('maintenanceType').value,
+      service_date: $('maintenanceDate').value,
+      mileage: mileage === '' ? null : Number(mileage),
+      cost: cost === '' ? null : Number(cost),
+      notes: $('maintenanceNotes').value.trim() || null,
+      next_service_date: $('maintenanceNextDate').value || null,
+      next_service_mileage: nextMileage === '' ? null : Number(nextMileage)
+    };
+
+    const button = $('saveMaintenanceBtn');
+    setButtonLoading(button, true, 'Save service record');
+
+    const { error } = await db
+      .from('maintenance_records')
+      .insert(record);
+
+    setButtonLoading(button, false, 'Save service record');
+
+    if (error) {
+      console.error(error);
+      message('maintenanceMessage', error.message, true);
+      return;
+    }
+
+    $('maintenanceForm').reset();
+    $('maintenanceDate').value = new Date().toISOString().slice(0, 10);
+
+    message('maintenanceMessage', 'Service record saved successfully.');
+    await loadMaintenanceRecords();
   }
 
-  $('maintenanceCar').addEventListener('change',loadRecords);
-  $('maintenanceForm').addEventListener('submit',async event=>{
-    event.preventDefault(); if(!currentUser || !$('maintenanceCar').value) return;
-    const btn=$('saveMaintenanceBtn'); btn.disabled=true; btn.textContent='Saving…'; $('maintenanceMessage').textContent='';
-    const numberOrNull=id=>$(id).value.trim()===''?null:Number($(id).value);
-    const record={user_id:currentUser.id,car_id:$('maintenanceCar').value,service_type:$('maintenanceType').value,service_date:$('maintenanceDate').value,mileage:numberOrNull('maintenanceMileage'),cost:numberOrNull('maintenanceCost'),notes:$('maintenanceNotes').value.trim()||null,next_service_date:$('maintenanceNextDate').value||null,next_service_mileage:numberOrNull('maintenanceNextMileage')};
-    try { const {error}=await db.from('maintenance_records').insert(record); if(error) throw error; $('maintenanceMessage').textContent='Service record saved.'; $('maintenanceMileage').value=''; $('maintenanceCost').value=''; $('maintenanceNextDate').value=''; $('maintenanceNextMileage').value=''; $('maintenanceNotes').value=''; await loadRecords(); }
-    catch(error){$('maintenanceMessage').textContent='Could not save record: '+error.message;}
-    finally{btn.disabled=false;btn.textContent='Save service record';}
+  async function deleteMaintenanceRecord(id) {
+    if (!confirm('Delete this service record?')) return;
+
+    const { error } = await db
+      .from('maintenance_records')
+      .delete()
+      .eq('id', id)
+      .eq('user_id', currentUser.id);
+
+    if (error) {
+      alert('Could not delete record: ' + error.message);
+      return;
+    }
+
+    await loadMaintenanceRecords();
+  }
+
+  async function refreshApp() {
+    updateAccountButton();
+
+    if (!currentUser) {
+      cars = [];
+      diagnosisReports = [];
+      maintenanceRecords = [];
+
+      updatePlanUI();
+      renderCars();
+      await loadDiagnosisHistory();
+      return;
+    }
+
+    await loadSubscription();
+    await loadCars();
+    await loadDiagnosisHistory();
+
+    if (currentPlan === 'pro') {
+      await loadMaintenanceRecords();
+    }
+  }
+
+  // AUTH FORM
+  $('authForm')?.addEventListener('submit', async event => {
+    event.preventDefault();
+
+    const email = $('authEmail').value.trim();
+    const password = $('authPassword').value;
+    const name = $('authName').value.trim();
+
+    const button = $('authSubmit');
+    setButtonLoading(button, true, authMode === 'signup' ? 'Create account' : 'Log in');
+    message('authMessage', '');
+
+    let result;
+
+    if (authMode === 'signup') {
+      result = await db.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { name }
+        }
+      });
+    } else {
+      result = await db.auth.signInWithPassword({
+        email,
+        password
+      });
+    }
+
+    setButtonLoading(button, false, authMode === 'signup' ? 'Create account' : 'Log in');
+
+    if (result.error) {
+      message('authMessage', result.error.message, true);
+      return;
+    }
+
+    if (authMode === 'signup' && !result.data.session) {
+      message(
+        'authMessage',
+        'Account created. Check your email to confirm your address before logging in.'
+      );
+      return;
+    }
+
+    hideAuth();
+    await refreshApp();
   });
-  initMaintenance().catch(error=>{console.error('Maintenance tracker:',error);$('maintenanceStatus').textContent='Could not load';});
-  db.auth.onAuthStateChange((event)=>{if(event==='SIGNED_IN'||event==='TOKEN_REFRESHED') setTimeout(initMaintenance,0); if(event==='SIGNED_OUT'){currentUser=null;$('maintenanceStatus').textContent='Log in required';$('maintenanceApp').style.display='none';}});
+
+  $('authSwitch')?.addEventListener('click', () => {
+    setAuthMode(authMode === 'login' ? 'signup' : 'login');
+  });
+
+  $('closeAuth')?.addEventListener('click', hideAuth);
+
+  $('authModal')?.addEventListener('click', event => {
+    if (event.target === $('authModal')) hideAuth();
+  });
+
+  // GARAGE FORM
+  $('showCarFormBtn')?.addEventListener('click', openNewCarForm);
+  $('heroAddCar')?.addEventListener('click', openNewCarForm);
+  $('closeCarFormBtn')?.addEventListener('click', () => {
+    editingCarId = null;
+    $('carForm').classList.add('hidden');
+  });
+
+  $('carForm')?.addEventListener('submit', saveCar);
+
+  document.querySelectorAll('.car-icon-choice').forEach(button => {
+    button.addEventListener('click', () => {
+      selectCarAppearance(button.dataset.iconType, getSelectedColor());
+    });
+  });
+
+  document.querySelectorAll('.car-color-choice').forEach(button => {
+    button.addEventListener('click', () => {
+      selectCarAppearance(getSelectedIcon(), button.dataset.iconColor);
+    });
+  });
+
+  // MAINTENANCE
+  $('maintenanceForm')?.addEventListener('submit', saveMaintenance);
+
+  $('maintenanceCar')?.addEventListener('change', loadMaintenanceRecords);
+
+  $('maintenanceDate').value = new Date().toISOString().slice(0, 10);
+
+  // HISTORY SEARCH AND SORT
+  $('historySearch')?.addEventListener('input', renderDiagnosisHistory);
+  $('historySort')?.addEventListener('change', renderDiagnosisHistory);
+
+  // ACCOUNT BUTTON
+  $('accountBtn')?.addEventListener('click', () => {
+    if (currentUser) {
+      const logout = confirm('Do you want to log out of CarPulse?');
+      if (logout) {
+        db.auth.signOut();
+      }
+    } else {
+      setAuthMode('login');
+      showAuth();
+    }
+  });
+
+  // PROMO CARD
+  $('closeProPromoBtn')?.addEventListener('click', () => {
+    $('proPromoCard').style.display = 'none';
+  });
+
+  $('upgradeBtn')?.addEventListener('click', () => {
+    window.location.href = 'index.html#proSection';
+  });
+
+  // INITIAL AUTH STATE
+  db.auth.getSession().then(async ({ data, error }) => {
+    if (error) console.error(error);
+
+    currentUser = data?.session?.user || null;
+    await refreshApp();
+  });
+
+  db.auth.onAuthStateChange((_event, session) => {
+    currentUser = session?.user || null;
+
+    // Defer database requests until after the auth callback completes.
+    setTimeout(() => refreshApp(), 0);
+  });
+
+  // Initial display
+  updatePlanUI();
+  updateAccountButton();
+
 })();
 </script>
 
