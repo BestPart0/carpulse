@@ -595,6 +595,154 @@ button { cursor: pointer; }
   .garage-car-actions .btn:first-child { grid-column: 1/-1; }
   .history-toolbar { flex-wrap: wrap; }
 }
+  /* CARPULSE FUEL TRACKER */
+
+.fuel-section {
+  margin-top: 28px;
+}
+
+.fuel-dashboard {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+
+.fuel-stat {
+  padding: 20px;
+  border: 1px solid var(--border, rgba(255,255,255,.09));
+  border-radius: 16px;
+  background: var(--card, #151a1b);
+}
+
+.fuel-stat-label {
+  color: var(--muted, #9aa5a2);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.fuel-stat-value {
+  display: block;
+  margin-top: 10px;
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 750;
+  color: var(--text, #fff);
+}
+
+.fuel-stat-note {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted, #9aa5a2);
+  font-size: 12px;
+}
+
+.fuel-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.fuel-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.fuel-field label {
+  font-size: 13px;
+  color: var(--muted, #aab4b1);
+}
+
+.fuel-field input,
+.fuel-field select,
+.fuel-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  color: var(--text, #fff);
+  background: #101516;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 10px;
+  font: inherit;
+}
+
+.fuel-field input:focus,
+.fuel-field select:focus,
+.fuel-field textarea:focus {
+  outline: 1px solid #43d9a3;
+  border-color: #43d9a3;
+}
+
+.fuel-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0;
+  color: var(--text, #fff);
+  font-size: 14px;
+}
+
+.fuel-checkbox input {
+  accent-color: #43d9a3;
+  width: 17px;
+  height: 17px;
+}
+
+.fuel-record {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 17px 0;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.fuel-record:last-child {
+  border-bottom: 0;
+}
+
+.fuel-record h4 {
+  margin: 0 0 6px;
+}
+
+.fuel-record p {
+  margin: 4px 0;
+  color: var(--muted, #aab4b1);
+  font-size: 13px;
+}
+
+.fuel-record-economy {
+  color: #43d9a3 !important;
+  font-weight: 700;
+}
+
+.fuel-empty {
+  padding: 24px;
+  text-align: center;
+  color: var(--muted, #aab4b1);
+  border: 1px dashed rgba(255,255,255,.15);
+  border-radius: 14px;
+}
+
+.fuel-message {
+  margin-top: 12px;
+  font-size: 13px;
+}
+
+@media (max-width: 650px) {
+  .fuel-dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .fuel-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fuel-record {
+    flex-direction: column;
+  }
+}
 </style>
 </head>
 <body>
@@ -757,6 +905,126 @@ button { cursor: pointer; }
         </div>
       </form>
     </section>
+    <section class="fuel-section" id="fuelSection">
+  <div class="section-heading">
+    <div>
+      <span class="section-kicker">VEHICLE INTELLIGENCE</span>
+      <h2>Fuel Tracker</h2>
+      <p class="sub">Understand your fuel consumption and spending.</p>
+    </div>
+  </div>
+
+  <div class="form-group" style="max-width:320px;margin-top:18px;">
+    <label for="fuelCar">Select vehicle</label>
+    <select id="fuelCar">
+      <option value="">Select a vehicle</option>
+    </select>
+  </div>
+
+  <div class="fuel-dashboard">
+    <div class="fuel-stat">
+      <span class="fuel-stat-label">Average economy</span>
+      <strong class="fuel-stat-value" id="fuelAverage">—</strong>
+      <span class="fuel-stat-note">km per liter</span>
+    </div>
+
+    <div class="fuel-stat">
+      <span class="fuel-stat-label">Total spending</span>
+      <strong class="fuel-stat-value" id="fuelSpending">EGP 0</strong>
+      <span class="fuel-stat-note">For this vehicle</span>
+    </div>
+
+    <div class="fuel-stat">
+      <span class="fuel-stat-label">Distance tracked</span>
+      <strong class="fuel-stat-value" id="fuelDistance">0 km</strong>
+      <span class="fuel-stat-note">Between full-tank records</span>
+    </div>
+  </div>
+
+  <div class="card" style="padding:22px;margin-top:20px;">
+    <div class="section-heading">
+      <div>
+        <h3>Add a fill-up</h3>
+        <p class="sub">Record the details from your fuel receipt.</p>
+      </div>
+    </div>
+
+    <form id="fuelForm">
+      <div class="fuel-form-grid">
+        <div class="fuel-field">
+          <label for="fuelDate">Date</label>
+          <input type="date" id="fuelDate" required>
+        </div>
+
+        <div class="fuel-field">
+          <label for="fuelOdometer">Odometer reading (km)</label>
+          <input type="number" id="fuelOdometer" min="0" step="0.1"
+            placeholder="e.g. 85420" required>
+        </div>
+
+        <div class="fuel-field">
+          <label for="fuelLiters">Liters purchased</label>
+          <input type="number" id="fuelLiters" min="0.01" step="0.01"
+            placeholder="e.g. 35.5" required>
+        </div>
+
+        <div class="fuel-field">
+          <label for="fuelCost">Total cost (EGP)</label>
+          <input type="number" id="fuelCost" min="0" step="0.01"
+            placeholder="e.g. 650" required>
+        </div>
+
+        <div class="fuel-field">
+          <label for="fuelType">Fuel type</label>
+          <select id="fuelType">
+            <option value="Petrol 80">Petrol 80</option>
+            <option value="Petrol 92" selected>Petrol 92</option>
+            <option value="Petrol 95">Petrol 95</option>
+            <option value="Diesel">Diesel</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="fuel-field">
+          <label for="fuelStation">Fuel station</label>
+          <input type="text" id="fuelStation"
+            placeholder="e.g. Mobil, Misr Petroleum">
+        </div>
+      </div>
+
+      <label class="fuel-checkbox">
+        <input type="checkbox" id="fuelFullTank" checked>
+        This fill-up brought the tank to full
+      </label>
+
+      <div class="fuel-field">
+        <label for="fuelNotes">Notes (optional)</label>
+        <textarea id="fuelNotes" rows="2"
+          placeholder="Anything worth remembering?"></textarea>
+      </div>
+
+      <button class="btn primary" id="saveFuelBtn" type="submit"
+        style="margin-top:18px;">
+        Save fill-up
+      </button>
+
+      <p class="fuel-message" id="fuelMessage"></p>
+    </form>
+  </div>
+
+  <div class="card" style="padding:22px;margin-top:20px;">
+    <div class="section-heading">
+      <div>
+        <h3>Fill-up history</h3>
+        <p class="sub">All fuel records for your selected vehicle.</p>
+      </div>
+    </div>
+
+    <div id="fuelHistory" style="margin-top:12px;">
+      <div class="fuel-empty">Select a vehicle to see its fuel history.</div>
+    </div>
+  </div>
+</section>
         <section id="maintenanceSection" class="section panel maintenance-panel">
       <div class="maintenance-top">
         <div>
@@ -1153,8 +1421,9 @@ window.carpulseSupabase = window.supabase.createClient(
     }
 
     cars = data || [];
-    renderCars();
-    updateMaintenanceCarOptions();
+renderCars();
+updateMaintenanceCarOptions();
+updateFuelCarOptions();
   }
 
   function renderCars() {
@@ -1837,7 +2106,333 @@ window.carpulseSupabase = window.supabase.createClient(
   $('authModal')?.addEventListener('click', event => {
     if (event.target === $('authModal')) hideAuth();
   });
+// ========================================
+// CARPULSE FUEL TRACKER
+// ========================================
 
+let fuelRecords = [];
+
+function updateFuelCarOptions() {
+  const select = $('fuelCar');
+  if (!select) return;
+
+  const previous = select.value;
+
+  select.innerHTML = cars.length
+    ? cars.map(car => `
+        <option value="${escapeHTML(car.id)}">
+          ${escapeHTML(getCarName(car))}
+        </option>
+      `).join('')
+    : '<option value="">Add a vehicle first</option>';
+
+  if (cars.some(car => String(car.id) === previous)) {
+    select.value = previous;
+  }
+
+  if (cars.length) {
+    loadFuelRecords();
+  } else {
+    fuelRecords = [];
+    renderFuelTracker();
+  }
+}
+
+function calculateFuelEconomy(records) {
+  const sorted = [...records].sort((a, b) => {
+    const dateDifference = new Date(a.date) - new Date(b.date);
+    if (dateDifference !== 0) return dateDifference;
+
+    return new Date(a.created_at) - new Date(b.created_at);
+  });
+
+  const fullTankRecords = sorted.filter(record => record.is_full_tank);
+
+  const results = [];
+  let previousFullTank = null;
+
+  for (const record of fullTankRecords) {
+    if (!previousFullTank) {
+      previousFullTank = record;
+      continue;
+    }
+
+    const previousIndex = sorted.findIndex(
+      item => String(item.id) === String(previousFullTank.id)
+    );
+
+    const currentIndex = sorted.findIndex(
+      item => String(item.id) === String(record.id)
+    );
+
+    const distance = Number(record.odometer) -
+      Number(previousFullTank.odometer);
+
+    const litersUsed = sorted
+      .slice(previousIndex + 1, currentIndex + 1)
+      .reduce((total, item) => total + Number(item.liters), 0);
+
+    if (distance > 0 && litersUsed > 0) {
+      results.push({
+        distance,
+        liters: litersUsed,
+        economy: distance / litersUsed
+      });
+    }
+
+    previousFullTank = record;
+  }
+
+  return results;
+}
+
+async function loadFuelRecords() {
+  const carId = $('fuelCar')?.value;
+
+  if (!currentUser || !carId) {
+    fuelRecords = [];
+    renderFuelTracker();
+    return;
+  }
+
+  const { data, error } = await db
+    .from('fuel_records')
+    .select('*')
+    .eq('user_id', currentUser.id)
+    .eq('car_id', carId)
+    .order('date', { ascending: false })
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Fuel records error:', error);
+    $('fuelHistory').innerHTML =
+      '<div class="fuel-empty">Could not load fuel records. Please try again.</div>';
+    return;
+  }
+
+  fuelRecords = data || [];
+  renderFuelTracker();
+}
+
+function renderFuelTracker() {
+  const averageElement = $('fuelAverage');
+  const spendingElement = $('fuelSpending');
+  const distanceElement = $('fuelDistance');
+  const historyElement = $('fuelHistory');
+
+  if (!averageElement || !historyElement) return;
+
+  const calculations = calculateFuelEconomy(fuelRecords);
+
+  const totalDistance = calculations.reduce(
+    (total, item) => total + item.distance, 0
+  );
+
+  const totalLiters = calculations.reduce(
+    (total, item) => total + item.liters, 0
+  );
+
+  const average = totalLiters > 0
+    ? totalDistance / totalLiters
+    : null;
+
+  const spending = fuelRecords.reduce(
+    (total, record) => total + Number(record.total_cost || 0), 0
+  );
+
+  averageElement.textContent = average
+    ? average.toFixed(2)
+    : '—';
+
+  spendingElement.textContent = formatMoney(spending);
+
+  distanceElement.textContent =
+    Math.round(totalDistance).toLocaleString() + ' km';
+
+  if (!fuelRecords.length) {
+    historyElement.innerHTML = `
+      <div class="fuel-empty">
+        <h3>No fuel records yet</h3>
+        <p>Add your first fill-up to start tracking consumption.</p>
+      </div>
+    `;
+    return;
+  }
+
+  historyElement.innerHTML = fuelRecords.map(record => {
+    const economy = calculations.find(item =>
+      String(item.distance) &&
+      String(item.liters) &&
+      item.recordId === record.id
+    );
+
+    return `
+      <article class="fuel-record">
+        <div>
+          <h4>${escapeHTML(formatDate(record.date))}</h4>
+
+          <p>
+            ${escapeHTML(Number(record.liters).toFixed(2))} L
+            · ${escapeHTML(formatMoney(record.total_cost))}
+          </p>
+
+          <p>
+            Odometer:
+            ${escapeHTML(Number(record.odometer).toLocaleString())} km
+          </p>
+
+          <p>
+            ${escapeHTML(record.fuel_type || 'Fuel')}
+            ${record.station
+              ? ' · ' + escapeHTML(record.station)
+              : ''}
+          </p>
+
+          <p>
+            ${record.is_full_tank ? 'Full tank' : 'Partial fill'}
+          </p>
+
+          ${record.notes
+            ? `<p>${escapeHTML(record.notes)}</p>`
+            : ''}
+
+        </div>
+
+        <button class="btn ghost" type="button"
+          data-delete-fuel="${escapeHTML(record.id)}">
+          Delete
+        </button>
+      </article>
+    `;
+  }).join('');
+
+  historyElement.querySelectorAll('[data-delete-fuel]').forEach(button => {
+    button.addEventListener('click', () => {
+      deleteFuelRecord(button.dataset.deleteFuel);
+    });
+  });
+
+  // Display the most recent calculated economy in the history.
+  if (calculations.length) {
+    const latest = calculations[calculations.length - 1];
+
+    const latestNote = document.createElement('p');
+    latestNote.className = 'fuel-record-economy';
+    latestNote.textContent =
+      `Latest completed full-tank interval: ${latest.economy.toFixed(2)} km/L`;
+
+    historyElement.prepend(latestNote);
+  }
+}
+
+async function saveFuelRecord(event) {
+  event.preventDefault();
+
+  if (!currentUser) {
+    showAuth();
+    return;
+  }
+
+  const carId = $('fuelCar').value;
+
+  if (!carId) {
+    message('fuelMessage', 'Please add and select a vehicle first.', true);
+    return;
+  }
+
+  const odometer = Number($('fuelOdometer').value);
+  const liters = Number($('fuelLiters').value);
+  const cost = Number($('fuelCost').value);
+
+  if (
+    !Number.isFinite(odometer) ||
+    !Number.isFinite(liters) ||
+    !Number.isFinite(cost) ||
+    odometer < 0 ||
+    liters <= 0 ||
+    cost < 0
+  ) {
+    message('fuelMessage', 'Please enter valid fuel details.', true);
+    return;
+  }
+
+  const previousRecords = [...fuelRecords].sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  );
+
+  const latestRecord = previousRecords[0];
+
+  if (latestRecord && odometer < Number(latestRecord.odometer)) {
+    message(
+      'fuelMessage',
+      'The odometer reading cannot be lower than your latest recorded reading.',
+      true
+    );
+    return;
+  }
+
+  const record = {
+    user_id: currentUser.id,
+    car_id: carId,
+    date: $('fuelDate').value,
+    odometer,
+    liters,
+    total_cost: cost,
+    fuel_type: $('fuelType').value,
+    station: $('fuelStation').value.trim() || null,
+    is_full_tank: $('fuelFullTank').checked,
+    notes: $('fuelNotes').value.trim() || null
+  };
+
+  const button = $('saveFuelBtn');
+  setButtonLoading(button, true, 'Save fill-up');
+  message('fuelMessage', '');
+
+  const { error } = await db
+    .from('fuel_records')
+    .insert(record);
+
+  setButtonLoading(button, false, 'Save fill-up');
+
+  if (error) {
+    console.error(error);
+    message('fuelMessage', error.message, true);
+    return;
+  }
+
+  $('fuelForm').reset();
+  $('fuelDate').value = new Date().toISOString().slice(0, 10);
+  $('fuelFullTank').checked = true;
+
+  message('fuelMessage', 'Fuel record saved successfully.');
+
+  await loadFuelRecords();
+}
+
+async function deleteFuelRecord(id) {
+  if (!confirm('Delete this fuel record?')) return;
+
+  const { error } = await db
+    .from('fuel_records')
+    .delete()
+    .eq('id', id)
+    .eq('user_id', currentUser.id);
+
+  if (error) {
+    alert('Could not delete fuel record: ' + error.message);
+    return;
+  }
+
+  await loadFuelRecords();
+}
+
+// FUEL TRACKER EVENT LISTENERS
+
+$('fuelForm')?.addEventListener('submit', saveFuelRecord);
+
+$('fuelCar')?.addEventListener('change', loadFuelRecords);
+
+$('fuelDate').value = new Date().toISOString().slice(0, 10);
   // GARAGE FORM
   $('showCarFormBtn')?.addEventListener('click', openNewCarForm);
   $('heroAddCar')?.addEventListener('click', openNewCarForm);
