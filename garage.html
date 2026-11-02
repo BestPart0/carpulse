@@ -461,6 +461,33 @@ button#showCarFormBtn.garage-plus-btn:hover {
     </div>
 
     <div id="garageList"></div>
+
+    <section id="maintenanceSection" class="card" style="margin-top:24px;border-color:#35513a">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div><span class="garage-car-label">CARPULSE PRO</span><h2 style="margin-top:5px">Maintenance Tracker</h2><p class="sub">Keep service records for each vehicle and track upcoming maintenance.</p></div>
+        <span id="maintenanceStatus" class="pill">Checking plan…</span>
+      </div>
+      <div id="maintenanceLocked" class="cause" style="display:none"><strong>Maintenance Tracker is a Pro feature.</strong><p>Upgrade to Pro to save service records and track upcoming maintenance.</p><a class="btn primary" href="index.html#proSection" style="display:inline-block;margin-top:10px;text-decoration:none">Explore Pro</a></div>
+      <div id="maintenanceApp" style="display:none">
+        <div class="field"><label for="maintenanceCar">Choose vehicle</label><select id="maintenanceCar" style="width:100%;background:#0b131a;border:1px solid #30414d;border-radius:11px;padding:12px;color:var(--text)"></select></div>
+        <form id="maintenanceForm" class="cause" style="margin-top:12px">
+          <h3 style="margin:0 0 14px">Add service record</h3>
+          <div class="two">
+            <div class="field"><label for="maintenanceType">Service type</label><select id="maintenanceType" required><option value="Oil change">Oil change</option><option value="Oil filter">Oil filter</option><option value="Air filter">Air filter</option><option value="Cabin filter">Cabin filter</option><option value="Brake pads">Brake pads</option><option value="Brake discs">Brake discs</option><option value="Tyres">Tyres</option><option value="Battery">Battery</option><option value="General service">General service</option><option value="Repair">Repair</option><option value="Other">Other</option></select></div>
+            <div class="field"><label for="maintenanceDate">Service date</label><input id="maintenanceDate" type="date" required></div>
+            <div class="field"><label for="maintenanceMileage">Mileage (km)</label><input id="maintenanceMileage" type="number" min="0" placeholder="e.g. 85000"></div>
+            <div class="field"><label for="maintenanceCost">Cost (EGP)</label><input id="maintenanceCost" type="number" min="0" step="0.01" placeholder="e.g. 2500"></div>
+            <div class="field"><label for="maintenanceNextDate">Next service date</label><input id="maintenanceNextDate" type="date"></div>
+            <div class="field"><label for="maintenanceNextMileage">Next service mileage (km)</label><input id="maintenanceNextMileage" type="number" min="0" placeholder="e.g. 95000"></div>
+          </div>
+          <div class="field"><label for="maintenanceNotes">Notes</label><input id="maintenanceNotes" maxlength="1000" placeholder="Workshop, parts used, or other details"></div>
+          <button class="btn primary" id="saveMaintenanceBtn" type="submit">Save service record</button>
+          <p id="maintenanceMessage" class="status" role="status"></p>
+        </form>
+        <h3 style="margin:22px 0 8px">Service history</h3>
+        <div id="maintenanceRecords"><p class="sub">Select a vehicle to view its records.</p></div>
+      </div>
+    </section>
     <div id="diagnosisHistory" style="margin-top:30px;padding-top:22px;border-top:1px solid #283744">
   <h2>Diagnosis History</h2>
   <p class="sub">Your previous AI reports, saved to your account.</p>
@@ -1313,6 +1340,62 @@ if (error) throw error;
     </a>
   </div>
 </div>
+
+
+<script>
+(() => {
+  const db = window.carpulseSupabase;
+  const $ = id => document.getElementById(id);
+  const section = $('maintenanceSection');
+  if (!db || !section) return;
+  let currentUser = null;
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const today = new Date();
+  $('maintenanceDate').value = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+
+  async function initMaintenance() {
+    const { data: { session } } = await db.auth.getSession();
+    currentUser = session?.user || null;
+    if (!currentUser) { $('maintenanceStatus').textContent='Log in required'; return; }
+    const { data: sub, error: subError } = await db.from('subscriptions').select('plan,status').eq('user_id',currentUser.id).maybeSingle();
+    if (subError) { $('maintenanceStatus').textContent='Could not verify plan'; $('maintenanceLocked').style.display='block'; return; }
+    const pro = sub?.plan === 'pro' && sub?.status === 'active';
+    $('maintenanceStatus').textContent = pro ? 'PRO ACTIVE' : 'PRO FEATURE';
+    $('maintenanceLocked').style.display = pro ? 'none' : 'block';
+    $('maintenanceApp').style.display = pro ? 'block' : 'none';
+    if (!pro) return;
+    const { data: cars, error } = await db.from('cars').select('id,nickname,make,model,year').eq('user_id',currentUser.id).order('created_at',{ascending:true});
+    if (error) { $('maintenanceRecords').textContent='Could not load vehicles: '+error.message; return; }
+    if (!cars?.length) { $('maintenanceRecords').textContent='Add a vehicle to your Garage before recording maintenance.'; $('maintenanceCar').disabled=true; return; }
+    $('maintenanceCar').innerHTML = cars.map(c=>`<option value="${esc(c.id)}">${esc(c.nickname || `${c.make} ${c.model}`)} — ${esc(c.year)}</option>`).join('');
+    await loadRecords();
+  }
+
+  async function loadRecords() {
+    const carId = $('maintenanceCar').value;
+    if (!carId || !currentUser) return;
+    $('maintenanceRecords').innerHTML='<p class="sub">Loading service history…</p>';
+    const { data, error } = await db.from('maintenance_records').select('id,service_type,service_date,mileage,cost,notes,next_service_date,next_service_mileage').eq('user_id',currentUser.id).eq('car_id',carId).order('service_date',{ascending:false});
+    if (error) { $('maintenanceRecords').textContent='Could not load records: '+error.message; return; }
+    if (!data?.length) { $('maintenanceRecords').innerHTML='<p class="sub">No maintenance records for this vehicle yet.</p>'; return; }
+    $('maintenanceRecords').innerHTML = data.map(r=>`<div class="cause"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><strong>${esc(r.service_type)}</strong><span class="sub">${esc(r.service_date)}</span></div><p>${r.mileage != null ? `Mileage: ${Number(r.mileage).toLocaleString()} km` : ''}${r.cost != null ? ` · Cost: EGP ${Number(r.cost).toLocaleString()}` : ''}</p>${r.next_service_date ? `<p>Next service: ${esc(r.next_service_date)}</p>` : ''}${r.next_service_mileage != null ? `<p>Next service mileage: ${Number(r.next_service_mileage).toLocaleString()} km</p>` : ''}${r.notes ? `<p>${esc(r.notes)}</p>` : ''}<button class="btn secondary" type="button" data-delete-maintenance="${esc(r.id)}" style="margin-top:8px">Delete record</button></div>`).join('');
+    $('maintenanceRecords').querySelectorAll('[data-delete-maintenance]').forEach(btn=>btn.addEventListener('click',async()=>{ if(!confirm('Delete this service record?')) return; btn.disabled=true; const {error}=await db.from('maintenance_records').delete().eq('id',btn.dataset.deleteMaintenance).eq('user_id',currentUser.id); if(error){alert('Could not delete record: '+error.message);btn.disabled=false;return;} await loadRecords(); }));
+  }
+
+  $('maintenanceCar').addEventListener('change',loadRecords);
+  $('maintenanceForm').addEventListener('submit',async event=>{
+    event.preventDefault(); if(!currentUser || !$('maintenanceCar').value) return;
+    const btn=$('saveMaintenanceBtn'); btn.disabled=true; btn.textContent='Saving…'; $('maintenanceMessage').textContent='';
+    const numberOrNull=id=>$(id).value.trim()===''?null:Number($(id).value);
+    const record={user_id:currentUser.id,car_id:$('maintenanceCar').value,service_type:$('maintenanceType').value,service_date:$('maintenanceDate').value,mileage:numberOrNull('maintenanceMileage'),cost:numberOrNull('maintenanceCost'),notes:$('maintenanceNotes').value.trim()||null,next_service_date:$('maintenanceNextDate').value||null,next_service_mileage:numberOrNull('maintenanceNextMileage')};
+    try { const {error}=await db.from('maintenance_records').insert(record); if(error) throw error; $('maintenanceMessage').textContent='Service record saved.'; $('maintenanceMileage').value=''; $('maintenanceCost').value=''; $('maintenanceNextDate').value=''; $('maintenanceNextMileage').value=''; $('maintenanceNotes').value=''; await loadRecords(); }
+    catch(error){$('maintenanceMessage').textContent='Could not save record: '+error.message;}
+    finally{btn.disabled=false;btn.textContent='Save service record';}
+  });
+  initMaintenance().catch(error=>{console.error('Maintenance tracker:',error);$('maintenanceStatus').textContent='Could not load';});
+  db.auth.onAuthStateChange((event)=>{if(event==='SIGNED_IN'||event==='TOKEN_REFRESHED') setTimeout(initMaintenance,0); if(event==='SIGNED_OUT'){currentUser=null;$('maintenanceStatus').textContent='Log in required';$('maintenanceApp').style.display='none';}});
+})();
+</script>
 
 </body>
 </html>
