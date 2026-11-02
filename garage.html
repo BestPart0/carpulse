@@ -440,10 +440,13 @@ button#showCarFormBtn.garage-plus-btn:hover {
 
     <div id="garageMessage" class="status" role="status" style="margin:12px 0"></div>
 
-    <div class="card" style="margin:16px 0;border:1px solid #344653">
+    <div class="card" id="proPromoCard" style="margin:16px 0;border:1px solid #344653">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
         <div><h3 style="margin:0">CarPulse Pro</h3><p class="sub" style="margin:5px 0">EGP 149 monthly · EGP 1,430 yearly</p></div>
-        <a class="btn secondary" href="index.html#proSection">View plans</a>
+        <div style="display:flex;gap:8px;align-items:center">
+          <a class="btn secondary" href="index.html#proSection">View plans</a>
+          <button class="btn secondary" id="closeProPromoBtn" type="button" aria-label="Close Pro promotion" title="Close">×</button>
+        </div>
       </div>
       <p class="sub" style="margin:12px 0 6px">Pro includes:</p>
       <div class="two">
@@ -792,6 +795,11 @@ showCarFormBtn?.addEventListener('click', () => {
   $('saveCarBtn').textContent = 'Save car';
   carForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
+  const closeProPromoBtn = $('closeProPromoBtn');
+  closeProPromoBtn?.addEventListener('click', () => {
+    $('proPromoCard')?.classList.add('hidden');
+  });
+
   const closeCarFormBtn = $('closeCarFormBtn');
 
 closeCarFormBtn?.addEventListener('click', () => {
@@ -950,6 +958,9 @@ try {
 
   const isPro = subscription?.plan === 'pro' &&
                 subscription?.status === 'active';
+
+  const proPromoCard = $('proPromoCard');
+  if (proPromoCard) proPromoCard.classList.toggle('hidden', isPro);
 
  if (planBadge) {
   planBadge.textContent = isPro ? 'PRO PLAN' : 'FREE PLAN';
