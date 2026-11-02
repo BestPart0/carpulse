@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#090f14">
 <title>CarPulse | My Garage</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
 <style>
 :root {
   color-scheme: dark;
@@ -2617,5 +2618,33 @@ $('fuelDate').value = new Date().toISOString().slice(0, 10);
   </button>
 
 </nav>
+  <script>
+(() => {
+  const links = document.querySelectorAll('.bottom-nav a');
+
+  function updateActiveTab() {
+    const hash = window.location.hash;
+
+    let activeTab = 'garage';
+
+    if (hash === '#maintenanceSection') {
+      activeTab = 'maintenance';
+    } else if (hash === '#fuelSection') {
+      activeTab = 'fuel';
+    }
+
+    links.forEach(link => {
+      link.classList.toggle(
+        'active',
+        link.dataset.nav === activeTab
+      );
+    });
+  }
+
+  updateActiveTab();
+
+  window.addEventListener('hashchange', updateActiveTab);
+})();
+</script>
 </body>
 </html>
