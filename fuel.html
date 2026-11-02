@@ -1,0 +1,1170 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CarPulse | Fuel Tracker</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --bg: #090f14;
+      --panel: #101a22;
+      --panel2: #14222c;
+      --line: #263945;
+      --text: #f2f7f8;
+      --muted: #91a5b1;
+      --green: #b8f36b;
+      --green2: #d8ff9f;
+      --red: #ff7777;
+      --amber: #ffc66d;
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0 0 105px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, Arial, sans-serif;
+    }
+
+    button, input, select, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    a { color: inherit; text-decoration: none; }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      padding: 20px max(20px, calc((100% - 1100px) / 2));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      font-size: 23px;
+      font-weight: 850;
+      letter-spacing: -1px;
+    }
+
+    .brand span { color: var(--green); }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .small-btn {
+      background: var(--panel2);
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 13px;
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(100% - 32px, 1000px);
+      margin: 35px auto;
+    }
+
+    .eyebrow {
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(32px, 6vw, 48px);
+      letter-spacing: -2px;
+      margin: 10px 0;
+    }
+
+    h2 {
+      font-size: 21px;
+      margin: 0 0 8px;
+    }
+
+    h3 { margin: 0 0 7px; }
+
+    .muted {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-bottom: 20px;
+    }
+
+    .car-select {
+      min-width: 220px;
+      max-width: 100%;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 13px;
+      margin-bottom: 20px;
+    }
+
+    .stat {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      padding: 19px;
+      min-width: 0;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .stat-value {
+      font-size: clamp(21px, 4vw, 30px);
+      font-weight: 850;
+      letter-spacing: -1px;
+      overflow-wrap: anywhere;
+    }
+
+    .stat-unit {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      background: #0b141b;
+      border: 1px solid var(--line);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 13px;
+      outline: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--green);
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: #617681;
+    }
+
+    textarea {
+      min-height: 85px;
+      resize: vertical;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--panel2);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 13px;
+    }
+
+    .checkbox-row input {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--green);
+    }
+
+    .checkbox-row label {
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .primary-btn {
+      background: var(--green);
+      color: #10170a;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .primary-btn:hover { background: var(--green2); }
+    .primary-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+    .secondary-btn {
+      background: var(--panel2);
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 15px;
+      cursor: pointer;
+    }
+
+    .danger-btn {
+      color: var(--red);
+      background: transparent;
+      border: 1px solid #653b40;
+      border-radius: 10px;
+      padding: 8px 11px;
+      cursor: pointer;
+    }
+
+    .message {
+      display: none;
+      margin-top: 13px;
+      padding: 12px;
+      border-radius: 11px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .message.show { display: block; }
+    .message.error { background: #351d22; color: #ffaaaa; }
+    .message.success { background: #1d3020; color: var(--green2); }
+
+    .insight {
+      border: 1px solid #435b32;
+      background: linear-gradient(135deg, #17251a, #101a22);
+    }
+
+    .insight-icon {
+      font-size: 25px;
+      margin-bottom: 10px;
+    }
+
+    .insight-item {
+      padding: 13px 0;
+      border-bottom: 1px solid var(--line);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .insight-item:last-child { border-bottom: 0; }
+
+    .record {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 15px;
+      padding: 17px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .record:last-child { border-bottom: 0; }
+
+    .record-title { font-weight: 800; margin-bottom: 6px; }
+
+    .record-details {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .record-cost {
+      font-weight: 800;
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    .record-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 9px;
+    }
+
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 35px 12px;
+      line-height: 1.7;
+    }
+
+    .hidden { display: none !important; }
+
+    .login-box {
+      text-align: center;
+      padding: 35px 15px;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      z-index: 20;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      padding: 10px 8px calc(10px + env(safe-area-inset-bottom));
+      background: rgba(9, 15, 20, .96);
+      border-top: 1px solid var(--line);
+      backdrop-filter: blur(15px);
+    }
+
+    .bottom-nav a, .bottom-nav button {
+      flex: 1;
+      max-width: 180px;
+      min-width: 0;
+      text-align: center;
+      color: var(--muted);
+      background: transparent;
+      border: 0;
+      border-radius: 12px;
+      padding: 10px 4px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .bottom-nav a.active {
+      color: var(--green);
+      background: #1b2a1b;
+    }
+
+    .bottom-nav button:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      background: rgba(0,0,0,.75);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .modal.open { display: flex; }
+
+    .modal-card {
+      width: min(100%, 430px);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 24px;
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-head button {
+      background: transparent;
+      border: 0;
+      color: var(--muted);
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .modal-form {
+      display: grid;
+      gap: 14px;
+    }
+
+    .text-link {
+      color: var(--green);
+      cursor: pointer;
+      background: transparent;
+      border: 0;
+      padding: 0;
+    }
+
+    @media (max-width: 650px) {
+      .hero { align-items: flex-start; flex-direction: column; }
+      .car-select { width: 100%; }
+      .stats { grid-template-columns: 1fr; }
+      .stat { padding: 15px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .panel { padding: 17px; }
+      .record { flex-direction: column; }
+      .record-cost { text-align: left; }
+      .record-actions { justify-content: flex-start; }
+      .topbar { padding: 16px; }
+      .bottom-nav a, .bottom-nav button { font-size: 10px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <a class="brand" href="index.html">Car<span>Pulse</span></a>
+  <div class="top-actions">
+    <button class="small-btn" id="accountBtn">Login</button>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="hero">
+    <div>
+      <div class="eyebrow">Vehicle intelligence</div>
+      <h1>Fuel Tracker ⛽</h1>
+      <p class="muted">Track your fuel consumption, spending and real-world fuel economy.</p>
+    </div>
+
+    <div class="field car-select">
+      <label for="fuelCar">Selected vehicle</label>
+      <select id="fuelCar">
+        <option value="">Select a vehicle</option>
+      </select>
+    </div>
+  </section>
+
+  <section id="loginRequired" class="panel login-box hidden">
+    <h2>Your garage is waiting</h2>
+    <p class="muted">Log in to track fuel records for your vehicles.</p>
+    <button class="primary-btn" id="loginRequiredBtn">Log in / Create account</button>
+  </section>
+
+  <section id="noCars" class="panel login-box hidden">
+    <h2>No vehicles found</h2>
+    <p class="muted">Add a vehicle to your Garage before recording fuel.</p>
+    <a class="primary-btn" href="garage.html">Open my Garage</a>
+  </section>
+
+  <div id="fuelApp" class="hidden">
+
+    <section class="stats">
+      <div class="stat">
+        <div class="stat-label">AVERAGE FUEL ECONOMY</div>
+        <div class="stat-value" id="fuelAverage">—</div>
+        <div class="stat-unit">km per litre · full-tank method</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">TOTAL FUEL SPENDING</div>
+        <div class="stat-value" id="fuelSpending">EGP 0</div>
+        <div class="stat-unit">All recorded fill-ups</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">DISTANCE TRACKED</div>
+        <div class="stat-value" id="fuelDistance">0</div>
+        <div class="stat-unit">km between recorded full tanks</div>
+      </div>
+    </section>
+
+    <section class="panel insight">
+      <div class="insight-icon">🧠</div>
+      <div class="eyebrow">Fuel intelligence · Preview</div>
+      <h2>Your fuel insights</h2>
+      <p class="muted">Insights are calculated from your saved fuel records.</p>
+      <div id="fuelInsights">
+        <div class="insight-item">Add fuel records to start analysing your vehicle.</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">New entry</div>
+          <h2>Record a fill-up</h2>
+        </div>
+      </div>
+
+      <form id="fuelForm">
+        <div class="form-grid">
+
+          <div class="field">
+            <label for="fuelDate">Date</label>
+            <input type="date" id="fuelDate" required>
+          </div>
+
+          <div class="field">
+            <label for="fuelOdometer">Odometer reading (km)</label>
+            <input type="number" id="fuelOdometer" min="0" step="0.1" placeholder="e.g. 85420" required>
+          </div>
+
+          <div class="field">
+            <label for="fuelLiters">Fuel added (litres)</label>
+            <input type="number" id="fuelLiters" min="0.01" step="0.01" placeholder="e.g. 35.5" required>
+          </div>
+
+          <div class="field">
+            <label for="fuelCost">Total cost (EGP)</label>
+            <input type="number" id="fuelCost" min="0" step="0.01" placeholder="e.g. 650" required>
+          </div>
+
+          <div class="field">
+            <label for="fuelType">Fuel type</label>
+            <select id="fuelType">
+              <option value="Petrol 80">Petrol 80</option>
+              <option value="Petrol 92" selected>Petrol 92</option>
+              <option value="Petrol 95">Petrol 95</option>
+              <option value="Diesel">Diesel</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="fuelStation">Fuel station</label>
+            <input type="text" id="fuelStation" placeholder="e.g. Misr Petroleum">
+          </div>
+
+          <div class="field full">
+            <div class="checkbox-row">
+              <input type="checkbox" id="fuelFullTank" checked>
+              <label for="fuelFullTank">I filled the tank completely</label>
+            </div>
+          </div>
+
+          <div class="field full">
+            <label for="fuelNotes">Notes (optional)</label>
+            <textarea id="fuelNotes" placeholder="Anything worth remembering?"></textarea>
+          </div>
+
+          <div class="field full">
+            <button class="primary-btn" type="submit" id="saveFuelBtn">Save fuel record</button>
+          </div>
+        </div>
+      </form>
+
+      <div id="fuelMessage" class="message"></div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">Your records</div>
+          <h2>Fuel history</h2>
+        </div>
+        <button class="secondary-btn" id="refreshFuelBtn" type="button">↻ Refresh</button>
+      </div>
+
+      <div id="fuelHistory">
+        <div class="empty">Loading fuel records...</div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- AUTHENTICATION MODAL -->
+<div class="modal" id="authModal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h2 id="authTitle">Welcome back</h2>
+      <button id="closeAuth" type="button">×</button>
+    </div>
+
+    <form id="authForm" class="modal-form">
+      <div class="field hidden" id="authNameField">
+        <label for="authName">Your name</label>
+        <input id="authName" type="text" placeholder="Your name">
+      </div>
+
+      <div class="field">
+        <label for="authEmail">Email</label>
+        <input id="authEmail" type="email" required placeholder="you@example.com">
+      </div>
+
+      <div class="field">
+        <label for="authPassword">Password</label>
+        <input id="authPassword" type="password" required minlength="6" placeholder="At least 6 characters">
+      </div>
+
+      <button class="primary-btn" id="authSubmit" type="submit">Log in</button>
+      <div id="authMessage" class="message"></div>
+    </form>
+
+    <p class="muted" style="font-size:13px;margin-top:18px">
+      <span id="authSwitchText">Don't have an account?</span>
+      <button class="text-link" id="authSwitch" type="button">Create one</button>
+    </p>
+  </div>
+</div>
+
+<nav class="bottom-nav" aria-label="Main navigation">
+  <a href="index.html" data-nav="diagnose">🎙️<br>Diagnose</a>
+  <a href="garage.html" data-nav="garage">🚘<br>Garage</a>
+  <a href="maintenance.html" data-nav="maintenance">🧰<br>Maintenance</a>
+  <a href="fuel.html" data-nav="fuel" class="active">⛽<br>Fuel</a>
+  <button type="button" disabled>＋<br>More</button>
+</nav>
+
+<script>
+(() => {
+  'use strict';
+
+  const SUPABASE_URL = 'https://trcdakfvfhhnbkgrbkym.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_2v3QNutbX8Srr4Csqw9ptw_Tsqql70i';
+
+  const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const $ = id => document.getElementById(id);
+
+  let currentUser = null;
+  let cars = [];
+  let fuelRecords = [];
+  let authMode = 'login';
+
+  const today = new Date();
+  $('fuelDate').value = [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, '0'),
+    String(today.getDate()).padStart(2, '0')
+  ].join('-');
+
+  function escapeHTML(value) {
+    return String(value ?? '').replace(/[&<>"']/g, char => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    })[char]);
+  }
+
+  function formatMoney(value) {
+    return new Intl.NumberFormat('en-EG', {
+      style: 'currency',
+      currency: 'EGP',
+      maximumFractionDigits: 0
+    }).format(Number(value) || 0);
+  }
+
+  function formatDate(value) {
+    if (!value) return '—';
+    return new Date(value + 'T00:00:00').toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    });
+  }
+
+  function showMessage(id, text, type = 'success') {
+    const element = $(id);
+    element.textContent = text;
+    element.className = `message show ${type}`;
+  }
+
+  function hideMessage(id) {
+    $(id).className = 'message';
+    $(id).textContent = '';
+  }
+
+  function showAuth() {
+    $('authModal').classList.add('open');
+  }
+
+  function hideAuth() {
+    $('authModal').classList.remove('open');
+    hideMessage('authMessage');
+  }
+
+  function setAuthMode(mode) {
+    authMode = mode;
+    const signup = mode === 'signup';
+
+    $('authTitle').textContent = signup ? 'Create your account' : 'Welcome back';
+    $('authSubmit').textContent = signup ? 'Create account' : 'Log in';
+    $('authNameField').classList.toggle('hidden', !signup);
+    $('authName').required = signup;
+    $('authSwitchText').textContent = signup
+      ? 'Already have an account?'
+      : "Don't have an account?";
+    $('authSwitch').textContent = signup ? 'Log in' : 'Create one';
+    hideMessage('authMessage');
+  }
+
+  async function loadCars() {
+    const { data, error } = await db
+      .from('cars')
+      .select('id, nickname, make, model, year, engine')
+      .eq('user_id', currentUser.id)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    cars = data || [];
+
+    $('fuelCar').innerHTML = cars.map(car => {
+      const name = car.nickname || `${car.make || ''} ${car.model || ''}`.trim();
+      return `<option value="${escapeHTML(car.id)}">${escapeHTML(name)}</option>`;
+    }).join('');
+
+    if (cars.length) {
+      $('fuelApp').classList.remove('hidden');
+      $('noCars').classList.add('hidden');
+      await loadFuelRecords();
+    } else {
+      $('fuelApp').classList.add('hidden');
+      $('noCars').classList.remove('hidden');
+    }
+  }
+
+  function selectedCarId() {
+    return $('fuelCar').value;
+  }
+
+  function getSelectedCar() {
+    return cars.find(car => car.id === selectedCarId());
+  }
+
+  async function loadFuelRecords() {
+    const carId = selectedCarId();
+
+    if (!carId) {
+      fuelRecords = [];
+      renderFuelTracker();
+      return;
+    }
+
+    $('fuelHistory').innerHTML = '<div class="empty">Loading records...</div>';
+
+    const { data, error } = await db
+      .from('fuel_records')
+      .select('*')
+      .eq('user_id', currentUser.id)
+      .eq('car_id', carId)
+      .order('date', { ascending: true })
+      .order('created_at', { ascending: true });
+
+    if (error) {
+      $('fuelHistory').innerHTML = '<div class="empty">Could not load fuel records.</div>';
+      console.error(error);
+      return;
+    }
+
+    fuelRecords = data || [];
+    renderFuelTracker();
+  }
+
+  /*
+    Full-tank calculation:
+    The first full tank establishes a starting point.
+    At the next full tank, calculate:
+    distance = current full-tank odometer - previous full-tank odometer
+    litres = all fuel added after the previous full tank, including this fill-up.
+  */
+  function calculateFullTankIntervals() {
+    const sorted = [...fuelRecords].sort((a, b) => {
+      const dateCompare = String(a.date).localeCompare(String(b.date));
+      if (dateCompare !== 0) return dateCompare;
+      return String(a.created_at).localeCompare(String(b.created_at));
+    });
+
+    const intervals = [];
+    let previousFullTank = null;
+    let litresSinceFullTank = 0;
+
+    for (const record of sorted) {
+      litresSinceFullTank += Number(record.liters) || 0;
+
+      if (record.is_full_tank) {
+        if (previousFullTank) {
+          const distance =
+            Number(record.odometer) - Number(previousFullTank.odometer);
+
+          if (distance > 0 && litresSinceFullTank > 0) {
+            intervals.push({
+              distance,
+              litres: litresSinceFullTank,
+              economy: distance / litresSinceFullTank,
+              startDate: previousFullTank.date,
+              endDate: record.date
+            });
+          }
+        }
+
+        previousFullTank = record;
+        litresSinceFullTank = 0;
+      }
+    }
+
+    return intervals;
+  }
+
+  function renderFuelTracker() {
+    const totalSpending = fuelRecords.reduce(
+      (sum, record) => sum + (Number(record.total_cost) || 0), 0
+    );
+
+    const intervals = calculateFullTankIntervals();
+    const totalDistance = intervals.reduce(
+      (sum, interval) => sum + interval.distance, 0
+    );
+    const totalLitres = intervals.reduce(
+      (sum, interval) => sum + interval.litres, 0
+    );
+
+    const averageEconomy = totalLitres > 0
+      ? totalDistance / totalLitres
+      : null;
+
+    $('fuelAverage').textContent = averageEconomy
+      ? averageEconomy.toFixed(1)
+      : '—';
+
+    $('fuelSpending').textContent = formatMoney(totalSpending);
+    $('fuelDistance').textContent = Math.round(totalDistance).toLocaleString();
+
+    renderInsights(intervals, averageEconomy, totalSpending, totalDistance);
+    renderFuelHistory();
+  }
+
+  function renderInsights(intervals, averageEconomy, totalSpending, totalDistance) {
+    const insights = [];
+
+    if (!fuelRecords.length) {
+      insights.push('Record your first fill-up to start tracking your fuel economy.');
+    } else if (intervals.length === 0) {
+      const fullTankCount = fuelRecords.filter(record => record.is_full_tank).length;
+
+      if (fullTankCount === 0) {
+        insights.push('Mark a fill-up as a full tank to establish your starting point.');
+      } else {
+        insights.push('Your first full tank is saved. Record another full tank after driving to calculate km/L.');
+      }
+    } else {
+      const latest = intervals[intervals.length - 1];
+
+      insights.push(
+        `Your latest full-tank interval covered ${latest.distance.toFixed(0)} km at ${latest.economy.toFixed(1)} km/L.`
+      );
+
+      insights.push(
+        `Your weighted average across ${intervals.length} completed interval(s) is ${averageEconomy.toFixed(1)} km/L.`
+      );
+
+      if (intervals.length >= 2) {
+        const previous = intervals[intervals.length - 2];
+        const difference = latest.economy - previous.economy;
+
+        if (Math.abs(difference) < 0.3) {
+          insights.push('Your latest fuel economy is broadly similar to the previous interval.');
+        } else if (difference > 0) {
+          insights.push(`Fuel economy improved by ${difference.toFixed(1)} km/L compared with the previous interval.`);
+        } else {
+          insights.push(`Fuel economy decreased by ${Math.abs(difference).toFixed(1)} km/L compared with the previous interval. This can reflect traffic, driving style, route, weather or vehicle condition.`);
+        }
+      }
+    }
+
+    if (fuelRecords.length) {
+      insights.push(`You have recorded ${fuelRecords.length} fill-up(s), totalling ${formatMoney(totalSpending)}.`);
+    }
+
+    if (totalDistance === 0 && fuelRecords.length) {
+      insights.push('Distance tracking will appear once two full-tank readings are available.');
+    }
+
+    $('fuelInsights').innerHTML = insights.map(item =>
+      `<div class="insight-item">• ${escapeHTML(item)}</div>`
+    ).join('');
+  }
+
+  function renderFuelHistory() {
+    if (!fuelRecords.length) {
+      $('fuelHistory').innerHTML =
+        '<div class="empty">No fuel records yet.<br>Your fill-ups will appear here.</div>';
+      return;
+    }
+
+    const sorted = [...fuelRecords].sort((a, b) => {
+      const dateCompare = String(b.date).localeCompare(String(a.date));
+      if (dateCompare !== 0) return dateCompare;
+      return String(b.created_at).localeCompare(String(a.created_at));
+    });
+
+    $('fuelHistory').innerHTML = sorted.map(record => {
+      const type = record.is_full_tank ? 'Full tank' : 'Partial fill-up';
+      const details = [
+        formatDate(record.date),
+        `${Number(record.odometer).toLocaleString()} km`,
+        `${Number(record.liters).toFixed(2)} L`,
+        escapeHTML(record.fuel_type || 'Fuel'),
+        record.station ? escapeHTML(record.station) : ''
+      ].filter(Boolean).join(' · ');
+
+      return `
+        <article class="record">
+          <div>
+            <div class="record-title">${type}</div>
+            <div class="record-details">${details}</div>
+            ${record.notes ? `<div class="record-details">${escapeHTML(record.notes)}</div>` : ''}
+            <div class="record-actions">
+              <button class="danger-btn" type="button"
+                data-delete-fuel="${record.id}">Delete</button>
+            </div>
+          </div>
+          <div class="record-cost">${formatMoney(record.total_cost)}</div>
+        </article>
+      `;
+    }).join('');
+  }
+
+  async function saveFuelRecord(event) {
+    event.preventDefault();
+    hideMessage('fuelMessage');
+
+    const carId = selectedCarId();
+
+    if (!carId) {
+      showMessage('fuelMessage', 'Please select a vehicle first.', 'error');
+      return;
+    }
+
+    const odometer = Number($('fuelOdometer').value);
+    const liters = Number($('fuelLiters').value);
+    const cost = Number($('fuelCost').value);
+
+    if (!Number.isFinite(odometer) || odometer < 0 ||
+        !Number.isFinite(liters) || liters <= 0 ||
+        !Number.isFinite(cost) || cost < 0) {
+      showMessage('fuelMessage', 'Please enter valid fuel details.', 'error');
+      return;
+    }
+
+    const previousReading = fuelRecords.reduce((max, record) =>
+      Math.max(max, Number(record.odometer) || 0), 0);
+
+    if (odometer < previousReading) {
+      showMessage(
+        'fuelMessage',
+        `This reading is lower than your previous recorded odometer (${previousReading.toLocaleString()} km). Check the number before saving.`,
+        'error'
+      );
+      return;
+    }
+
+    const button = $('saveFuelBtn');
+    button.disabled = true;
+    button.textContent = 'Saving...';
+
+    const payload = {
+      user_id: currentUser.id,
+      car_id: carId,
+      date: $('fuelDate').value,
+      odometer,
+      liters,
+      total_cost: cost,
+      fuel_type: $('fuelType').value,
+      station: $('fuelStation').value.trim() || null,
+      is_full_tank: $('fuelFullTank').checked,
+      notes: $('fuelNotes').value.trim() || null
+    };
+
+    const { error } = await db.from('fuel_records').insert(payload);
+
+    button.disabled = false;
+    button.textContent = 'Save fuel record';
+
+    if (error) {
+      console.error(error);
+      showMessage('fuelMessage', error.message || 'Could not save the fuel record.', 'error');
+      return;
+    }
+
+    $('fuelForm').reset();
+    $('fuelDate').value = today.toISOString().slice(0, 10);
+    $('fuelFullTank').checked = true;
+    $('fuelType').value = 'Petrol 92';
+
+    showMessage('fuelMessage', 'Fuel record saved successfully.');
+    await loadFuelRecords();
+  }
+
+  async function deleteFuelRecord(id) {
+    if (!confirm('Delete this fuel record? This cannot be undone.')) return;
+
+    const { error } = await db
+      .from('fuel_records')
+      .delete()
+      .eq('id', id)
+      .eq('user_id', currentUser.id);
+
+    if (error) {
+      alert('Could not delete this record: ' + error.message);
+      return;
+    }
+
+    await loadFuelRecords();
+  }
+
+  async function refreshApp() {
+    const { data, error } = await db.auth.getSession();
+
+    if (error) console.error(error);
+
+    currentUser = data?.session?.user || null;
+    $('accountBtn').textContent = currentUser
+      ? (currentUser.user_metadata?.name || 'Account')
+      : 'Login';
+
+    $('loginRequired').classList.toggle('hidden', !!currentUser);
+    $('fuelApp').classList.add('hidden');
+    $('noCars').classList.add('hidden');
+
+    if (!currentUser) return;
+
+    try {
+      await loadCars();
+    } catch (error) {
+      console.error(error);
+      $('fuelApp').classList.remove('hidden');
+      $('fuelHistory').innerHTML =
+        `<div class="empty">Could not load your vehicles: ${escapeHTML(error.message)}</div>`;
+    }
+  }
+
+  // Authentication
+  $('authForm').addEventListener('submit', async event => {
+    event.preventDefault();
+    hideMessage('authMessage');
+
+    const email = $('authEmail').value.trim();
+    const password = $('authPassword').value;
+    const button = $('authSubmit');
+
+    button.disabled = true;
+    button.textContent = 'Please wait...';
+
+    let result;
+
+    if (authMode === 'signup') {
+      result = await db.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { name: $('authName').value.trim() }
+        }
+      });
+    } else {
+      result = await db.auth.signInWithPassword({ email, password });
+    }
+
+    button.disabled = false;
+    button.textContent = authMode === 'signup' ? 'Create account' : 'Log in';
+
+    if (result.error) {
+      showMessage('authMessage', result.error.message, 'error');
+      return;
+    }
+
+    if (authMode === 'signup' && !result.data.session) {
+      showMessage(
+        'authMessage',
+        'Account created. Check your email to confirm your account, then log in.'
+      );
+      return;
+    }
+
+    hideAuth();
+    await refreshApp();
+  });
+
+  $('authSwitch').addEventListener('click', () => {
+    setAuthMode(authMode === 'login' ? 'signup' : 'login');
+  });
+
+  $('accountBtn').addEventListener('click', async () => {
+    if (currentUser) {
+      const shouldLogout = confirm('Do you want to log out?');
+      if (!shouldLogout) return;
+
+      const { error } = await db.auth.signOut();
+      if (error) alert(error.message);
+      await refreshApp();
+    } else {
+      setAuthMode('login');
+      showAuth();
+    }
+  });
+
+  $('loginRequiredBtn').addEventListener('click', () => {
+    setAuthMode('login');
+    showAuth();
+  });
+
+  $('closeAuth').addEventListener('click', hideAuth);
+
+  $('authModal').addEventListener('click', event => {
+    if (event.target === $('authModal')) hideAuth();
+  });
+
+  // Page interactions
+  $('fuelForm').addEventListener('submit', saveFuelRecord);
+  $('fuelCar').addEventListener('change', loadFuelRecords);
+  $('refreshFuelBtn').addEventListener('click', loadFuelRecords);
+
+  $('fuelHistory').addEventListener('click', event => {
+    const button = event.target.closest('[data-delete-fuel]');
+    if (button) deleteFuelRecord(button.dataset.deleteFuel);
+  });
+
+  // Bottom navigation active state
+  document.querySelectorAll('.bottom-nav [data-nav]').forEach(link => {
+    if (link.dataset.nav === 'fuel') link.classList.add('active');
+  });
+
+  db.auth.onAuthStateChange((_event, session) => {
+    setTimeout(async () => {
+      currentUser = session?.user || null;
+      await refreshApp();
+    }, 0);
+  });
+
+  refreshApp();
+})();
+</script>
+
+</body>
+</html>
