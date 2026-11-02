@@ -632,7 +632,8 @@ $('analyzeBtn').addEventListener('click', async () => {
     });
 
     const diagnosisParams = new URLSearchParams(window.location.search);
-    const selectedCarId = window.carpulseSelectedCarId || diagnosisParams.get('carId') || null;
+    const selectedCarId = window.carpulseSelectedCarId || diagnosisParams.get('carId') || sessionStorage.getItem('carpulseSelectedCarId') || null;
+    console.log('CarPulse diagnosis car ID:', selectedCarId);
 
     const carDetails = [
       $('make').value,
@@ -693,6 +694,7 @@ if (supabaseClient) {
       console.error('Could not save diagnosis:', saveError.message);
     } else {
       console.log('Diagnosis saved successfully.');
+      if (selectedCarId) sessionStorage.removeItem('carpulseSelectedCarId');
     }
   }
 }
@@ -1503,6 +1505,9 @@ db.auth.onAuthStateChange((event, session) => {
 
   // Preserve the selected Garage car before cleaning the URL.
   window.carpulseSelectedCarId = params.get('carId') || null;
+  if (window.carpulseSelectedCarId) {
+    sessionStorage.setItem('carpulseSelectedCarId', window.carpulseSelectedCarId);
+  }
 
   if (!params.has('make')) return;
 
