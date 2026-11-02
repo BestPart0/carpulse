@@ -632,7 +632,7 @@ $('analyzeBtn').addEventListener('click', async () => {
     });
 
     const diagnosisParams = new URLSearchParams(window.location.search);
-    const selectedCarId = diagnosisParams.get('carId') || null;
+    const selectedCarId = window.carpulseSelectedCarId || diagnosisParams.get('carId') || null;
 
     const carDetails = [
       $('make').value,
@@ -1500,6 +1500,9 @@ db.auth.onAuthStateChange((event, session) => {
 <script>
 (() => {
   const params = new URLSearchParams(window.location.search);
+
+  // Preserve the selected Garage car before cleaning the URL.
+  window.carpulseSelectedCarId = params.get('carId') || null;
 
   if (!params.has('make')) return;
 
