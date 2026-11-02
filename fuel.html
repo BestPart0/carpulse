@@ -339,83 +339,75 @@
 
 .bottom-nav {
   position: fixed;
-  z-index: 100;
-  bottom: 22px;
-  left: 50%;
-  transform: translateX(-50%);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-
-  width: max-content;
-  max-width: calc(100% - 24px);
-
-  padding: 8px;
-  background: rgba(16, 26, 34, .94);
-  border: 1px solid #344955;
-  border-radius: 22px;
-
-  box-shadow: 0 12px 35px rgba(0, 0, 0, .45);
+  z-index: 9000;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  min-height: 76px;
+  padding: 9px 12px calc(9px + env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 5px;
+  background: rgba(13, 21, 29, .96);
+  border-top: 1px solid #283744;
   backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
 
 .bottom-nav a,
 .bottom-nav button {
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 4px;
-
-  min-width: 75px;
-  padding: 11px 13px;
-
-  color: var(--muted);
-  background: transparent;
+  justify-content: center;
+  gap: 5px;
+  padding: 7px 2px;
   border: 1px solid transparent;
-  border-radius: 15px;
-
-  font-size: 11px;
-  font-weight: 700;
-  white-space: nowrap;
+  border-radius: 12px;
+  background: transparent;
+  color: #8294a2;
+  text-decoration: none;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 650;
   cursor: pointer;
+  transition: .2s ease;
+}
 
-  transition: all .2s ease;
+.bottom-nav .nav-icon {
+  font-size: 21px;
+  line-height: 1;
 }
 
 .bottom-nav a:hover,
-.bottom-nav a:focus-visible,
+.bottom-nav button:hover {
+  color: var(--green);
+  background: rgba(184, 243, 107, .06);
+}
+
 .bottom-nav a.active {
   color: var(--green);
-  background: #1b2a1b;
-  border-color: #405a30;
-  transform: translateY(-2px);
-  outline: none;
+  background: rgba(184, 243, 107, .09);
+  border-color: rgba(184, 243, 107, .16);
 }
 
 .bottom-nav button:disabled {
-  opacity: .4;
+  opacity: .45;
   cursor: not-allowed;
 }
 
-@media (max-width: 500px) {
+@media (min-width: 761px) {
   .bottom-nav {
-    width: calc(100% - 20px);
-    gap: 2px;
-    bottom: 12px;
-    padding: 6px;
+    left: 50%;
+    width: min(560px, calc(100% - 32px));
+    bottom: 15px;
+    transform: translateX(-50%);
+    border: 1px solid #344754;
+    border-radius: 18px;
+    box-shadow: 0 10px 40px #0008;
   }
-
-  .bottom-nav a,
-  .bottom-nav button {
-    flex: 1;
-    min-width: 0;
-    padding: 10px 2px;
-    font-size: 9px;
-  }
-  }
+}
   </style>
 </head>
 
