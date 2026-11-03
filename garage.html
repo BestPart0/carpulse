@@ -1649,7 +1649,24 @@ updateFuelCarOptions();
     });
   }
 
+// REFRESH GARAGE
+async function refreshApp() {
+  updateAccountButton();
 
+  if (!currentUser) {
+    cars = [];
+    diagnosisReports = [];
+
+    updatePlanUI();
+    renderCars();
+    await loadDiagnosisHistory();
+    return;
+  }
+
+  await loadSubscription();
+  await loadCars();
+  await loadDiagnosisHistory();
+}
   // AUTH FORM
   $('authForm')?.addEventListener('submit', async event => {
     event.preventDefault();
