@@ -1874,5 +1874,105 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 </script>
+  <script>
+(() => {
+  const select = document.getElementById('diagnosisVehicleSelect');
+  const db = window.carpulseSupabase;
+
+  if (!select || !db) return;
+
+  const fields = {
+    make: document.getElementById('make'),
+    model: document.getElementById('model'),
+    year: document.getElementById('year'),
+    engine: document.getElementById('engine')
+  };
+
+  let savedCars = [];
+
+  function clearSelectedCar() {
+    window.carpulseSelectedCarId = null;
+    sessionStorage.removeItem('carpulseSelectedCarId');
+  }
+
+  function useCar(car) {
+    fields.make.value = car.make || '';
+    fields.model.value = car.model || '';
+    fields.year.value = car.year || '';
+    fields.engine.value = car.engine || '';
+
+    window.carpulseSelectedCarId = String(car.id);
+    sessionStorage.setItem('carpulseSelectedCarId', String(car.id));
+  }
+
+  async function loadDiagnosisVehicles() {
+    const { data: { session }, error: sessionError } =
+      await db.auth.getSession();
+
+    if (sessionError || !session) {
+      savedCars = [];
+      select.innerHTML =
+        '<option value="">Log in to select a saved vehicle</option>';
+      clearSelectedCar();
+      return;
+    }
+
+    select.innerHTML = '<option value="">Loading vehicles...</option>';
+
+    const { data: cars, error } = await db
+      .from('cars')
+      .select('id,nickname,make,model,year,engine')
+      .eq('user_id', session.user.id)
+      .order('created_at', { ascending: true });
+
+    if (error) {
+      console.error('Could not load saved vehicles:', error);
+      select.innerHTML =
+        '<option value="">Could not load vehicles</option>';
+      return;
+    }
+
+    savedCars = cars || [];
+
+    select.innerHTML =
+      '<option value="">Enter vehicle manually</option>' +
+      savedCars.map(car => {
+        const name = car.nickname || `${car.make || ''} ${car.model || ''}`.trim();
+        return `<option value="${String(car.id)}">${name}</option>`;
+      }).join('');
+
+    const requestedId =
+      window.carpulseSelectedCarId ||
+      sessionStorage.getItem('carpulseSelectedCarId');
+
+    const selectedCar = savedCars.find(
+      car => String(car.id) === String(requestedId)
+    );
+
+    if (selectedCar) {
+      select.value = String(selectedCar.id);
+      useCar(selectedCar);
+    }
+  }
+
+  select.addEventListener('change', () => {
+    const car = savedCars.find(
+      item => String(item.id) === select.value
+    );
+
+    if (car) {
+      useCar(car);
+    } else {
+      clearSelectedCar();
+    }
+  });
+
+  loadDiagnosisVehicles();
+
+  db.auth.onAuthStateChange(() => {
+    setTimeout(loadDiagnosisVehicles, 0);
+  });
+})();
+</script>
 </body>
 </html>
