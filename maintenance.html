@@ -339,7 +339,18 @@ textarea{min-height:85px;resize:vertical}
   </button>
 
 </nav>
+<script>
+(() => {
+  const links = document.querySelectorAll('.bottom-nav a');
 
+  links.forEach(link => {
+    link.classList.toggle(
+      'active',
+      link.dataset.nav === 'maintenance'
+    );
+  });
+})();
+</script>
 <script>
 (() => {
   'use strict';
