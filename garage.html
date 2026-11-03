@@ -1842,11 +1842,54 @@ async function generateGarageHealth() {
       throw new Error(data.error || 'Could not generate the health summary.');
     }
 
-    $('healthAnalysis').textContent = data.analysis || 'No analysis was returned.';
-    $('healthDisclaimer').textContent = data.disclaimer || '';
+    
+$('healthAnalysis').textContent =
+  data.analysis || 'No analysis was returned.';
 
-    result.classList.remove('hidden');
-    status.textContent = 'Your vehicle health summary is ready.';
+$('healthDisclaimer').textContent =
+  data.disclaimer || '';
+
+const score = data.healthScore;
+
+const scoreNumber = $('healthScoreNumber');
+const scoreLabel = $('healthScoreLabel');
+const scoreFill = $('healthScoreFill');
+
+if (
+  Number.isInteger(score) &&
+  score >= 0 &&
+  score <= 100
+) {
+  scoreNumber.textContent = `${score}/100`;
+
+  let scoreColor;
+
+  if (score >= 80) {
+    scoreLabel.textContent = 'Good';
+    scoreColor = '#22c55e';
+  } else if (score >= 60) {
+    scoreLabel.textContent = 'Fair';
+    scoreColor = '#eab308';
+  } else if (score >= 40) {
+    scoreLabel.textContent = 'Needs attention';
+    scoreColor = '#f97316';
+  } else {
+    scoreLabel.textContent = 'Poor';
+    scoreColor = '#ef4444';
+  }
+
+  scoreFill.style.width = `${score}%`;
+  scoreFill.style.backgroundColor = scoreColor;
+} else {
+  scoreNumber.textContent = '??/100';
+  scoreLabel.textContent = 'Insufficient information';
+  scoreFill.style.width = '0%';
+  scoreFill.style.backgroundColor = '#64748b';
+}
+
+result.classList.remove('hidden');
+status.textContent = 'Your vehicle health summary is ready.';
+
   } catch (error) {
     console.error('Garage health error:', error);
     status.textContent = error.message || 'Something went wrong. Please try again.';
