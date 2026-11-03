@@ -751,12 +751,36 @@ body {
 
   <p id="healthStatus" class="sub" role="status" style="margin-top:12px"></p>
 
-  <div id="healthResult" class="hidden"
-    style="margin-top:16px;padding:16px;border:1px solid #304652;
-    border-radius:14px;background:#0b151c">
-    <div class="result-report" id="healthAnalysis"></div>
-    <p class="sub" id="healthDisclaimer" style="margin-top:14px"></p>
+ <div id="healthResult" class="hidden"
+  style="margin-top:16px;padding:16px;border:1px solid #304652;
+  border-radius:14px;background:#0b151c">
+
+  <div class="health-score-card">
+    <div class="health-score-top">
+      <div>
+        <div class="health-score-heading">Vehicle Health Score</div>
+        <div id="healthScoreLabel" class="health-score-label">
+          Awaiting assessment
+        </div>
+      </div>
+
+      <div id="healthScoreNumber" class="health-score-number">
+        ??/100
+      </div>
+    </div>
+
+    <div class="health-score-track">
+      <div id="healthScoreFill" class="health-score-fill"></div>
+    </div>
+
+    <div class="health-score-caption">
+      Based on your vehicle's recorded history
+    </div>
   </div>
+
+  <div class="result-report" id="healthAnalysis"></div>
+  <p class="sub" id="healthDisclaimer" style="margin-top:14px"></p>
+</div>
 </section>
       <div class="garage-add-row">
         <span>Have another vehicle to add?</span>
