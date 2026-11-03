@@ -1807,5 +1807,49 @@ db.auth.onAuthStateChange((event, session) => {
   </button>
 
 </nav>
+  <script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const navRight = document.querySelector(".navright");
+  if (!navRight) return;
+
+  // Remove the My Garage button from the top navigation
+  const garageButton = [...navRight.querySelectorAll("button, a")]
+    .find(el => el.textContent.trim().toLowerCase() === "my garage");
+
+  if (garageButton) garageButton.remove();
+
+  // Find the existing My Account button
+  const accountButton = [...navRight.querySelectorAll("button, a")]
+    .find(el => el.textContent.trim().toLowerCase() === "my account");
+
+  if (!accountButton) return;
+
+  const supabase = window.carpulseSupabase;
+  if (!supabase) return;
+
+  function updateAccountName(user) {
+    if (!user) {
+      accountButton.textContent = "My account";
+      return;
+    }
+
+    const name =
+      user.user_metadata?.full_name ||
+      user.user_metadata?.name ||
+      user.user_metadata?.display_name ||
+      user.email?.split("@")[0] ||
+      "My account";
+
+    accountButton.textContent = name;
+  }
+
+  const { data } = await supabase.auth.getSession();
+  updateAccountName(data.session?.user || null);
+
+  supabase.auth.onAuthStateChange((_event, session) => {
+    updateAccountName(session?.user || null);
+  });
+});
+</script>
 </body>
 </html>
