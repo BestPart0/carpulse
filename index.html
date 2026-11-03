@@ -648,6 +648,18 @@ button:disabled { cursor:not-allowed; opacity:.55; }
     padding-inline: 5px !important;
   }
 }
+  @media (max-width: 600px) {
+  .navright {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+  }
+
+  .navright > button {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+}
 </style>
 </head>
 <body>
