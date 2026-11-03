@@ -490,6 +490,95 @@ body {
     box-shadow: 0 10px 40px #0008;
   }
 }
+
+
+/* CarPulse homepage refinement — presentation only */
+:root {
+  --bg:#0b1117;
+  --panel:#121c25;
+  --panel2:#17242f;
+  --line:#283744;
+  --text:#f3f7fa;
+  --muted:#9eb0bd;
+  --accent:#b8f36b;
+  --accent2:#d8ff9f;
+  --danger:#ff7777;
+  --amber:#ffc66d;
+}
+html { scroll-behavior:smooth; }
+body {
+  background:
+    radial-gradient(ellipse at 80% -10%,rgba(45,70,83,.55),transparent 38%),
+    #0b1117;
+  color:#f3f7fa;
+  -webkit-font-smoothing:antialiased;
+}
+button,input,select,textarea { font:inherit; }
+button,a { -webkit-tap-highlight-color:transparent; }
+a { text-underline-offset:3px; }
+:focus-visible {
+  outline:2px solid #b8f36b !important;
+  outline-offset:3px;
+}
+header,.topbar,.nav {
+  background:rgba(11,17,23,.76);
+  border-color:#283744;
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+.panel,.card,.stat,.stat-card,.feature-card,.diagnose-card,.garage-card,
+.history-card,.insight,.modal-card,.auth-card {
+  border-color:#283744;
+  box-shadow:0 18px 48px rgba(0,0,0,.16);
+}
+.panel,.card,.feature-card,.diagnose-card,.garage-card,.history-card {
+  background:linear-gradient(150deg,#14212b,#101820);
+  border-radius:20px;
+}
+h1,h2,h3 { letter-spacing:-.045em; }
+h1 { line-height:1.06; }
+input,select,textarea {
+  background:#0b131a;
+  color:#f3f7fa;
+  border:1px solid #30414d;
+  border-radius:11px;
+}
+input:focus,select:focus,textarea:focus {
+  border-color:#b8f36b;
+  box-shadow:0 0 0 3px rgba(184,243,107,.09);
+}
+button.primary,.primary-btn,.btn-primary,[type=submit] {
+  transition:transform .18s ease,filter .18s ease,box-shadow .18s ease;
+}
+button.primary:hover,.primary-btn:hover,.btn-primary:hover,[type=submit]:hover {
+  filter:brightness(1.06);
+  transform:translateY(-1px);
+}
+button:disabled { cursor:not-allowed; opacity:.55; }
+.bottom-nav {
+  background:rgba(13,21,29,.94);
+  border-top:1px solid #283744;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+.bottom-nav a,.bottom-nav button { transition:color .18s ease,background .18s ease; }
+.bottom-nav a.active,.bottom-nav button.active {
+  color:#b8f36b;
+  background:rgba(184,243,107,.09);
+}
+@media(max-width:700px) {
+  body { padding-bottom:env(safe-area-inset-bottom); }
+  .bottom-nav { padding-bottom:max(8px,env(safe-area-inset-bottom)); }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    scroll-behavior:auto !important;
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+  }
+}
+
 </style>
 </head>
 <body>
