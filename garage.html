@@ -729,7 +729,35 @@ body {
       </div>
 
       <div id="garageList"><div class="panel muted">Loading your garage…</div></div>
+<section class="panel" id="garageHealthPanel" style="margin-top:16px">
+  <span class="section-kicker">AI VEHICLE INTELLIGENCE</span>
+  <h2 style="margin:8px 0">Your vehicle health</h2>
+  <p class="sub">
+    Get an overview based on your saved fuel, maintenance and diagnosis history.
+  </p>
 
+  <div class="field" style="margin-top:16px">
+    <label for="healthCarSelect">Choose a vehicle</label>
+    <select id="healthCarSelect"
+      style="width:100%;background:#091219;border:1px solid #304652;
+      border-radius:11px;padding:11px 12px;color:white">
+      <option value="">Loading vehicles…</option>
+    </select>
+  </div>
+
+  <button class="btn primary" id="generateHealthBtn" type="button">
+    Generate health summary
+  </button>
+
+  <p id="healthStatus" class="sub" role="status" style="margin-top:12px"></p>
+
+  <div id="healthResult" class="hidden"
+    style="margin-top:16px;padding:16px;border:1px solid #304652;
+    border-radius:14px;background:#0b151c">
+    <div class="result-report" id="healthAnalysis"></div>
+    <p class="sub" id="healthDisclaimer" style="margin-top:14px"></p>
+  </div>
+</section>
       <div class="garage-add-row">
         <span>Have another vehicle to add?</span>
         <button type="button" id="showCarFormBtn" class="garage-plus-btn">+</button>
@@ -1121,7 +1149,23 @@ updateFuelCarOptions();
     if (!container) return;
 
     $('statCars').textContent = cars.length;
+const healthSelect = $('healthCarSelect');
 
+if (healthSelect) {
+  const previousSelection = healthSelect.value;
+
+  healthSelect.innerHTML = cars.length
+    ? cars.map(car => `
+        <option value="${escapeHTML(car.id)}">
+          ${escapeHTML(getCarName(car))}
+        </option>
+      `).join('')
+    : '<option value="">Add a vehicle first</option>';
+
+  if (cars.some(car => String(car.id) === previousSelection)) {
+    healthSelect.value = previousSelection;
+  }
+}
     if (!currentUser) {
       container.innerHTML = `
         <div class="empty-state">
@@ -1648,7 +1692,87 @@ updateFuelCarOptions();
       button.addEventListener('click', () => deleteMaintenanceRecord(button.dataset.deleteService));
     });
   }
+async function generateGarageHealth() {
+  const carId = $('healthCarSelect')?.value;
+  const button = $('generateHealthBtn');
+  const status = $('healthStatus');
+  const result = $('healthResult');
 
+  if (!currentUser) {
+    status.textContent = 'Please log in first.';
+    showAuth();
+    return;
+  }
+
+  if (!carId) {
+    status.textContent = 'Add a vehicle to your garage first.';
+    return;
+  }
+
+  const car = cars.find(item => String(item.id) === String(carId));
+
+  if (!car) {
+    status.textContent = 'Vehicle not found. Please refresh the page.';
+    return;
+  }
+
+  const { data: sessionData, error: sessionError } =
+    await db.auth.getSession();
+
+  const session = sessionData?.session;
+
+  if (sessionError || !session?.access_token) {
+    status.textContent = 'Your session has expired. Please log in again.';
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = 'Analysing your vehicle…';
+  status.textContent = 'CarPulse AI is reviewing your vehicle records.';
+  result.classList.add('hidden');
+
+  try {
+    const response = await fetch(
+      'https://ancient-math-f552.2212rezk2212.workers.dev/',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({
+          action: 'garage_health',
+          carId: car.id,
+          carDetails: {
+            make: car.make,
+            model: car.model,
+            year: car.year,
+            engine: car.engine
+          },
+          language: 'English'
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.error || 'Could not generate the health summary.');
+    }
+
+    $('healthAnalysis').textContent = data.analysis || 'No analysis was returned.';
+    $('healthDisclaimer').textContent = data.disclaimer || '';
+
+    result.classList.remove('hidden');
+    status.textContent = 'Your vehicle health summary is ready.';
+  } catch (error) {
+    console.error('Garage health error:', error);
+    status.textContent = error.message || 'Something went wrong. Please try again.';
+  } finally {
+    button.disabled = false;
+    button.textContent = 'Generate health summary';
+  }
+}
 // REFRESH GARAGE
 async function refreshApp() {
   updateAccountButton();
@@ -1950,7 +2074,7 @@ function renderFuelTracker() {
     });
   });
 
- 
+ $('generateHealthBtn')?.addEventListener('click', generateGarageHealth);
   // HISTORY SEARCH AND SORT
   $('historySearch')?.addEventListener('input', renderDiagnosisHistory);
   $('historySort')?.addEventListener('change', renderDiagnosisHistory);
