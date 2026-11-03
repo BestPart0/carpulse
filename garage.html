@@ -1933,13 +1933,7 @@ function renderFuelTracker() {
     });
   });
 
-  // MAINTENANCE
-  $('maintenanceForm')?.addEventListener('submit', saveMaintenance);
-
-  $('maintenanceCar')?.addEventListener('change', loadMaintenanceRecords);
-
-  $('maintenanceDate').value = new Date().toISOString().slice(0, 10);
-
+ 
   // HISTORY SEARCH AND SORT
   $('historySearch')?.addEventListener('input', renderDiagnosisHistory);
   $('historySort')?.addEventListener('change', renderDiagnosisHistory);
