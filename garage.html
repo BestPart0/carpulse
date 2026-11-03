@@ -867,7 +867,6 @@ hr { border-color:#283744 !important; }
     </a>
     <div class="navright">
       <span class="pill"><span class="pill-dot"></span> EARLY ACCESS · EGYPT</span>
-      <a href="index.html" class="btn secondary">← Back</a>
       <button class="btn secondary" id="accountBtn" type="button">Log in / Sign up</button>
       <button class="btn ghost" id="langBtn" type="button">العربية</button>
     </div>
@@ -1329,30 +1328,34 @@ window.carpulseSupabase = window.supabase.createClient(
     }
   }
 
-  function updateAccountButton() {
-    const button = $('accountBtn');
-    if (!button) return;
+ function updateAccountButton() {
+  const button = $('accountBtn');
+  if (!button) return;
 
-    button.textContent = currentUser
-      ? (currentUser.email || 'My account')
-      : 'Log in';
+  button.textContent = currentUser
+    ? (
+        currentUser.user_metadata?.name ||
+        currentUser.user_metadata?.full_name ||
+        currentUser.email?.split('@')[0] ||
+        'My account'
+      )
+    : 'Log in / Sign up';
 
-    const actions = $('accountActions');
-    if (actions) {
-      actions.innerHTML = currentUser
-        ? '<button class="btn ghost" type="button" id="logoutBtn">Log out</button>'
-        : '';
-    }
+  const actions = $('accountActions');
 
-    $('logoutBtn')?.addEventListener('click', async () => {
-      const { error } = await db.auth.signOut();
-      if (error) {
-        alert(error.message);
-      } else {
-        hideAuth();
-      }
-    });
+  if (actions) {
+    actions.innerHTML = currentUser
+      ? '<button class="btn ghost" type="button" id="logoutBtn">Log out</button>'
+      : '';
   }
+
+  $('logoutBtn')?.addEventListener('click', async () => {
+    const { error } = await db.auth.signOut();
+
+    if (error) alert(error.message);
+    else hideAuth();
+  });
+}
 
   async function loadCars() {
     if (!currentUser) {
