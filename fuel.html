@@ -655,8 +655,10 @@ hr { border-color:#283744 !important; }
 
 <header class="topbar">
   <a class="brand" href="index.html">Car<span>Pulse</span></a>
+
   <div class="top-actions">
     <button class="small-btn" id="accountBtn">Login</button>
+    <button class="small-btn" id="langBtn" type="button">العربية</button>
   </div>
 </header>
 
@@ -1275,10 +1277,16 @@ hr { border-color:#283744 !important; }
 
     if (error) console.error(error);
 
-    currentUser = data?.session?.user || null;
-    $('accountBtn').textContent = currentUser
-      ? (currentUser.user_metadata?.name || 'Account')
-      : 'Login';
+   currentUser = data?.session?.user || null;
+
+$('accountBtn').textContent = currentUser
+  ? (
+      currentUser.user_metadata?.name ||
+      currentUser.user_metadata?.full_name ||
+      currentUser.email?.split('@')[0] ||
+      'Account'
+    )
+  : 'Login';;
 
     $('loginRequired').classList.toggle('hidden', !!currentUser);
     $('fuelApp').classList.add('hidden');
