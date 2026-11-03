@@ -725,23 +725,40 @@ $('analyzeBtn').addEventListener('click', async () => {
       ...document.querySelectorAll('.checkrow input:checked')
     ].map(input => input.parentElement.innerText.trim());
 
-    const response = await fetch(
-      'https://ancient-math-f552.2212rezk2212.workers.dev/',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-       
-body: JSON.stringify({
-  audioBase64,
-  mimeType: (audioBlob.type || 'audio/webm').split(';')[0],
-  carDetails,
-  symptoms: symptoms.join(', ') || 'None selected',
-language: lang
-})
+   const authClient = window.carpulseSupabase;
 
-      }
-    );
+if (!authClient) {
+  throw new Error('CarPulse login is unavailable. Please refresh the page.');
+}
 
+const { data: sessionData, error: sessionError } =
+  await authClient.auth.getSession();
+
+const session = sessionData?.session;
+
+if (sessionError || !session?.access_token) {
+  throw new Error('Please log in before requesting an AI diagnosis.');
+}
+
+const response = await fetch(
+  'https://ancient-math-f552.2212rezk2212.workers.dev/',
+  {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${session.access_token}`
+    },
+    body: JSON.stringify({
+      action: 'diagnose_audio',
+      carId: selectedCarId,
+      audioBase64,
+      mimeType: (audioBlob.type || 'audio/webm').split(';')[0],
+      carDetails,
+      symptoms: symptoms.join(', ') || 'None selected',
+      language: lang
+    })
+  }
+);
     const data = await response.json();
 
     if (!response.ok) {
